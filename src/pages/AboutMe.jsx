@@ -68,7 +68,7 @@ export default function AboutMe() {
 
         <aside className="pixel-panel bg-[#6c5ce7] p-6 text-white sm:p-8" aria-labelledby="currently-title">
           <p className="pixel-font text-[9px] text-[#ffd166]">CURRENT QUEST</p>
-          <h2 id="currently-title" className="mt-4 text-2xl font-black">Sedang saya dalami</h2>
+          <h2 id="currently-title" className="mt-4 text-2xl font-black" style={{color: 'black'}}>Sedang saya dalami</h2>
           <ul className="mt-7 space-y-4">
             {["Kubernetes & CI/CD", "Golang untuk tooling", "Digital forensics", "Agentic AI workflows"].map((item, index) => (
               <li key={item} className="flex gap-3 border-2 border-white/80 bg-[#4338a8] p-4 font-bold shadow-[3px_3px_0_#ffd166]">

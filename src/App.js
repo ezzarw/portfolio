@@ -5,6 +5,7 @@ import ContactMe from "./pages/ContactMe";
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import Projects from "./pages/Projects";
+import Certificates from "./pages/Certificates";
 
 export default function App() {
   const [activePage, setActivePage] = useState("/");
@@ -13,6 +14,7 @@ export default function App() {
     "/": <Home onNavigate={setActivePage} />,
     "about-me": <AboutMe />,
     projects: <Projects />,
+    certificates: <Certificates />,
     "contact-me": <ContactMe />,
   };
 

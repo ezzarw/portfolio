@@ -9,6 +9,7 @@ export const siteConfig = {
     { id: "/", label: "Home" },
     { id: "about-me", label: "Tentang" },
     { id: "projects", label: "Karya" },
+    { id: "certificates", label: "Sertifikat" },
     { id: "contact-me", label: "Kontak" },
   ],
   links: {

@@ -1,8 +1,19 @@
 [
   {
+    "title": "portfolio",
+    "description": "Portfolio personal berbasis React untuk menampilkan profil, karya, dan pengalaman secara interaktif.",
+    "categories": ["Frontend", "Portfolio"],
+    "technologies": ["React", "JavaScript", "Tailwind CSS"],
+    "visibleProject": "Public",
+    "featured": true,
+    "image": "https://opengraph.githubassets.com/1/ezzarw/portfolio",
+    "link": "https://github.com/ezzarw/portfolio"
+  },
+  {
     "title": "ezzarw",
-    "description": "No description provided.",
-    "technology": "Other",
+    "description": "Profil GitHub dan dokumentasi singkat tentang aktivitas pengembangan.",
+    "categories": ["Documentation", "Profile"],
+    "technologies": ["Markdown"],
     "visibleProject": "Public",
     "image": "https://opengraph.githubassets.com/1/ezzarw/ezzarw",
     "link": "https://github.com/ezzarw/ezzarw"
@@ -10,225 +21,66 @@
   {
     "title": "csv_to_json",
     "description": "Tool Go sederhana untuk mengubah data CSV menjadi JSON secara cepat.",
-    "technology": "Go",
+    "categories": ["Backend", "Developer Tool", "CLI"],
+    "technologies": ["Go"],
     "visibleProject": "Public",
     "featured": true,
     "image": "https://opengraph.githubassets.com/1/ezzarw/csv_to_json",
     "link": "https://github.com/ezzarw/csv_to_json"
   },
   {
-    "title": "DUWS-R",
-    "description": "Sistem dynamic universal war untuk skenario dan pengalaman bermain ArmA 3.",
-    "technology": "SQF",
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/DUWS-R",
-    "link": "https://github.com/ezzarw/DUWS-R"
-  },
-  {
     "title": "neuroom",
-    "description": "Proyek UKL XI SIJA",
-    "technology": "PHP",
+    "description": "Proyek UKL XI SIJA.",
+    "categories": ["Backend", "Web Application"],
+    "technologies": ["PHP"],
     "visibleProject": "Public",
     "image": "https://opengraph.githubassets.com/1/ezzarw/neuroom",
     "link": "https://github.com/ezzarw/neuroom"
   },
   {
-    "title": "mylms_cli",
-    "description": "CLI tool for MyLMS API",
-    "technology": "Go",
-    "visibleProject": "Private",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/mylms_cli",
-    "link": "https://github.com/ezzarw/mylms_cli"
-  },
-  {
     "title": "europa-ai-wars",
     "description": "Game strategi eksperimental tempat agen AI bernegosiasi, bersekutu, dan bertempur di Eropa.",
-    "technology": "JavaScript",
+    "categories": ["Full Stack", "Game", "AI"],
+    "technologies": ["JavaScript", "Node.js"],
     "visibleProject": "Public",
     "featured": true,
     "image": "https://opengraph.githubassets.com/1/ezzarw/europa-ai-wars",
     "link": "https://github.com/ezzarw/europa-ai-wars"
   },
   {
-    "title": "spentaru-archive-deploy-dev",
-    "description": "Deployment orchestration repository for the Spentaru Archive System",
-    "technology": "Shell",
-    "visibleProject": "Private",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/spentaru-archive-deploy-dev",
-    "link": "https://github.com/ezzarw/spentaru-archive-deploy-dev"
-  },
-  {
-    "title": "spentaru-archive-ai",
-    "description": "No description provided.",
-    "technology": "Python",
-    "visibleProject": "Private",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/spentaru-archive-ai",
-    "link": "https://github.com/ezzarw/spentaru-archive-ai"
-  },
-  {
-    "title": "ulamsari-pos",
-    "description": "Aplikasi kasir restoran responsif dengan pemesanan meja, keranjang, dan penyimpanan transaksi.",
-    "technology": "PHP",
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/ulamsari-pos",
-    "link": "https://github.com/ezzarw/ulamsari-pos"
-  },
-  {
-    "title": "spentaru-archive",
-    "description": "Sistem arsip berbasis web untuk membantu pengelolaan dan pencarian dokumen.",
-    "technology": "Blade",
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/spentaru-archive",
-    "link": "https://github.com/ezzarw/spentaru-archive"
-  },
-  {
     "title": "docker-image-optimization",
-    "description": "No description provided.",
-    "technology": "HTML",
+    "description": "Eksperimen dan dokumentasi optimasi ukuran image Docker.",
+    "categories": ["DevOps", "Documentation"],
+    "technologies": ["Docker", "HTML"],
     "visibleProject": "Public",
     "image": "https://opengraph.githubassets.com/1/ezzarw/docker-image-optimization",
     "link": "https://github.com/ezzarw/docker-image-optimization"
   },
   {
     "title": "basic_ci",
-    "description": "No description provided.",
-    "technology": "HTML",
+    "description": "Eksperimen dasar continuous integration untuk otomatisasi alur pengembangan.",
+    "categories": ["DevOps", "Automation"],
+    "technologies": ["CI/CD", "HTML"],
     "visibleProject": "Public",
     "image": "https://opengraph.githubassets.com/1/ezzarw/basic_ci",
     "link": "https://github.com/ezzarw/basic_ci"
   },
   {
-    "title": "my-ctf-public-dist-fgte",
-    "description": "dist for chall where the flag is redacted",
-    "technology": "Other",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/my-ctf-public-dist-fgte",
-    "link": "https://github.com/ezzarw/my-ctf-public-dist-fgte"
-  },
-  {
     "title": "dtp-cc-action",
-    "description": "No description provided.",
-    "technology": "Other",
+    "description": "GitHub Action untuk mendukung otomatisasi workflow pengembangan.",
+    "categories": ["DevOps", "Automation"],
+    "technologies": ["GitHub Actions"],
     "visibleProject": "Public",
     "image": "https://opengraph.githubassets.com/1/ezzarw/dtp-cc-action",
     "link": "https://github.com/ezzarw/dtp-cc-action"
   },
   {
-    "title": "lnk-reader-ui",
-    "description": "Aplikasi desktop ramah pengguna untuk membaca file Windows .lnk dan indikator forensiknya.",
-    "technology": "Python",
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/lnk-reader-ui",
-    "link": "https://github.com/ezzarw/lnk-reader-ui"
-  },
-  {
-    "title": "portofolio",
-    "description": "No description provided.",
-    "technology": "Blade",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/portofolio",
-    "link": "https://github.com/ezzarw/portofolio"
-  },
-  {
-    "title": "my_soal_ctf",
-    "description": "No description provided.",
-    "technology": "Other",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/my_soal_ctf",
-    "link": "https://github.com/ezzarw/my_soal_ctf"
-  },
-  {
-    "title": "helloworld",
-    "description": "No description provided.",
-    "technology": "HTML",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/helloworld",
-    "link": "https://github.com/ezzarw/helloworld"
-  },
-  {
-    "title": "privilege-escalation-tools",
-    "description": "Toolkit otomasi untuk membantu proses privilege escalation pada kompetisi CTF.",
-    "technology": "Shell",
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/privilege-escalation-tools",
-    "link": "https://github.com/ezzarw/privilege-escalation-tools"
-  },
-  {
-    "title": "Lomba-WebDesign-projek",
-    "description": "No description provided.",
-    "technology": "HTML",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/Lomba-WebDesign-projek",
-    "link": "https://github.com/ezzarw/Lomba-WebDesign-projek"
-  },
-  {
-    "title": "tes123",
-    "description": "No description provided.",
-    "technology": "Other",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/tes123",
-    "link": "https://github.com/ezzarw/tes123"
-  },
-  {
-    "title": "idk",
-    "description": "No description provided.",
-    "technology": "Other",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/idk",
-    "link": "https://github.com/ezzarw/idk"
-  },
-  {
     "title": "aturuang",
-    "description": "No description provided.",
-    "technology": "HTML",
+    "description": "Proyek antarmuka web untuk pengaturan ruang.",
+    "categories": ["Frontend", "Web Application"],
+    "technologies": ["HTML", "CSS"],
     "visibleProject": "Public",
     "image": "https://opengraph.githubassets.com/1/ezzarw/aturuang",
     "link": "https://github.com/ezzarw/aturuang"
-  },
-  {
-    "title": "unavailableduser",
-    "description": "No description provided.",
-    "technology": "Other",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/unavailableduser",
-    "link": "https://github.com/ezzarw/unavailableduser"
-  },
-  {
-    "title": "portofolio1",
-    "description": "No description provided.",
-    "technology": "Blade",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/portofolio1",
-    "link": "https://github.com/ezzarw/portofolio1"
-  },
-  {
-    "title": "kalkulator",
-    "description": "No description provided.",
-    "technology": "HTML",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/kalkulator",
-    "link": "https://github.com/ezzarw/kalkulator"
-  },
-  {
-    "title": "DUWS-X-Arma3",
-    "description": "DUWS_X scenario for Arma 3",
-    "technology": "SQF",
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/DUWS-X-Arma3",
-    "link": "https://github.com/ezzarw/DUWS-X-Arma3"
-  },
-  {
-    "title": "Bot-CVE-Notif",
-    "description": "Bot pemantau CVE baru yang mengirim notifikasi berdasarkan kata kunci ke berbagai platform.",
-    "technology": "Python",
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/Bot-CVE-Notif",
-    "link": "https://github.com/ezzarw/Bot-CVE-Notif"
   }
 ]

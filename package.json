@@ -29,7 +29,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "sync:certificates": "node scripts/sync-certificates.js",
+    "build": "npm run sync:certificates && react-scripts build",
     "predeploy": "npm run build",
     "deploy": "main -d build",
     "test": "react-scripts test",
