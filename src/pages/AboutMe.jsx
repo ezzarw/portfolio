@@ -1,390 +1,131 @@
-import { Popover, Transition } from "@headlessui/react";
-import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { GoTriangleDown } from "@react-icons/all-files/go/GoTriangleDown";
-import { HiChevronRight } from "@react-icons/all-files/hi/HiChevronRight";
-import { RiFolder3Fill } from "@react-icons/all-files/ri/RiFolder3Fill";
-import { SiMarkdown } from "@react-icons/all-files/si/SiMarkdown";
-import { VscCollapseAll } from "@react-icons/all-files/vsc/VscCollapseAll";
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { motion } from "framer-motion";
 import gearData from "../data/GearData.json";
-import { IoLogoPython } from "@react-icons/all-files/io5/IoLogoPython";
+
+const focusAreas = [
+  {
+    title: "Infrastructure",
+    items: ["Docker", "Kubernetes", "CI/CD", "Linux"],
+    color: "bg-[#79c8ff]",
+  },
+  {
+    title: "Development",
+    items: ["Golang", "Python", "PHP", "Automation"],
+    color: "bg-[#ffd166]",
+  },
+  {
+    title: "Security",
+    items: ["CTF", "Digital Forensics", "Bug Hunting", "Hardening"],
+    color: "bg-[#ff8fab]",
+  },
+];
+
+const principles = [
+  "Memecah masalah rumit menjadi langkah yang jelas dan bisa dikerjakan.",
+  "Mendokumentasikan keputusan agar tim tidak bergantung pada satu orang.",
+  "Menyeimbangkan kecepatan eksperimen dengan keamanan dan kemudahan perawatan.",
+];
 
 export default function AboutMe() {
-  const [render, setRender] = useState("my-bio");
-
-  function Render(value) {
-    if (value === "/") {
-      return <Root />;
-    } else if (value === "my-bio") {
-      return <MyBio closeBio={setRender} />;
-    } else if (value === "gear") {
-      return <Gear closeGear={setRender} />;
-    } else if (value === "work") {
-      return <Work closeGear={setRender} />;
-    }
-  }
-
   return (
     <motion.div
-      className="w-full h-full"
-      initial={{ y: 50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: -50, opacity: 0 }}
+      key="about"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.25 }}
+      className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
     >
-      <div className="lg:grid grid-cols-12 h-full flex flex-col ">
-        <div className="col-span-2 grid lg:grid-cols-6">
-          <div className="col-span-6 lg:border-r lg:border-b-0 border-b border-[#101419] text-white gap-2.5 relative overflow-hidden">
-            <PersonalInfo setRender={setRender} render={render} />
-          </div>
+      <header className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+        <div>
+          <p className="pixel-font mb-4 text-[10px] text-[#6c5ce7]">ABOUT PLAYER 01</p>
+          <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Orang di balik layar.</h1>
         </div>
-        <AnimatePresence initial={false}>{Render(render)}</AnimatePresence>
-      </div>
-    </motion.div>
-  );
-}
+        <p className="max-w-3xl text-lg leading-relaxed text-[#4b5368] sm:text-xl">
+          Saya Aliezzar, pembelajar aktif yang menikmati pertemuan antara cloud, keamanan, software, dan AI. Saya suka membangun hal praktis, mengotomatiskan pekerjaan berulang, lalu menjelaskan hasilnya dengan bahasa yang mudah dimengerti.
+        </p>
+      </header>
 
-function Root() {
-  return (
-    <motion.div
-      className="w-full h-full flex items-center justify-center text-white col-span-10"
-      initial={{ x: -50, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 50, opacity: 0 }}
-    >
-      Nothing here, click something
-    </motion.div>
-  );
-}
+      <div className="my-12 pixel-divider" />
 
-function MyBio({ closeBio }) {
-  return (
-    <motion.div
-      className="col-span-10 h-full flex  justify-center overflow-hidden flex-col"
-      initial={{ x: -50, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 50, opacity: 0 }}
-    >
-      <div className="w-full">
-        <div className="grid grid-cols-12 border-b border-[#101419]">
-          <div className="lg:col-span-2 md:col-span-6 col-span-12  text-white py-2.5 relative px-4">
-            <button
-              className="absolute top-1/2 -translate-y-1/2 right-4"
-              onClick={() => {
-                closeBio("/");
-              }}
-            >
-              <AiOutlineClose />
-            </button>
-            <p className="pr-5 truncate">personal.py</p>
+      <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]" aria-labelledby="story-title">
+        <article className="pixel-panel p-6 sm:p-9">
+          <div className="mb-7 flex items-center gap-3">
+            <span className="grid h-10 w-10 place-items-center border-2 border-[#17213c] bg-[#75d6ad] font-black">A</span>
+            <h2 id="story-title" className="text-2xl font-black">Cerita singkat</h2>
           </div>
-        </div>
-      </div>
-      <div className="overflow-y-auto scrollbar-thin h-full">
-        <SyntaxHighlighter
-          language="python"
-          style={atomOneDark}
-          showLineNumbers
-        >
-          {`name: str = "arfy slowy"
-hobbies: list = [
-  "Coding",
-  "Dota",
-  "Film",
-]
-
-languages: list = [
-  "Python",
-  "C++",
-  "C",
-  "Assembly",
-  "Rust",
-  "Zig",
-  "Golang"
-]
-
-currently_learning: dict = {
-  "programming language": "nim",
-  "other": ["quantum computing", "geospaital information system (GIS)"],
-}
-
-other: dict {
-  "youtube": "youtube.com/@arfyslowy",
-  "github": "slowy07",
-  "wakatime": "@slowy07"
-}
-
-class Volunteering:
-  def __init__(self, role: str) -> None:
-      self.role = role
-  
-  def intel(self, start_year: int) -> str:
-    return f"Volunteering on {start_year} and working as {self.role} for data flow facilicator for machine learning, "
-            + "the project focudes to generate easy dataset, train and use machine learning models"
-
-  def google_earth_community(self, start_year) -> str:
-    return f"Volunteering on {start_year} and working as {self.role} for packackage interactive geospaital "
-            + "analysis and visualization with Google Earth Engine"
-
-  def microsoft(start_year: int) -> str:
-    return f"Voluenteering on {start_year} and working as {self.role} for AI-oriented quantitative investment "
-            + "of AI technologies in quantitative investment"  )
-
-  def opengeos(start_year: int) -> str:
-    return f"Volunteering on {start_year} and working as {self.role} for open-source geospatial software projects, "
-            + "The projects are developed by a community of geospatial software developers and researchers"
-
-if __name__ == "__main__":
-  print(f"hello my name {name.capitalize()}")
-  
-  # not volunteer anymore
-  intel_volunteers = Volunteering("Software Engineer").intel(2021)
-  microsoft_volunteers = Volunteering("Software Engineer").intel(2023)
-  
-  # still volunteers
-  google_earth_community_volunteers = Volunteering("Software engineer").google_earth_community(2021)
-  opengeos_volunteers = Volunteering("Software engineer").opengeos(2024)
-  
-  # display it
-  print(intel_volunteers)
-  print(microsoft_volunteers)
-  print(google_earth_community_volunteers)
-  print(opengeos_volunteers)
-            `}
-        </SyntaxHighlighter>
-      </div>
-    </motion.div>
-  );
-}
-
-function Work({ closeWork }) {
-  return (
-    <motion.div
-      className="col-span-10 h-full flex  justify-center overflow-hidden flex-col"
-      initial={{ x: -50, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 50, opacity: 0 }}
-    >
-      <div className="w-full">
-        <div className="grid grid-cols-12 border-b border-[#101419]">
-          <div className="lg:col-span-2 md:col-span-6 col-span-12 text-white border-r border-[#101419] py-2.5 relative px-4">
-            <button
-              className="absolute top-1/2 -translate-y-1/2 right-4"
-              onClick={() => {
-                closeWork("/");
-              }}
-            >
-              <AiOutlineClose />
-            </button>
-            <p className="pr-5 truncate">work.py</p>
+          <div className="space-y-5 text-[#4b5368]">
+            <p>
+              Ketertarikan saya berawal dari rasa penasaran tentang bagaimana sebuah sistem bekerja—dan bagaimana membuatnya lebih baik. Dari sana saya mulai bereksperimen dengan Linux, bahasa pemrograman, infrastruktur, keamanan siber, sampai agentic AI.
+            </p>
+            <p>
+              Saya paling menikmati proyek yang punya dampak nyata: deployment lebih sederhana, proses manual menjadi otomatis, data lebih mudah dipahami, atau pengguna merasa produk lebih nyaman digunakan.
+            </p>
+            <p>
+              Di luar teknis, saya suka menonton VTuber, bermain game, dan mengikuti tantangan Capture the Flag. Semua itu melatih kreativitas, ketelitian, dan cara berpikir dari berbagai sudut.
+            </p>
           </div>
-        </div>
-      </div>
-      <div className="overflow-y-auto scrollbar-thin h-full">
-        <SyntaxHighlighter
-          language="python"
-          style={atomOneDark}
-          showLineNumbers
-        >
-          {`# work experience
-def Google(start_year: int, role: str, end_year: int) -> str:
-    return (
-        f"start from {start_year} as {role} on google Brain, specially magenta, Tensorflow. "
-        + f" in {end_year}, i made the difficult decision to leave Google and take a break "
-        + "from the tech industry altogether. while I valued my time at Google and the "
-        + "opportunities it provided, I recognized the importance of maintaining a healthy "
-        + "work-life balance and taking time to recharge"
-    )
+        </article>
 
-print(Google(2021, "software engineer", 2023))
-
-`}
-        </SyntaxHighlighter>
-      </div>
-    </motion.div>
-  );
-}
-
-function Gear({ closeGear }) {
-  function Content({ title, list }) {
-    return (
-      <div className="mb-10">
-        <h1 className="text-2xl font-medium text-white mb-5">{title}</h1>
-        <div className="pl-10">
-          <ul className="list-disc text-white/80">
-            {list.map((data, index) => {
-              return (
-                <div key={index}>
-                  <li className="font-medium text-lg text-white/90">
-                    {data.item}
-                  </li>
-                  <p className="mb-2.5">{data.desc}</p>
-                  <div className="flex gap-2.5 mb-5">
-                    {data.type?.map((data, index) => {
-                      return (
-                        <div
-                          className="text-xs bg-[#101419] py-1 px-2 rounded-full flex items-center gap-1.5 w-max "
-                          key={index}
-                        >
-                          <div className="w-1 h-1 rounded-full bg-white" />
-                          <span>{data}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+        <aside className="pixel-panel bg-[#6c5ce7] p-6 text-white sm:p-8" aria-labelledby="currently-title">
+          <p className="pixel-font text-[9px] text-[#ffd166]">CURRENT QUEST</p>
+          <h2 id="currently-title" className="mt-4 text-2xl font-black">Sedang saya dalami</h2>
+          <ul className="mt-7 space-y-4">
+            {["Kubernetes & CI/CD", "Golang untuk tooling", "Digital forensics", "Agentic AI workflows"].map((item, index) => (
+              <li key={item} className="flex gap-3 border-2 border-white/80 bg-[#4338a8] p-4 font-bold shadow-[3px_3px_0_#ffd166]">
+                <span className="text-[#ffd166]">0{index + 1}</span>
+                <span>{item}</span>
+              </li>
+            ))}
           </ul>
-        </div>
-      </div>
-    );
-  }
+        </aside>
+      </section>
 
-  return (
-    <motion.div
-      className="col-span-10 h-full flex  justify-center overflow-hidden flex-col"
-      initial={{ x: -50, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 50, opacity: 0 }}
-    >
-      <div className="w-full">
-        <div className="grid grid-cols-12 border-b border-[#101419]">
-          <div className="lg:col-span-3 md:col-span-6 col-span-12 text-white border-r border-[#101419] py-2.5 relative px-4">
-            <button
-              className="absolute top-1/2 -translate-y-1/2 right-4"
-              onClick={() => closeGear("/")}
-            >
-              <AiOutlineClose />
-            </button>
-            <p>gear.md (preview)</p>
+      <section className="py-16" aria-labelledby="focus-title">
+        <div className="mb-9">
+          <p className="pixel-font mb-3 text-[10px] text-[#6c5ce7]">TOOLBOX</p>
+          <h2 id="focus-title" className="text-3xl font-black">Area yang saya kerjakan</h2>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {focusAreas.map((area) => (
+            <article key={area.title} className="pixel-panel-sm overflow-hidden">
+              <h3 className={`border-b-2 border-[#17213c] p-5 text-xl font-black ${area.color}`}>{area.title}</h3>
+              <ul className="grid grid-cols-2 gap-3 p-5">
+                {area.items.map((item) => (
+                  <li key={item} className="pixel-badge justify-center text-center">{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="grid gap-8 lg:grid-cols-2" aria-labelledby="principles-title">
+        <div className="pixel-panel p-6 sm:p-8">
+          <p className="pixel-font text-[9px] text-[#6c5ce7]">HOW I WORK</p>
+          <h2 id="principles-title" className="mt-4 text-2xl font-black">Prinsip kerja</h2>
+          <ol className="mt-6 space-y-5">
+            {principles.map((principle, index) => (
+              <li key={principle} className="flex gap-4">
+                <span className="pixel-font mt-1 text-[9px] text-[#6c5ce7]">0{index + 1}</span>
+                <p className="text-[#4b5368]">{principle}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="pixel-panel p-6 sm:p-8">
+          <p className="pixel-font text-[9px] text-[#6c5ce7]">SETUP</p>
+          <h2 className="mt-4 text-2xl font-black">Peralatan sehari-hari</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {gearData.gearType.map((group) => (
+              <article key={group.gear} className="border-2 border-[#17213c] bg-[#f3e7cd] p-4">
+                <h3 className="font-black">{group.gear}</h3>
+                <p className="mt-2 text-sm text-[#5d6475]">{group.gearList.map((item) => item.item).join(" · ")}</p>
+              </article>
+            ))}
           </div>
         </div>
-      </div>
-      <div className="overflow-y-auto scrollbar-thin h-full lg:p-16 md:p-8 p-4">
-        {gearData.gearType.map((data, index) => {
-          return <Content title={data.gear} key={index} list={data.gearList} />;
-        })}
-      </div>
+      </section>
     </motion.div>
-  );
-}
-
-function PersonalInfo({ setRender, render }) {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isOpenBio, setIsOpenBio] = useState(true);
-
-  function openPopover() {
-    setIsOpen(!isOpen);
-  }
-
-  function CollapseAll() {
-    setIsOpenBio(false);
-  }
-
-  function openPopoverBio() {
-    setIsOpenBio(!isOpenBio);
-  }
-
-  return (
-    <Popover>
-      <>
-        <div className="relative">
-          <Popover.Button
-            className={`
-                ${isOpen ? "text-white" : "text-white/50"}
-               flex items-center gap-2.5 border-b border-[#101419] py-2.5 px-4 w-full`}
-            onClick={openPopover}
-          >
-            <GoTriangleDown
-              className={`${isOpen ? "" : "-rotate-90"} transition-all`}
-            />
-            <span className="text-left pr-5 truncate">personal info</span>
-          </Popover.Button>
-          <button
-            onClick={CollapseAll}
-            className="absolute top-1/2 -translate-y-1/2 right-2"
-          >
-            <VscCollapseAll />
-          </button>
-        </div>
-
-        <Transition
-          show={isOpen}
-          enter="transition ease-in duration-200"
-          enterFrom="opacity-0 -translate-y-1"
-          enterTo="opacity-100 translate-y-0"
-          leave="transition ease-out duration-150"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 -translate-y-1"
-        >
-          <Popover.Panel className=" px-4 text-white py-4">
-            <Popover.Group className={`flex flex-col gap-1.5`}>
-              <Popover>
-                <>
-                  <Popover.Button
-                    className={`
-                ${isOpenBio ? "text-white" : "text-white/50"}
-               flex items-center gap-2.5  w-full transition-colors`}
-                    onClick={openPopoverBio}
-                  >
-                    <HiChevronRight
-                      className={`${isOpenBio ? "rotate-90" : ""
-                        } transition-all`}
-                    />
-                    <RiFolder3Fill
-                      className={`${isOpenBio ? "text-[#E99287]" : "text-[#b36d64]"
-                        } transition-colors`}
-                    />
-                    <span className="pr-5 truncate">bio</span>
-                  </Popover.Button>
-
-                  <Transition
-                    show={isOpenBio}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 -translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-linear duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 -translate-y-1"
-                    className="flex flex-col"
-                  >
-                    <Popover.Panel
-                      className={`px-4 my-1 ml-2.5 inline-flex items-center gap-2.5 transition-colors ${render === "my-bio" ? "text-white" : "text-[#607B96]"
-                        }`}
-                      as="button"
-                      onClick={() => setRender("my-bio")}
-                    >
-                      <IoLogoPython />
-                      <span className="truncate">personal.py</span>
-                    </Popover.Panel>
-                    <Popover.Panel
-                      className={`px-4 my-1 ml-2.5 inline-flex items-center gap-2.5 transition-colors ${render === "work" ? "text-white" : "text-[#607B96]"
-                        }`}
-                      as="button"
-                      onClick={() => setRender("work")}
-                    >
-                      <IoLogoPython />
-                      <span className="truncate">work.py</span>
-                    </Popover.Panel>
-                    <Popover.Panel
-                      className={`px-4 my-1 ml-2.5 inline-flex items-center gap-2.5 transition-colors ${render === "gear" ? "text-white" : "text-[#607B96]"
-                        }`}
-                      as="button"
-                      onClick={() => setRender("gear")}
-                    >
-                      <SiMarkdown />
-                      <span className="truncate">gear.md</span>
-                    </Popover.Panel>
-                  </Transition>
-                </>
-              </Popover>
-            </Popover.Group>
-          </Popover.Panel>
-        </Transition>
-      </>
-    </Popover>
   );
 }

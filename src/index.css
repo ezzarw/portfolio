@@ -1,66 +1,213 @@
-@import url("https://fonts.googleapis.com/css2?family=Bitter:wght@100;200;300;400;500;600;700;800;900&family=Martian+Mono:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ink: #17213c;
+  --muted: #5d6475;
+  --paper: #fffaf0;
+  --cream: #f3e7cd;
+  --purple: #6c5ce7;
+  --purple-dark: #4338a8;
+  --yellow: #ffd166;
+  --pink: #ff8fab;
+  --mint: #75d6ad;
+  --blue: #79c8ff;
+  --shadow: #17213c;
+}
+
 * {
-  font-family: "Martian Mono", monospace;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+  box-sizing: border-box;
 }
 
-.loader div:first-child {
-  animation-delay: 0.1s;
+html {
+  scroll-behavior: smooth;
 }
 
-.loader div:first-child(2) {
-  animation-delay: 0.2s;
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.loader div:first-child(3) {
-  animation-delay: 0.3s;
+button,
+input,
+textarea {
+  font: inherit;
 }
 
-.custom-size {
-  @apply md:w-[calc(100vw-2.5rem)] md:h-[calc(100vh-2.5rem)] w-[calc(100vw-2rem)] h-[calc(100vh-2rem)];
+button,
+a {
+  touch-action: manipulation;
 }
 
-input[type="checkbox"]:checked + label {
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 4px;
+}
+
+.pixel-font {
+  font-family: "Press Start 2P", monospace;
+  line-height: 1.5;
+}
+
+.pixel-grid {
+  background-color: var(--cream);
+  background-image:
+    linear-gradient(rgba(23, 33, 60, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 33, 60, 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.pixel-panel {
+  border: 3px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 8px 8px 0 var(--shadow);
+}
+
+.pixel-panel-sm {
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.pixel-button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  border: 2px solid var(--ink);
+  padding: 0.75rem 1rem;
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--shadow);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.pixel-button:hover {
+  background: var(--yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+
+.pixel-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+
+.pixel-button-primary {
+  background: var(--purple);
   color: white;
 }
 
-input[type="checkbox"]:hover {
-  outline: 1px solid #1e3448;
+.pixel-button-primary:hover {
+  background: var(--purple-dark);
 }
 
-.react-syntax-highlighter-line-number {
-  @apply text-[#607B96];
+.pixel-input {
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: #ffffff;
+  color: var(--ink);
+  box-shadow: 4px 4px 0 rgba(23, 33, 60, 0.18);
 }
 
-code .token {
-  @apply text-[#607B96] !important;
+.pixel-input:focus {
+  border-color: var(--purple);
+  box-shadow: 4px 4px 0 var(--purple);
+  outline: none;
+  --tw-ring-color: transparent;
 }
 
-.efofCE {
-  @apply bg-transparent p-0 !important;
+.pixel-input::placeholder {
+  color: #85899a;
 }
 
-.efofCE span {
-  @apply bg-transparent !important;
+.pixel-badge {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid var(--ink);
+  padding: 0.25rem 0.625rem;
+  background: var(--paper);
+  box-shadow: 2px 2px 0 var(--ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.25rem;
 }
 
-.sc-bcXHqe.kBPKLM {
-  @apply hidden !important;
+.pixel-divider {
+  height: 3px;
+  border: 0;
+  background: var(--ink);
 }
 
-.loHkWQ {
-  @apply bg-transparent p-0 !important;
+.pixel-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--purple) var(--cream);
 }
 
-.loHkWQ span {
-  @apply bg-transparent !important;
+.pixel-scrollbar::-webkit-scrollbar {
+  width: 10px;
 }
-.sc-bcXHqe.iCXprV {
-  @apply hidden !important;
+
+.pixel-scrollbar::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+.pixel-scrollbar::-webkit-scrollbar-thumb {
+  border: 2px solid var(--cream);
+  background: var(--purple);
+}
+
+.pixel-avatar {
+  image-rendering: pixelated;
+}
+
+@keyframes pixel-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.pixel-float {
+  animation: pixel-float 2.5s steps(3, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

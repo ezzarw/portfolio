@@ -4,24 +4,14 @@
       "gear": "Hardware / Computers",
       "gearList": [
         {
-          "item": "AMD Ryzen 9 5900x (16 Core), 64GB of RAM, RTX 3090, 3TB SSD, 1TB HDD",
-          "desc": "Mostly use for my work and game, hehehe",
-          "type": ["computer"]
+          "item": "Acer Nitro V15",
+          "desc": "Intel Core i5-13420H, 16GB RAM, NVIDIA GeForce RTX 2050 (GA107), 512GB WD PC SN740 NVMe SSD. My reliable daily driver laptop for development and casual gaming.",
+          "type": ["computer", "laptop"]
         },
         {
-          "item": "Lenovo Thinkpad p15 Gen 2 workstation with Xeon W-11955M, 64GB of ECC RAM, RTX A5000, 2TB SSD",
-          "desc": "Mostly used for artificial intelligence research",
-          "type": ["computer", "thinkpad"]
-        },
-        {
-          "item": "Steelseries Apex 7",
-          "desc": "Actually i don't know about mechanical keyboard",
-          "type": ["keyboard"]
-        },
-        {
-          "item": "Xtrfy M4 Wireless",
-          "desc": "If you have Trypophobia, don't buy it okay.",
-          "type": ["mouse", "logitech"]
+          "item": "OM6229 Kanata Wireless WG9",
+          "desc": "An absolutely silent and comfortable wireless mouse, perfect for uninterrupted work sessions.",
+          "type": ["mouse", "fantech", "wireless"]
         }
       ]
     },
@@ -29,9 +19,9 @@
       "gear": "Hardware / Monitors",
       "gearList": [
         {
-          "item": "Lenovo G34w-30 34'' VA",
-          "desc": "Hehehe, im still use Lenovo product",
-          "type": ["monitor", "external display"]
+          "item": "Built-in Display (eDP-1)",
+          "desc": "1920x1080 FHD panel. Smooth and responsive for both coding and gaming.",
+          "type": ["monitor", "display"]
         }
       ]
     },
@@ -39,9 +29,9 @@
       "gear": "Hardware / Audio",
       "gearList": [
         {
-          "item": "KZ ZAR",
-          "desc": "Actually i don't use Headset, not like to much",
-          "type": ["headset"]
+          "item": "soundcore R50i NC",
+          "desc": "Great sounding TWS with Active Noise Cancelling to block out distractions while focusing.",
+          "type": ["headset", "tws", "audio"]
         }
       ]
     },
@@ -49,14 +39,9 @@
       "gear": "Operating System",
       "gearList": [
         {
-         "item": "Linux from scratch",
-         "desc": "No use debian or arch, just LFS, yes, LFS",
-         "type": ["OS"]
-        },
-        {
-          "item": "Windows 11",
-          "desc": "Dont't worry, im use only for game",
-          "type": ["OS"]
+          "item": "Arch Linux (KDE Plasma Wayland)",
+          "desc": "Btw I use Arch. The best rolling release experience for complete control over my dev environment.",
+          "type": ["OS", "linux"]
         }
       ]
     },
@@ -64,24 +49,14 @@
       "gear": "Software",
       "gearList": [
         {
-          "item": "BSPWM (Xorg)",
-          "desc": "im use bspwm for window manager while working",
-          "type": ["window manager"]
+          "item": "VS Code",
+          "desc": "A feature-rich IDE that I rely on for larger projects and specific extensions.",
+          "type": ["IDE", "editor"]
         },
         {
-          "item": "Vscodium",
-          "desc": "I Think more better than original vscode",
-          "type": ["IDE"]
-        },
-        {
-          "item": "VIM (neovim)",
-          "desc": "A BLAZINGLY FAST text editor that i use when am on the terminal.",
-          "type": ["editor"]
-        },
-        {
-          "item": "Alacritty, Kitty with Starship",
-          "desc": "Blazing fast fast fast",
-          "type": ["terminal"]
+          "item": "Konsole",
+          "desc": "The default KDE terminal emulator. Clean, customizable, and gets the job done perfectly.",
+          "type": ["terminal", "kde"]
         }
       ]
     }

@@ -1,304 +1,179 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { BsFiles } from "@react-icons/all-files/bs/BsFiles";
-import { GoTriangleDown } from "@react-icons/all-files/go/GoTriangleDown";
-import { SiPython } from "@react-icons/all-files/si/SiPython";
-import { SiC } from "@react-icons/all-files/si/SiC";
-import { SiZig } from "react-icons/si";
-import { FaCrown } from "react-icons/fa6";
-import { FaGolang } from "react-icons/fa6";
-import { SiAssemblyscript } from "react-icons/si";
+import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
 import { motion } from "framer-motion";
 import { Fragment, useState } from "react";
-import datas from "../data/ProjectData.json";
+import DynamicCta from "../components/DynamicCta";
+import DynamicIcon from "../components/DynamicIcon";
+import projects from "../data/ProjectData.json";
+import { getSiteLink, siteConfig } from "../data/SiteConfig";
+
+const cardColors = ["bg-[#79c8ff]", "bg-[#ffd166]", "bg-[#ff8fab]", "bg-[#75d6ad]"];
+
+const normalizedProjects = projects
+  .filter((project) => project.visibleProject === "Public")
+  .map((project) => ({
+    ...project,
+    featured: Boolean(project.featured),
+  }));
+
+const featuredProjects = normalizedProjects.filter((project) => project.featured);
+const displayedProjects = featuredProjects.length > 0 ? featuredProjects : normalizedProjects;
+const technologies = ["Semua", ...new Set(displayedProjects.map((project) => project.technology))].sort((a, b) => {
+  if (a === "Semua") return -1;
+  if (b === "Semua") return 1;
+  return a.localeCompare(b);
+});
+
+const formatTitle = (title) => title.replaceAll("-", " ").replaceAll("_", " ");
 
 export default function Projects() {
-  const [filter, setFilter] = useState("all");
-  const [project, setProject] = useState(true);
+  const [filter, setFilter] = useState("Semua");
+  const visibleProjects = filter === "Semua"
+    ? displayedProjects
+    : displayedProjects.filter((project) => project.technology === filter);
+  const projectsLink = getSiteLink(siteConfig.projectsCta.linkKey);
+
   return (
     <motion.div
-      className="h-full relative"
-      initial={{ y: 50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: -50, opacity: 0 }}
+      key="projects"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.25 }}
+      className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
     >
-      <div className="grid grid-cols-12">
-        <button
-          className="md:col-span-3 lg:col-span-2 col-span-full md:border-r border-b border-[#1E2D3D] text-white flex gap-2.5 items-center py-2.5 pl-4"
-          onClick={() => setProject(!project)}
-        >
-          <GoTriangleDown
-            className={`${project ? "" : "-rotate-90"} transition-all`}
-          />
-          <span>projects</span>
-        </button>
-        <div className="lg:col-span-10 md:col-span-9 col-span-full border-b border-[#1E2D3D] flex items-center justify-center text-white row-start-1 md:row-start-auto py-2.5 lg-py-0">
-          {filter} projects
-        </div>
+      <header className="max-w-3xl">
+        <p className="pixel-font mb-4 text-[10px] text-[#6c5ce7]">SELECTED WORK</p>
+        <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Karya pilihan, bukan sekadar daftar repo.</h1>
+        <p className="mt-5 text-lg text-[#4b5368]">
+          Filter dan kartu proyek di bawah ini dibuat langsung dari data proyek, jadi teknologi atau karya baru akan muncul otomatis.
+        </p>
+      </header>
+
+      <div className="my-10 flex flex-wrap gap-3" role="group" aria-label="Filter teknologi proyek">
+        {technologies.map((technology) => (
+          <button
+            type="button"
+            key={technology}
+            onClick={() => setFilter(technology)}
+            aria-pressed={filter === technology}
+            className={`min-h-[44px] border-2 border-[#17213c] px-4 py-2 font-bold shadow-[3px_3px_0_#17213c] transition-colors ${
+              filter === technology ? "bg-[#6c5ce7] text-white" : "bg-[#fffaf0] hover:bg-[#ffd166]"
+            }`}
+          >
+            {technology}
+          </button>
+        ))}
       </div>
 
-      <div className="grid grid-cols-12 h-full ">
-        <div className="lg:col-span-2 col-span-full md:col-span-3 md:border-r border-[#1E2D3D] px-0 md:px-5 md:py-4 py-0 flex flex-col gap-4 overflow-hidden">
-          <Transition
-            show={project}
-            enter="transition ease-in duration-200"
-            enterFrom="opacity-0 -translate-y-1"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-out duration-150"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 -translate-y-1"
-            className="flex flex-col gap-4 overflow-hidden absolute md:static z-10 top-[6rem] md:top-0 py-2.5 md:py-0 px-4 md:px-0 w-full md:w-auto left-0 bg-[#011627] md:bg-transparent"
-          >
-            <div className="flex items-center gap-6 ">
-              <button
-                className={`flex items-center gap-2.5 cursor-pointer transition-colors hover:text-white w-full text-left ${
-                  filter === "all" ? "text-white" : "text-[#607B96]"
-                }`}
-                onClick={() => setFilter("all")}
-              >
-                <BsFiles />
-                <span>All Projects</span>
-              </button>
-            </div>
-            <div className="flex items-center gap-6 ">
-              <button
-                className={`flex items-center gap-2.5 cursor-pointer transition-colors hover:text-white w-full ${
-                  filter === "Python" ? "text-white" : "text-[#607B96]"
-                }`}
-                onClick={() => setFilter("Python")}
-              >
-                <SiPython />
-                <span>Python</span>
-              </button>
-            </div>
-            <div className="flex items-center gap-6">
-              <button
-                className={`flex items-center gap-2.5 cursor-pointer transition-colors hover:text-white w-full ${
-                  filter === "C" ? "text-white" : "text-[#607B96]"
-                }`}
-                onClick={() => setFilter("C")}
-              >
-                <SiC />
-                <span>C</span>
-              </button>
-            </div>
-             <div className="flex items-center gap-6">
-              <button
-                className={`flex items-center gap-2.5 cursor-pointer transition-colors hover:text-white w-full ${
-                  filter === "Zig" ? "text-white" : "text-[#607B96]"
-                }`}
-                onClick={() => setFilter("Zig")}
-              >
-                <SiZig />
-                <span>Zig</span>
-              </button>
-            </div>
-             <div className="flex items-center gap-6">
-              <button
-                className={`flex items-center gap-2.5 cursor-pointer transition-colors hover:text-white w-full ${
-                  filter === "Nim" ? "text-white" : "text-[#607B96]"
-                }`}
-                onClick={() => setFilter("Nim")}
-              >
-                <FaCrown />
-                <span>Nim</span>
-              </button>
-            </div>
-             <div className="flex items-center gap-6">
-              <button
-                className={`flex items-center gap-2.5 cursor-pointer transition-colors hover:text-white w-full ${
-                  filter === "Golang" ? "text-white" : "text-[#607B96]"
-                }`}
-                onClick={() => setFilter("Golang")}
-              >
-                <FaGolang />
-                <span>Golang</span>
-              </button>
-            </div>
-            <div className="flex items-center gap-6">
-              <button
-                className={`flex items-center gap-2.5 cursor-pointer transition-colors hover:text-white w-full ${
-                  filter === "Assembly" ? "text-white" : "text-[#607B96]"
-                }`}
-                onClick={() => setFilter("Assembly")}
-              >
-                <SiAssemblyscript />
-                <span>Assembly</span>
-              </button>
-            </div>
+      <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+        {visibleProjects.map((project) => (
+          <ProjectCard
+            key={project.title}
+            project={project}
+            index={displayedProjects.findIndex((item) => item.title === project.title)}
+          />
+        ))}
+      </section>
 
-          </Transition>
+      <div className="mt-14 pixel-panel flex flex-col gap-5 bg-[#75d6ad] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div>
+          <p className="pixel-font text-[9px]">{siteConfig.projectsCta.eyebrow}</p>
+          <h2 className="mt-3 text-2xl font-black">{siteConfig.projectsCta.title}</h2>
+          <p className="mt-2 text-[#3d465e]">{siteConfig.projectsCta.description}</p>
         </div>
-
-        <div className="lg:col-span-10 md:col-span-9 col-span-full flex items-start justify-center lg:p-16 md:p-8 p-4 overflow-y-auto scrollbar-none">
-          <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-10 h-max w-full">
-            {filter === "all"
-              ? (
-                datas.map((data, index) => {
-                  return <Card data={data} key={index} />;
-                })
-              )
-              : datas.filter((tech) => tech.technology === filter).length ===
-                  0
-              ? (
-                <div className="w-full flex items-center justify-center col-span-4 h-full text-white">
-                  Not yet, comeback again later!
-                </div>
-              )
-              : (
-                datas
-                  .filter((tech) => tech.technology === filter)
-                  .map((data, index) => {
-                    return <Card data={data} key={index} />;
-                  })
-              )}
-          </div>
-        </div>
+        <DynamicCta
+          cta={{ label: projectsLink.label, type: "link", linkKey: siteConfig.projectsCta.linkKey }}
+          className="bg-white"
+        />
       </div>
     </motion.div>
   );
 }
 
-const Card = ({ data }) => {
-  const technology = data.technology.split(/[, ]+/);
+function ProjectCard({ project, index }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  function generateIcon(value) {
-    if (value.includes("Python")) {
-      return <SiPython />;
-    }
-    if (value.includes("C")) {
-      return <SiC />;
-    }
-    if (value.includes("Golang")) {
-      return <FaGolang/>;
-    }
-    if (value.includes("Assembly")) {
-      return <SiAssemblyscript />;
-    }
-    if (value.includes("Zig")) {
-      return <SiZig />;
-    }
-    if (value.includes("Nim")) {
-      return <FaCrown />;
-    }
-  }
+  const color = cardColors[index % cardColors.length];
 
   return (
     <>
-      <motion.div
-        className="rounded-2xl border border-[#1E2D3D] bg-[#001221]/50 flex items-center flex-col overflow-hidden hover:shadow-sm hover:shadow-[#607B96] transition-colors h-[400px]"
-        whileHover={{ scale: 1.01 }}
-        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-      >
-        <div className="overflow-hidden h-[80%] w-full relative ">
-          <img
-            src={data.image}
-            alt={data.title}
-            className="object-cover h-full w-full"
-          />
-
-          <div>
-            <div className="absolute top-5 right-5 text-lg rounded-[2px] flex gap-2.5">
-              <div className="bg-[#86E1F9] p-1 rounded-md">
-                {generateIcon(technology)}
-              </div>
-            </div>
+      <article className="pixel-panel-sm flex h-full flex-col overflow-hidden">
+        <div className={`relative border-b-2 border-[#17213c] p-4 ${color}`}>
+          <span className="pixel-badge bg-white">{project.technology}</span>
+          <div className="mt-10 flex min-h-[88px] items-end justify-between gap-4">
+            <span className="pixel-font text-[9px]">PROJECT {String(index + 1).padStart(2, "0")}</span>
+            <span className="pixel-font text-4xl opacity-20" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
           </div>
         </div>
-
-        <div className="py-6 px-8 text-[#607B96] w-full flex flex-col justify-between h-[80%]">
-          <div>
-            <h6 className="mb-2.5 text-white">{data.title}</h6>
-            <p className="mb-5 line-clamp-2">{data.description}</p>
+        <div className="flex flex-1 flex-col p-6">
+          <h2 className="break-words text-xl font-black">{formatTitle(project.title)}</h2>
+          <p className="mt-3 flex-1 text-[#5d6475]">{project.description}</p>
+          <div className="mt-6 flex items-center justify-between gap-3 border-t-2 border-dashed border-[#17213c]/30 pt-5">
+            <span className="pixel-badge bg-[#f3e7cd]">{project.technology}</span>
+            <button type="button" onClick={() => setIsOpen(true)} className="font-black text-[#4338a8] underline decoration-2 underline-offset-4 hover:text-[#6c5ce7]">
+              Detail →
+            </button>
           </div>
-          <motion.button
-            className="bg-[#1b2b3a] text-white py-2.5 px-3.5 rounded-lg  w-max"
-            onClick={() => setIsOpen(true)}
-            whileHover={{ scale: 1.03 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          >
-            view-project
-          </motion.button>
         </div>
-      </motion.div>
+      </article>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-20"
-          onClose={() => setIsOpen(false)}
-        >
+        <Dialog as="div" className="relative z-50" onClose={() => setIsOpen(false)}>
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 backdrop-blur-0"
-            enterTo="opacity-100 backdrop-blur-sm"
-            leave="ease-in duration-300"
-            leaveFrom="opacity-100 backdrop-blur-sm"
-            leaveTo="opacity-0 backdrop-blur-0"
+            enter="ease-out duration-200"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-40" />
+            <div className="fixed inset-0 bg-[#17213c]/70" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="fixed inset-0 overflow-y-auto p-4 sm:p-8">
+            <div className="flex min-h-full items-center justify-center">
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter="ease-out duration-200"
+                enterFrom="opacity-0 translate-y-4"
+                enterTo="opacity-100 translate-y-0"
+                leave="ease-in duration-150"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-4"
               >
-                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-[#1d2a3a] text-left align-middle shadow-xl transition-all">
-                  <div className="h-96">
-                    <img
-                      src={data.image}
-                      alt={data.title}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-
-                  <article className="p-5 ">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-xl font-semibold leading-6 mb-2.5 text-white"
+                <Dialog.Panel className="pixel-panel w-full max-w-2xl overflow-hidden bg-[#fffaf0]">
+                  <div className={`flex items-center justify-between border-b-[3px] border-[#17213c] p-5 ${color}`}>
+                    <span className="pixel-font text-[9px]">PROJECT INFO</span>
+                    <button
+                      type="button"
+                      onClick={() => setIsOpen(false)}
+                      className="grid h-11 w-11 place-items-center border-2 border-[#17213c] bg-white shadow-[2px_2px_0_#17213c]"
+                      aria-label="Tutup detail proyek"
                     >
-                      {data.title}
+                      <AiOutlineClose className="text-xl" />
+                    </button>
+                  </div>
+                  <div className="p-6 sm:p-8">
+                    <Dialog.Title as="h2" className="break-words text-3xl font-black">
+                      {formatTitle(project.title)}
                     </Dialog.Title>
-                    <p className="mb-2.5 text-white/80">{data.description}</p>
-                    <div className="flex items-center justify-between">
-                      {data.technology.includes("Other")
-                        ? (
-                          <a
-                            href={data.link}
-                            target="_blank"
-                            className="text-white/80"
-                            rel="noreferrer"
-                          >
-                            Download
-                          </a>
-                        )
-                        : (
-                          <a
-                            href={data.link}
-                            target="_blank"
-                            className="text-white/80"
-                            rel="noreferrer"
-                          >
-                            View Project
-                          </a>
-                        )}
-
-                      <p className="text-white/80">
-                        Tech Stack: {data.technology}
-                      </p>
-                      <p className="text-white/80">
-                        Visibility: {data.visibleProject}
-                      </p>
-                    </div>
-                  </article>
+                    <p className="mt-5 text-lg text-[#4b5368]">{project.description}</p>
+                    <dl className="mt-7 grid gap-4 border-y-2 border-dashed border-[#17213c]/30 py-6 sm:grid-cols-2">
+                      <div>
+                        <dt className="text-sm font-bold text-[#5d6475]">Teknologi</dt>
+                        <dd className="mt-1 font-black">{project.technology}</dd>
+                      </div>
+                      <div>
+                        <dt className="text-sm font-bold text-[#5d6475]">Visibilitas</dt>
+                        <dd className="mt-1 font-black">{project.visibleProject}</dd>
+                      </div>
+                    </dl>
+                    <a href={project.link} target="_blank" rel="noreferrer" className="pixel-button pixel-button-primary mt-7">
+                      <DynamicIcon name="github" className="text-xl" />
+                      Buka proyek
+                    </a>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -307,4 +182,4 @@ const Card = ({ data }) => {
       </Transition>
     </>
   );
-};
+}

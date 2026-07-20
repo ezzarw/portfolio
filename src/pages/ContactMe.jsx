@@ -1,47 +1,20 @@
 import emailjs from "@emailjs/browser";
-import { Popover, Transition } from "@headlessui/react";
-import { AiOutlineClose } from "@react-icons/all-files/ai/AiOutlineClose";
-import { GoTriangleDown } from "@react-icons/all-files/go/GoTriangleDown";
-import { GrLinkedinOption } from "@react-icons/all-files/gr/GrLinkedinOption";
-import { MdEmail } from "@react-icons/all-files/md/MdEmail";
 import { motion } from "framer-motion";
-import { BsYoutube } from "react-icons/bs";
-import { SiWakatime } from "react-icons/si";
 import { useRef, useState } from "react";
-import { CopyBlock, atomOneDark } from "react-code-blocks";
+import DynamicIcon from "../components/DynamicIcon";
+import { getSiteLink, isExternalLink, siteConfig } from "../data/SiteConfig";
 
 export default function ContactMe() {
-  const d = new Date();
-  const month = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "Mei",
-    "June",
-    "July",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  const formRef = useRef(null);
+  const [status, setStatus] = useState("idle");
+  const [formData, setFormData] = useState({ form_name: "", email: "", message: "" });
 
-  const formRef = useRef();
-  const [loader, setLoader] = useState(false);
-  const [showNotif, setShowNotif] = useState(false);
-  const [formData, setFormData] = useState({
-    form_name: "",
-    message: "",
-    email: "",
-  });
+  const sendEmail = async (event) => {
+    event.preventDefault();
+    setStatus("loading");
 
-  const sendEmail = (e) => {
-    e.preventDefault();
-    setLoader(true);
-
-    emailjs
-      .send(
+    try {
+      await emailjs.send(
         process.env.REACT_APP_EMAIL_SERVICE,
         process.env.REACT_APP_EMAIL_TEMPLATE,
         {
@@ -50,207 +23,139 @@ export default function ContactMe() {
           email: formData.email,
         },
         process.env.REACT_APP_EMAIL_JS_USER_ID
-      )
-      .then(() => {
-        setLoader(false);
-        setShowNotif(true);
-        setTimeout(() => setShowNotif(false), 3000);
-        formRef.current.reset();
-      });
+      );
+      setStatus("success");
+      setFormData({ form_name: "", email: "", message: "" });
+      formRef.current?.reset();
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
     <motion.div
-      className="w-full h-full"
-      initial={{ y: 50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: -50, opacity: 0 }}
+      key="contact"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.25 }}
+      className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
     >
-      <div className="grid grid-cols-12 md:h-full">
-        <div className="lg:col-span-2 md:col-span-4 col-span-full">
-          <div className="border-r  border-[#101419] text-white gap-2.5 relative overflow-hidden h-full">
-            <Contacts />
+      <header className="max-w-3xl">
+        <p className="pixel-font mb-4 text-[10px] text-[#6c5ce7]">START A CONVERSATION</p>
+        <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Ada ide, peluang, atau sekadar ingin kenalan?</h1>
+        <p className="mt-5 text-lg text-[#4b5368]">
+          Ceritakan kebutuhanmu dengan bahasa biasa. Saya akan membalas sejelas dan secepat yang saya bisa.
+        </p>
+      </header>
+
+      <div className="mt-12 grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
+        <aside className="space-y-5" aria-labelledby="direct-contact-title">
+          <div className="pixel-panel bg-[#6c5ce7] p-6 text-white sm:p-8">
+            <p className="pixel-font text-[9px] text-[#ffd166]">QUICK CONTACT</p>
+            <h2 id="direct-contact-title" className="mt-4 text-2xl font-black">Jalur langsung</h2>
+            <p className="mt-3 text-white/85">Pilih platform yang paling nyaman untukmu.</p>
           </div>
-        </div>
-        <div className="lg:col-span-10 md:col-span-8 col-span-full ">
-          <div className="w-full h-[95%]">
-            <div className="grid grid-cols-12 border-b border-t md:border-t-0 border-[#101419]">
-              <div className="lg:col-span-2 md:col-span-4 col-span-5 text-white border-r border-[#101419] py-2.5 relative px-4">
-                <button className="absolute top-1/2 -translate-y-1/2 right-4">
-                  <AiOutlineClose />
-                </button>
-                <p className="truncate pr-5">contact-me</p>
+
+          {siteConfig.contactLinkKeys.map((linkKey) => {
+            const contact = getSiteLink(linkKey);
+            const className = "pixel-panel-sm flex min-h-[76px] items-center gap-4 p-4 transition-transform hover:-translate-y-1";
+            const content = (
+              <>
+                <span className={`grid h-12 w-12 shrink-0 place-items-center border-2 border-[#17213c] ${contact.color}`}>
+                  <DynamicIcon name={contact.icon} className="text-2xl" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold text-[#5d6475]">{contact.label}</span>
+                  <span className="block truncate font-black">{contact.value}</span>
+                </span>
+              </>
+            );
+
+            return isExternalLink(contact.href) ? (
+              <a key={linkKey} href={contact.href} target="_blank" rel="noreferrer" className={className}>
+                {content}
+              </a>
+            ) : (
+              <a key={linkKey} href={contact.href} className={className}>
+                {content}
+              </a>
+            );
+          })}
+
+          <div className="border-2 border-dashed border-[#17213c] bg-[#f3e7cd] p-5">
+            <p className="font-bold">Biasanya saya membalas dalam 1–2 hari kerja.</p>
+          </div>
+        </aside>
+
+        <section className="pixel-panel p-6 sm:p-9" aria-labelledby="contact-form-title">
+          <div className="mb-8 flex items-center gap-3">
+            <span className="grid h-10 w-10 place-items-center border-2 border-[#17213c] bg-[#ff8fab] font-black">M</span>
+            <div>
+              <p className="text-sm font-bold text-[#5d6475]">Kirim pesan</p>
+              <h2 id="contact-form-title" className="text-2xl font-black">Mari mulai dari sini</h2>
+            </div>
+          </div>
+
+          <form ref={formRef} onSubmit={sendEmail} className="space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label htmlFor="contact-name" className="mb-2 block font-black">Nama</label>
+                <input
+                  id="contact-name"
+                  name="user_name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  className="pixel-input"
+                  placeholder="Nama lengkap"
+                  value={formData.form_name}
+                  onChange={(event) => setFormData({ ...formData, form_name: event.target.value })}
+                />
+              </div>
+              <div>
+                <label htmlFor="contact-email" className="mb-2 block font-black">Email</label>
+                <input
+                  id="contact-email"
+                  name="user_email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className="pixel-input"
+                  placeholder="nama@perusahaan.com"
+                  value={formData.email}
+                  onChange={(event) => setFormData({ ...formData, email: event.target.value })}
+                />
               </div>
             </div>
 
-            <div className="flex items-center justify-items-center overflow-hidden h-full">
-              <div className="lg:w-1/2 w-full flex items-center justify-center lg:border-r border-[#1E2D3D] overflow-y-auto scrollbar-thin h-full">
-                <form
-                  onSubmit={sendEmail}
-                  ref={formRef}
-                  className="text-[#607B96] md:w-[80%] w-[90%] flex flex-col gap-6 relative"
-                >
-                  <div className="flex flex-col gap-2.5">
-                    <label htmlFor="user_name">_name:</label>
-                    <input
-                      name="user_name"
-                      type="text"
-                      placeholder="John Doe"
-                      className="bg-[#011221] rounded-lg border-[#1E2D3D] focus:ring-[#607B96] focus:border-[#607B96]/30 text-white placeholder:text-[#465E77]"
-                      autoComplete="off"
-                      required
-                      onChange={(e) => {
-                        setFormData({ ...formData, form_name: e.target.value });
-                      }}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="user_email">_email:</label>
-                    <input
-                      name="user_email"
-                      type="email"
-                      placeholder="johndoe@gmail.com"
-                      className="bg-[#011221] rounded-lg border-[#1E2D3D]  focus:ring-[#607B96] focus:border-[#607B96]/30 text-white placeholder:text-[#465E77]"
-                      autoComplete="off"
-                      required
-                      onChange={(e) => {
-                        setFormData({ ...formData, email: e.target.value });
-                      }}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="message">_message:</label>
-                    <textarea
-                      name="message"
-                      rows="4"
-                      className="bg-[#011221] rounded-lg border-[#1E2D3D]  focus:ring-[#607B96] focus:border-[#607B96]/30 text-white placeholder:text-[#465E77]"
-                      placeholder="Hey! Just checked your website and it looks awesome! Also, I checked your articled on Medium. Lerned a few nice tips. Thanks!"
-                      autoComplete="off"
-                      required
-                      onChange={(e) => {
-                        setFormData({ ...formData, message: e.target.value });
-                      }}
-                    />
-                  </div>
-                  <button
-                    className={`text-white py-[10px] px-[14px] rounded-lg bg-[#1C2B3A] w-max  hover:shadow-sm hover:shadow-[#607B96] transition-all flex items-end gap-2`}
-                    type="submit"
-                    value="send"
-                  >
-                    <span>submit-message</span>
-                    <div
-                      className={`flex gap-1 mb-1 ${
-                        loader ? "block" : "hidden"
-                      }`}
-                    >
-                      <span className="w-[5px] h-[5px] rounded-full bg-white animate-bounce"></span>
-                      <span className="w-[5px] h-[5px] rounded-full bg-white animate-bounce"></span>
-                      <span className="w-[5px] h-[5px] rounded-full bg-white animate-bounce"></span>
-                    </div>
-                  </button>
-                  {showNotif ? (
-                    <p className="animate-pulse absolute -bottom-10">
-                      Your email have been sent!
-                    </p>
-                  ) : null}
-                </form>
-              </div>
-              <div className="hidden lg:block w-1/2 h-full">
-                <div className="flex items-center justify-start overflow-hidden h-full">
-                  <CopyBlock
-                    language={`python`}
-                    text={`def running() -> None:
-  message: list = [
-	  name: str =  "John Doe",
-	  email: str = "johndoe@gmail.com",
-	  message: str = "Hey!",
-	  date = "${d.getDate()} ${month[d.getMonth()]} ${d.getFullYear()}"
-  ]
+            <div>
+              <label htmlFor="contact-message" className="mb-2 block font-black">Pesan</label>
+              <textarea
+                id="contact-message"
+                name="message"
+                rows="7"
+                required
+                className="pixel-input resize-y"
+                placeholder="Halo Aliezzar, saya ingin membahas..."
+                value={formData.message}
+                onChange={(event) => setFormData({ ...formData, message: event.target.value })}
+              />
+            </div>
 
-running()`}
-                    showLineNumbers={true}
-                    theme={atomOneDark}
-                    wrapLines={true}
-                    codeBlock
-                  />
-                </div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <button type="submit" disabled={status === "loading"} className="pixel-button pixel-button-primary disabled:cursor-not-allowed disabled:opacity-60">
+                {status === "loading" ? "Mengirim..." : "Kirim pesan"}
+                <span aria-hidden="true">→</span>
+              </button>
+              <div className="min-h-[24px]" aria-live="polite">
+                {status === "success" ? <p className="font-bold text-[#176746]">Pesan terkirim. Terima kasih!</p> : null}
+                {status === "error" ? <p className="font-bold text-[#b42318]">Pesan belum terkirim. Silakan coba lagi atau gunakan email langsung.</p> : null}
               </div>
             </div>
-          </div>
-        </div>
+          </form>
+        </section>
       </div>
     </motion.div>
-  );
-}
-
-function Contacts() {
-  const [isOpen, setIsOpen] = useState(true);
-  function openPopover() {
-    setIsOpen(!isOpen);
-  }
-
-  return (
-    <Popover>
-      <>
-        <Popover.Button
-          className={`
-                ${isOpen ? "text-white " : "text-white/50 border-b-0"}
-               flex items-center gap-2.5  border-b border-[#101419] py-2.5 px-4 w-full`}
-          onClick={openPopover}
-        >
-          <GoTriangleDown
-            className={`${isOpen ? "" : "-rotate-90"} transition-all`}
-          />
-          <span>Find me</span>
-        </Popover.Button>
-
-        <Transition
-          show={isOpen}
-          enter="transition ease-out duration-200"
-          enterFrom="opacity-0 -translate-y-1"
-          enterTo="opacity-100 translate-y-0"
-          leave="transition ease-linear duration-150"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 -translate-y-1"
-        >
-          <Popover.Panel className="p-4 w-full flex flex-col gap-1.5">
-            <a
-              href="https://www.linkedin.com/in/arfy-slowy-151776218/"
-              className="text-[#607B96] hover:text-white inline-flex items-center gap-2.5 transition-colors"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <GrLinkedinOption />
-              <span>Arfy Slowy</span>
-            </a>
-            <a
-              href="mailto:slowy.arfy@proton.me"
-              className="text-[#607B96] hover:text-white inline-flex items-center gap-2.5 transition-colors"
-            >
-              <MdEmail />
-              <span>slowy.arfy@proton.me</span>
-            </a>
-            <a
-              href="https://youtube.com/@arfyslowy"
-              className="text-[#607B96] hover:text-white inline-flex items-center gap-2.5 transition-colors"
-              target="_blank"
-              rel="noreferrer"
-            >
-            <BsYoutube/>
-            <span>@arfyslowy</span>
-            </a>
-            <a
-              href="https://wakatime.com/@slowy07"
-              className="text-[#607B96] hover:text-white inline-flex items-center gap-2.5 transition-colors"
-              target="_blank"
-              rel="noreferrer"
-            >
-            <SiWakatime/>
-            <span>@slowy07</span>
-            </a>
-          </Popover.Panel>
-        </Transition>
-      </>
-    </Popover>
   );
 }
