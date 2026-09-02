@@ -1,0 +1,43 @@
+name: Sync Google Drive Certificates
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Runs automatically every 6 hours
+  repository_dispatch:
+    types: [drive_update] # Instant webhook trigger from Google Apps Script
+  workflow_dispatch: # Manual trigger button in GitHub Actions UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Certificate Sync Script
+        env:
+          GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+          GOOGLE_DRIVE_FOLDER_ID: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID || '1VUTNa2E-4EB755a4uFERFIi5ic6K7s7D' }}
+        run: node scripts/sync-certificates.cjs
+
+      - name: Commit and Push if Changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/data/CertificateData.json
+          if git diff --staged --quiet; then
+            echo "Tidak ada perubahan pada CertificateData.json"
+          else
+            git commit -m "chore: auto-sync certificates from Google Drive [skip ci]"
+            git push
+          fi

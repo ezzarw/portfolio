@@ -1,86 +1,273 @@
 [
   {
-    "title": "portfolio",
-    "description": "Portfolio personal berbasis React untuk menampilkan profil, karya, dan pengalaman secara interaktif.",
-    "categories": ["Frontend", "Portfolio"],
-    "technologies": ["React", "JavaScript", "Tailwind CSS"],
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/portfolio",
-    "link": "https://github.com/ezzarw/portfolio"
+    "id": "dtp-cyber_security",
+    "name": "dtp-cyber_security",
+    "title": "Dtp Cyber Security",
+    "description": "Project dtp-cyber_security by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/dtp-cyber_security",
+    "topics": [
+      "ctf",
+      "featured",
+      "forensics",
+      "penetration-testing",
+      "security"
+    ],
+    "techStack": [
+      "JavaScript",
+      "TypeScript",
+      "CSS"
+    ],
+    "stars": 0,
+    "featured": true
   },
   {
-    "title": "ezzarw",
-    "description": "Profil GitHub dan dokumentasi singkat tentang aktivitas pengembangan.",
-    "categories": ["Documentation", "Profile"],
-    "technologies": ["Markdown"],
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/ezzarw",
-    "link": "https://github.com/ezzarw/ezzarw"
+    "id": "catatanku",
+    "name": "catatanku",
+    "title": "Catatanku",
+    "description": "Project catatanku by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/catatanku",
+    "topics": [
+      "backend",
+      "featured",
+      "golang",
+      "jwt",
+      "postgresql",
+      "rest-api"
+    ],
+    "techStack": [
+      "Go"
+    ],
+    "stars": 0,
+    "featured": true
   },
   {
-    "title": "csv_to_json",
-    "description": "Tool Go sederhana untuk mengubah data CSV menjadi JSON secara cepat.",
-    "categories": ["Backend", "Developer Tool", "CLI"],
-    "technologies": ["Go"],
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/csv_to_json",
-    "link": "https://github.com/ezzarw/csv_to_json"
+    "id": "ezzar-gin-boilerplate",
+    "name": "ezzar-gin-boilerplate",
+    "title": "Ezzar Gin Boilerplate",
+    "description": "Project ezzar-gin-boilerplate by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/ezzar-gin-boilerplate",
+    "topics": [
+      "backend",
+      "boilerplate",
+      "gin",
+      "golang",
+      "template"
+    ],
+    "techStack": [
+      "Go"
+    ],
+    "stars": 0,
+    "featured": false
   },
   {
-    "title": "neuroom",
-    "description": "Proyek UKL XI SIJA.",
-    "categories": ["Backend", "Web Application"],
-    "technologies": ["PHP"],
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/neuroom",
-    "link": "https://github.com/ezzarw/neuroom"
+    "id": "PocketMarks-PaaS",
+    "name": "PocketMarks-PaaS",
+    "title": "Pocketmarks Paas",
+    "description": "Project PocketMarks-PaaS by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/PocketMarks-PaaS",
+    "topics": [
+      "cloud",
+      "fullstack",
+      "paas",
+      "typescript"
+    ],
+    "techStack": [
+      "Nix",
+      "TypeScript",
+      "JavaScript",
+      "CSS"
+    ],
+    "stars": 0,
+    "featured": false
   },
   {
-    "title": "europa-ai-wars",
-    "description": "Game strategi eksperimental tempat agen AI bernegosiasi, bersekutu, dan bertempur di Eropa.",
-    "categories": ["Full Stack", "Game", "AI"],
-    "technologies": ["JavaScript", "Node.js"],
-    "visibleProject": "Public",
-    "featured": true,
-    "image": "https://opengraph.githubassets.com/1/ezzarw/europa-ai-wars",
-    "link": "https://github.com/ezzarw/europa-ai-wars"
+    "id": "bukubukuan",
+    "name": "bukubukuan",
+    "title": "Bukubukuan",
+    "description": "Project bukubukuan by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/bukubukuan",
+    "topics": [
+      "api",
+      "backend",
+      "crud",
+      "golang"
+    ],
+    "techStack": [
+      "Go"
+    ],
+    "stars": 0,
+    "featured": false
   },
   {
-    "title": "docker-image-optimization",
-    "description": "Eksperimen dan dokumentasi optimasi ukuran image Docker.",
-    "categories": ["DevOps", "Documentation"],
-    "technologies": ["Docker", "HTML"],
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/docker-image-optimization",
-    "link": "https://github.com/ezzarw/docker-image-optimization"
+    "id": "europa-ai-wars",
+    "name": "europa-ai-wars",
+    "title": "Europa Ai Wars",
+    "description": "Europa AI Wars - WW3 AI conquest game where AI agents battle over Europe. Vibe coded, agentic warfare.",
+    "url": "https://github.com/ezzarw/europa-ai-wars",
+    "topics": [
+      "agentic-ai",
+      "game",
+      "javascript",
+      "simulation"
+    ],
+    "techStack": [
+      "JavaScript",
+      "CSS",
+      "HTML"
+    ],
+    "stars": 0,
+    "featured": false
   },
   {
-    "title": "basic_ci",
-    "description": "Eksperimen dasar continuous integration untuk otomatisasi alur pengembangan.",
-    "categories": ["DevOps", "Automation"],
-    "technologies": ["CI/CD", "HTML"],
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/basic_ci",
-    "link": "https://github.com/ezzarw/basic_ci"
+    "id": "sigma_mcp_server",
+    "name": "sigma_mcp_server",
+    "title": "Sigma Mcp Server",
+    "description": "Project sigma_mcp_server by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/sigma_mcp_server",
+    "topics": [
+      "agentic-ai",
+      "automation",
+      "golang",
+      "mcp",
+      "tooling"
+    ],
+    "techStack": [
+      "Go"
+    ],
+    "stars": 0,
+    "featured": false
   },
   {
-    "title": "dtp-cc-action",
-    "description": "GitHub Action untuk mendukung otomatisasi workflow pengembangan.",
-    "categories": ["DevOps", "Automation"],
-    "technologies": ["GitHub Actions"],
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/dtp-cc-action",
-    "link": "https://github.com/ezzarw/dtp-cc-action"
+    "id": "simple-http-server",
+    "name": "simple-http-server",
+    "title": "Simple Http Server",
+    "description": "just coding",
+    "url": "https://github.com/ezzarw/simple-http-server",
+    "topics": [
+      "backend",
+      "golang",
+      "http",
+      "learning"
+    ],
+    "techStack": [
+      "Go",
+      "HTML"
+    ],
+    "stars": 0,
+    "featured": false
   },
   {
-    "title": "aturuang",
-    "description": "Proyek antarmuka web untuk pengaturan ruang.",
-    "categories": ["Frontend", "Web Application"],
-    "technologies": ["HTML", "CSS"],
-    "visibleProject": "Public",
-    "image": "https://opengraph.githubassets.com/1/ezzarw/aturuang",
-    "link": "https://github.com/ezzarw/aturuang"
+    "id": "portfolio",
+    "name": "portfolio",
+    "title": "Portfolio",
+    "description": "Project portfolio by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/portfolio",
+    "topics": [
+      "frontend",
+      "tailwind",
+      "vite",
+      "vue"
+    ],
+    "techStack": [
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "stars": 0,
+    "featured": false
+  },
+  {
+    "id": "csv_to_json",
+    "name": "csv_to_json",
+    "title": "Csv To Json",
+    "description": "Project csv_to_json by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/csv_to_json",
+    "topics": [
+      "cli",
+      "golang",
+      "parser",
+      "tooling"
+    ],
+    "techStack": [
+      "Go"
+    ],
+    "stars": 0,
+    "featured": false
+  },
+  {
+    "id": "neuroom",
+    "name": "neuroom",
+    "title": "Neuroom",
+    "description": "Proyek UKL XI SIJA",
+    "url": "https://github.com/ezzarw/neuroom",
+    "topics": [
+      "fullstack",
+      "gemini-ai",
+      "laravel",
+      "php",
+      "redis"
+    ],
+    "techStack": [
+      "PHP",
+      "CSS",
+      "JavaScript",
+      "Blade"
+    ],
+    "stars": 0,
+    "featured": false
+  },
+  {
+    "id": "docker-image-optimization",
+    "name": "docker-image-optimization",
+    "title": "Docker Image Optimization",
+    "description": "Project docker-image-optimization by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/docker-image-optimization",
+    "topics": [
+      "ci-cd",
+      "devops",
+      "docker",
+      "featured",
+      "optimization"
+    ],
+    "techStack": [
+      "Dockerfile",
+      "HTML"
+    ],
+    "stars": 0,
+    "featured": true
+  },
+  {
+    "id": "basic_ci",
+    "name": "basic_ci",
+    "title": "Basic Ci",
+    "description": "Project basic_ci by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/basic_ci",
+    "topics": [
+      "ci-cd",
+      "devops",
+      "docker",
+      "github-actions"
+    ],
+    "techStack": [
+      "Dockerfile",
+      "HTML"
+    ],
+    "stars": 0,
+    "featured": false
+  },
+  {
+    "id": "dtp-cc-action",
+    "name": "dtp-cc-action",
+    "title": "Dtp Cc Action",
+    "description": "Project dtp-cc-action by Aliezzar Wijaya",
+    "url": "https://github.com/ezzarw/dtp-cc-action",
+    "topics": [
+      "cloud",
+      "devops",
+      "github-actions"
+    ],
+    "techStack": [],
+    "stars": 0,
+    "featured": false
   }
 ]

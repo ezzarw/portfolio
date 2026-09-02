@@ -2,49 +2,135 @@
   {
     "id": "12ehoZMQzZPuNYpZAvNR2MHjg60mye4u4",
     "driveFileId": "12ehoZMQzZPuNYpZAvNR2MHjg60mye4u4",
-    "title": "sctf",
-    "issuer": "cyber security",
-    "description": "",
+    "title": "Steven Capture The Flag (SCTF) 2026",
+    "issuer": "Darmajaya Cyber Security Club (DCSC)",
+    "description": "Sertifikat Top 14 Steven Capture The Flag (SCTF) Tingkat Nasional 2026 (Tim: SCS - mon0xside) di Kampus IIB Darmajaya.",
     "category": "lomba",
     "categories": [
       "lomba",
       "cyber security"
     ],
-    "issueDate": "2026-07-06",
-    "credentialId": "",
+    "issueDate": "2026-07-03",
+    "credentialId": "DCSC/SCTF/2026/151",
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/12ehoZMQzZPuNYpZAvNR2MHjg60mye4u4/view?usp=drivesdk",
     "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMRiTjJW9P-0-35KEbgdLZcc1Vs2uEx1C0CMinP4PkJVc0IAyXMHvkvp8v1xJL5tayjgbp4m23mkelqfUtiSVzX6BfxoYVwIJgvgDzvmjwTQS6PvQ=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBOO3nmcfu3BH_S3n8GHUGcYPQZHjYVwYDIeyeP2EiT4SXT0iGbMppp1IgrZGo--t0lWt1s3V5lbMOkpJ-u6j0wPdjlmPn1S5DsblNR_3ge_kZg9Cg=s220",
     "fileName": "sctf.pdf",
-    "modifiedTime": "2026-07-06T18:27:00.000Z"
+    "modifiedTime": "2026-07-06T18:27:00.000Z",
+    "featured": true
   },
   {
     "id": "1mOR4JFxJSH90k2IdNSQC262Ny1PqhlQI",
     "driveFileId": "1mOR4JFxJSH90k2IdNSQC262Ny1PqhlQI",
-    "title": "cj2025 Murid DWP Aliezzar Wijaya",
-    "issuer": "cyber security",
-    "description": "",
+    "title": "Cyber Jawara 2025",
+    "issuer": "CSIRT.ID & ID-SIRTII",
+    "description": "Sertifikat Finalis Kategori SMA/SMK kompetisi hacking nasional Cyber Jawara 2025 (Tim: Murid DWP) di Bogor.",
     "category": "lomba",
     "categories": [
       "lomba",
       "cyber security"
     ],
-    "issueDate": "2026-06-13",
+    "issueDate": "2026-04-18",
     "credentialId": "",
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/1mOR4JFxJSH90k2IdNSQC262Ny1PqhlQI/view?usp=drivesdk",
     "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBPOTMsMKoW0Vhn3ri0ePFofb7AzWKYl30urJ4lsPc-LlPOuWTOsIG-TAeoJMMh9k7PbXyGJ294-pe7NBCJMrXAz7GPMVQE-m7262dnYEuAUCzmBrQ=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNX4nzLoOWVUU-4M6raAhGDPmOG2l4GJiFGi6mLVfyS2r7fvAgvIOeGZrmN8q9KnJC3ZnCLax0K9e9a3hUQs5sBPJZmb6Jk5jTwx-sovWtUp7uT_A=s220",
     "fileName": "cj2025-Murid DWP-Aliezzar Wijaya.pdf",
-    "modifiedTime": "2026-05-07T11:20:11.000Z"
+    "modifiedTime": "2026-05-07T11:20:11.000Z",
+    "featured": true
+  },
+  {
+    "id": "1LLw_Alc6VYDVjD25lgffXOsbgO7RYyoW",
+    "driveFileId": "1LLw_Alc6VYDVjD25lgffXOsbgO7RYyoW",
+    "title": "CTF ARA 7.0",
+    "issuer": "HMIT ITS (Departemen Teknologi Informasi ITS)",
+    "description": "Sertifikat Finalis kompetisi Capture The Flag ARA 7.0 Institut Teknologi Sepuluh Nopember.",
+    "category": "lomba",
+    "categories": [
+      "lomba",
+      "cyber security"
+    ],
+    "issueDate": "2026-02-28",
+    "credentialId": "448/SER/ARA/RISTEK/HMIT-ITS/II/2026",
+    "credentialUrl": "",
+    "webViewLink": "https://drive.google.com/file/d/1LLw_Alc6VYDVjD25lgffXOsbgO7RYyoW/view?usp=drivesdk",
+    "mimeType": "image/png",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBOwaCL9aBw8kfpZZgmmjx3tgZGT6xoVD98amEqMzZdKkVSKpsppuRV9YFwXBkxoPsxn3FWBpTGXa5_WoDRtsEc10kmTWZX4iyPcTAR7SDvIGOwmmA=s220",
+    "fileName": "ara7.png",
+    "modifiedTime": "2026-03-08T09:27:01.920Z",
+    "featured": true
+  },
+  {
+    "id": "1JQHjsSxhqUwi-kLV2Mwt75jXAoG-rqfj",
+    "driveFileId": "1JQHjsSxhqUwi-kLV2Mwt75jXAoG-rqfj",
+    "title": "Cyber Security Officer - Telkom DigiUp 2025",
+    "issuer": "Telkom Indonesia & PT TPCC",
+    "description": "Sertifikat kelulusan resmi program sertifikasi Cyber Security Officer Telkom DigiUp 2025 (Nilai: Certified / Grade Lulus).",
+    "category": "pelatihan",
+    "categories": [
+      "pelatihan",
+      "cyber security"
+    ],
+    "issueDate": "2025-12-22",
+    "credentialId": "D2501162",
+    "credentialUrl": "",
+    "webViewLink": "https://drive.google.com/file/d/1JQHjsSxhqUwi-kLV2Mwt75jXAoG-rqfj/view?usp=drivesdk",
+    "mimeType": "application/pdf",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBOOnNs-DLe1z6pFMN7J0tz-AVy9Pb-4R7pa-dGQK26eRz0trN_xZen_XmMrAZBfaUUerEDG3QwdcMfYGVGQBig9j1YxTaI_YvaFmShVPNKFstJDGFM=s220",
+    "fileName": "sertifikat-digiup.pdf",
+    "modifiedTime": "2025-12-25T10:41:11.000Z",
+    "featured": true
+  },
+  {
+    "id": "1xWd-WGW3O9cNwpgXnoM68jzOfvxd1giM",
+    "driveFileId": "1xWd-WGW3O9cNwpgXnoM68jzOfvxd1giM",
+    "title": "FITCOM 3.0 Cyber Security Competition",
+    "issuer": "Universitas Dinamika & Disdik Jatim",
+    "description": "Sertifikat Finalis Lomba Cyber Security FITCOM 3.0 (Faculty of Informatics Technology Competition) Universitas Dinamika.",
+    "category": "lomba",
+    "categories": [
+      "lomba",
+      "cyber security"
+    ],
+    "issueDate": "2025-10-23",
+    "credentialId": "350/FTI/FITCOM/SL/X/2025",
+    "credentialUrl": "",
+    "webViewLink": "https://drive.google.com/file/d/1xWd-WGW3O9cNwpgXnoM68jzOfvxd1giM/view?usp=drivesdk",
+    "mimeType": "image/png",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNMzk--iFuzTyeaEdw6soonCG1BP30Erp--1BVebx5Wbi3ZiP-T_y5rmrBk6SFqPvVA68yjuQq67L868eK0tZnxECKUVjql2cuVeVTn7DJ0Rvra7g=s220",
+    "fileName": "fitcom.png",
+    "modifiedTime": "2025-12-30T11:49:59.583Z",
+    "featured": true
+  },
+  {
+    "id": "1B7XPE7QCtN8_2zigR21rPTHMq-9m9Evp",
+    "driveFileId": "1B7XPE7QCtN8_2zigR21rPTHMq-9m9Evp",
+    "title": "International Code Olympiad 2025 - Web Development",
+    "issuer": "Coding Bee Academy",
+    "description": "Sertifikat Juara 3 (3rd Place Winner) pada International Code Olympiad 2025 Innovation Challenge: Web Development.",
+    "category": "lomba",
+    "categories": [
+      "lomba",
+      "software engineer"
+    ],
+    "issueDate": "2025-07-20",
+    "credentialId": "",
+    "credentialUrl": "",
+    "webViewLink": "https://drive.google.com/file/d/1B7XPE7QCtN8_2zigR21rPTHMq-9m9Evp/view?usp=drivesdk",
+    "mimeType": "application/pdf",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMizLcBHBFYiQSQ_bOS8Pk7yIvgQ4yAbomZcxEs-yjm5u1DLT44y8Wzh0E3NuIOe6QW_-YJUFaq93zxWTweC1H-QWymd6En_m5cRXqstVhwPiIkUQ=s220",
+    "fileName": "codeolympiad.pdf",
+    "modifiedTime": "2025-12-30T11:50:49.825Z",
+    "featured": true
   },
   {
     "id": "1h7OZn95hEBAPAIKpqNZXmH0bHtcMM3WV",
     "driveFileId": "1h7OZn95hEBAPAIKpqNZXmH0bHtcMM3WV",
-    "title": "Arkavidia",
-    "issuer": "cyber security",
-    "description": "",
+    "title": "Capture The Flag - Arkavidia 10.0",
+    "issuer": "HMIF ITB (Himpunan Mahasiswa Informatika ITB)",
+    "description": "Sertifikat apresiasi partisipasi pada kompetisi Capture The Flag Arkavidia 10.0 ITB.",
     "category": "lomba",
     "categories": [
       "lomba",
@@ -55,76 +141,59 @@
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/1h7OZn95hEBAPAIKpqNZXmH0bHtcMM3WV/view?usp=drivesdk",
     "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBPEIbvlZegTUTIh6wsAjBRoDhJIoXms-Nk5i12arY87Kq22EqaKrQfCo56lhDVjVqdQcYC-Cr_xYq_N4wme2TmINiOVkbR8DAVDIV53Ug20ywVY8A=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMEgBEsv8xsuK1eRyZsyRd5jJiuLO1m07RkNB7vn9YHeaDHh9F7iSNkVreGtI-GsWk_RYGO9nVsrcLcJr3PGNwig4P1A3lpkLNj8bWUm2rn_K_Ikw=s220",
     "fileName": "Arkavidia.pdf",
-    "modifiedTime": "2026-04-24T03:59:36.290Z"
-  },
-  {
-    "id": "1iL5kMMq-JeF5U3z3Otxk2p-mkXYyiwdJ",
-    "driveFileId": "1iL5kMMq-JeF5U3z3Otxk2p-mkXYyiwdJ",
-    "title": "Kata ketua nama tim nya bebas",
-    "issuer": "cyber security",
-    "description": "",
-    "category": "lomba",
-    "categories": [
-      "lomba",
-      "cyber security"
-    ],
-    "issueDate": "2026-04-24",
-    "credentialId": "",
-    "credentialUrl": "",
-    "webViewLink": "https://drive.google.com/file/d/1iL5kMMq-JeF5U3z3Otxk2p-mkXYyiwdJ/view?usp=drivesdk",
-    "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBOCJ0GqSOAIW9uuNMaGMYjKW7dsCTxhUFSxE4jMp3hMgF174Ivm0ssATHQxrAzy7Q-_jVyCaW7eoB3DSmqnHO9aN-xwSa5LmjOI2YwRBsgKki88Ng=s220",
-    "fileName": "Kata ketua nama tim nya bebas.pdf",
-    "modifiedTime": "2026-04-05T23:42:32.000Z"
+    "modifiedTime": "2026-04-24T03:59:36.290Z",
+    "featured": false
   },
   {
     "id": "1QeLlW47sc4q-y3io-w0loyheWmIKbAwl",
     "driveFileId": "1QeLlW47sc4q-y3io-w0loyheWmIKbAwl",
-    "title": "waskita manunggal siber",
-    "issuer": "cyber security",
-    "description": "",
+    "title": "Lomba Waskita Manunggal Siber TA 2026",
+    "issuer": "Pussiberad (Pusat Siber TNI AD)",
+    "description": "Sertifikat peserta Lomba Waskita Manunggal Siber TA 2026 di Pussiberad Jakarta.",
     "category": "lomba",
     "categories": [
       "lomba",
       "cyber security"
     ],
-    "issueDate": "2026-04-24",
+    "issueDate": "2026-04-20",
     "credentialId": "",
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/1QeLlW47sc4q-y3io-w0loyheWmIKbAwl/view?usp=drivesdk",
     "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNUiJH-OTubUOcztaGkzVmeD2bCpumGHmouYcSTgySSP4dked2id_nDlb6RFlMLvOuDv_TnKXuFvjFr39NfX0qdOk4FN_kLxzM6xJ_-20ay9mGZcQ=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMBuqCtYEU7ooVGwG7NYVbke4PWtBgZdeIQ1pa_ptT0zJVfD3zkvG9I8lTcKBwI-T4dtmsABZRJ30V92T-GDxE1VSbImFaCq1M15r9kjJZFmJPl3A=s220",
     "fileName": "waskita_manunggal_siber.pdf",
-    "modifiedTime": "2026-04-24T03:59:27.396Z"
+    "modifiedTime": "2026-04-24T03:59:27.396Z",
+    "featured": false
   },
   {
-    "id": "1LLw_Alc6VYDVjD25lgffXOsbgO7RYyoW",
-    "driveFileId": "1LLw_Alc6VYDVjD25lgffXOsbgO7RYyoW",
-    "title": "ara7",
-    "issuer": "cyber security",
-    "description": "",
+    "id": "1iL5kMMq-JeF5U3z3Otxk2p-mkXYyiwdJ",
+    "driveFileId": "1iL5kMMq-JeF5U3z3Otxk2p-mkXYyiwdJ",
+    "title": "NETCOMP 4.0 Cybersecurity Competition",
+    "issuer": "Universitas Gadjah Mada (UGM)",
+    "description": "Sertifikat peserta kompetisi keamanan siber NETCOMP 4.0 Universitas Gadjah Mada (Tim: Kata ketua nama tim nya bebas).",
     "category": "lomba",
     "categories": [
       "lomba",
       "cyber security"
     ],
-    "issueDate": "2026-03-08",
+    "issueDate": "2026-04-05",
     "credentialId": "",
     "credentialUrl": "",
-    "webViewLink": "https://drive.google.com/file/d/1LLw_Alc6VYDVjD25lgffXOsbgO7RYyoW/view?usp=drivesdk",
-    "mimeType": "image/png",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNEw_AgBFCAaZ4Q01Qx6Dmpb1PUIwx-4ghUDer9mb4NkBTIkNG4HsPX-DNRUw-sgksk6adk7mCCnRmm5dDlvj7gNAf4xcrallsG2_22fslU6Y_mGQ=s220",
-    "fileName": "ara7.png",
-    "modifiedTime": "2026-03-08T09:27:01.920Z"
+    "webViewLink": "https://drive.google.com/file/d/1iL5kMMq-JeF5U3z3Otxk2p-mkXYyiwdJ/view?usp=drivesdk",
+    "mimeType": "application/pdf",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBPI9ZdLjgEq3AP79CWHwyU1tCOt3k39AzlWUTnnEos7zYoeDrq7tpDB9DpvAvaOrs6W6RD55BPk5wtZUU7eu7NYPnAYbV5VkbXEYJFf1GTj-pCyZg=s220",
+    "fileName": "Kata ketua nama tim nya bebas.pdf",
+    "modifiedTime": "2026-04-05T23:42:32.000Z",
+    "featured": false
   },
   {
     "id": "1H_oRcDN2g_dqqXOOHzPiD2WXeFOYcyZk",
     "driveFileId": "1H_oRcDN2g_dqqXOOHzPiD2WXeFOYcyZk",
-    "title": "Compfest",
-    "issuer": "cyber security",
-    "description": "",
+    "title": "Capture The Flag COMPFEST 17",
+    "issuer": "Fasilkom Universitas Indonesia (UI)",
+    "description": "Sertifikat peserta kompetisi Capture The Flag (CTF) COMPFEST 17 Universitas Indonesia.",
     "category": "lomba",
     "categories": [
       "lomba",
@@ -135,164 +204,114 @@
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/1H_oRcDN2g_dqqXOOHzPiD2WXeFOYcyZk/view?usp=drivesdk",
     "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBP8tFXrnewNiZinX1BMkotptIHyQyDV7tynBRWNQ8caOec5r0TGuCxccLdU5km7NhB7xXALe79lQRoujjSeWqUNElnTeFTc7ErI2ogbRAYAfCsjtA=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNW0DVa1EUFSsWL34hI3ajL50XW7gwIwlxQYaCqcSXIYA77vtr63h6YFrQGunuIYuyFNBh4SThty3HbhHb5HDio5tBtUvUnMJcey1O1Zh_hDhCn_A=s220",
     "fileName": "Compfest.pdf",
-    "modifiedTime": "2025-12-30T11:49:15.621Z"
-  },
-  {
-    "id": "1JQHjsSxhqUwi-kLV2Mwt75jXAoG-rqfj",
-    "driveFileId": "1JQHjsSxhqUwi-kLV2Mwt75jXAoG-rqfj",
-    "title": "sertifikat digiup",
-    "issuer": "pelatihan",
-    "description": "",
-    "category": "pelatihan",
-    "categories": [
-      "pelatihan"
-    ],
-    "issueDate": "2025-12-25",
-    "credentialId": "",
-    "credentialUrl": "",
-    "webViewLink": "https://drive.google.com/file/d/1JQHjsSxhqUwi-kLV2Mwt75jXAoG-rqfj/view?usp=drivesdk",
-    "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBPUyEhP7bwkCekwxDRZcG15DksUjHU7Mp1yirJBV2KFnvubaDNWiLgckEluxniCbDpCuf8-aAYGYcapTomP64MLnaLk-F3ARv1xJrWdIXZlw_ofKAA=s220",
-    "fileName": "sertifikat-digiup.pdf",
-    "modifiedTime": "2025-12-25T10:41:11.000Z"
+    "modifiedTime": "2025-12-30T11:49:15.621Z",
+    "featured": false
   },
   {
     "id": "1iXq9qWKq0cy1ZejaSGvylb60a_N3G4IA",
     "driveFileId": "1iXq9qWKq0cy1ZejaSGvylb60a_N3G4IA",
-    "title": "invofest",
-    "issuer": "webdev",
-    "description": "",
+    "title": "National IT Competition Web Design - INVOFEST 2025",
+    "issuer": "HMPTI Universitas Harkat Negeri Tegal",
+    "description": "Sertifikat peserta National IT Competition Web Design Kategori SMA/SMK/MA pada Informatics Vocational Festival 2025.",
     "category": "lomba",
     "categories": [
       "lomba",
-      "webdev"
+      "software engineer"
     ],
-    "issueDate": "2025-12-16",
-    "credentialId": "",
+    "issueDate": "2025-11-27",
+    "credentialId": "503.25/HMPTI.KMUHN/XI/2025",
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/1iXq9qWKq0cy1ZejaSGvylb60a_N3G4IA/view?usp=drivesdk",
     "mimeType": "image/jpeg",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBOf24IeO3FQg2t38rWdAZ86ObJ9qYrHixQ9dyzy5HPL0rrjux5QBJ0PJQiljldFzBcosiW5Pqz37AsHvGsYxiXjQUKLRP1i5h_7y0-E6oi_r7nKOg=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMsJEB33-zGHXuQf7ir3FrHyjHWY3FnnlBAYZzvdBAv3nGu8t8qzi9okbj9ma1K0WwHi6tjFjh7cSX8aXM_KhkYRPjguBhY8TEU_qe-4WFqnGVxsQ=s220",
     "fileName": "invofest.jpg",
-    "modifiedTime": "2025-12-30T11:51:08.789Z"
-  },
-  {
-    "id": "1xWd-WGW3O9cNwpgXnoM68jzOfvxd1giM",
-    "driveFileId": "1xWd-WGW3O9cNwpgXnoM68jzOfvxd1giM",
-    "title": "fitcom",
-    "issuer": "cyber security",
-    "description": "",
-    "category": "lomba",
-    "categories": [
-      "lomba",
-      "cyber security"
-    ],
-    "issueDate": "2025-10-29",
-    "credentialId": "",
-    "credentialUrl": "",
-    "webViewLink": "https://drive.google.com/file/d/1xWd-WGW3O9cNwpgXnoM68jzOfvxd1giM/view?usp=drivesdk",
-    "mimeType": "image/png",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBO3084zrwn_bn5lsJn3U4Oxl2Pk687SNCT9HH63d3vm3BndEjYMJn30vHCUvmgq5en1e2epBJUoUzBIUs_WJBx-qLtxI9Ejv_Ek1m6ErbwB17CpAQ=s220",
-    "fileName": "fitcom.png",
-    "modifiedTime": "2025-12-30T11:49:59.583Z"
+    "modifiedTime": "2025-12-30T11:51:08.789Z",
+    "featured": false
   },
   {
     "id": "1ml5DVWVJWeyr7U8kxbymVqUIO0XU5Xf3",
     "driveFileId": "1ml5DVWVJWeyr7U8kxbymVqUIO0XU5Xf3",
-    "title": "jcc",
-    "issuer": "cyber security",
-    "description": "",
+    "title": "Jatim Cybersecurity Competition 2025",
+    "issuer": "Diskominfo Provinsi Jawa Timur",
+    "description": "Sertifikat resmi peserta Jatim Cybersecurity Competition (JCC) 2025 dengan tanda tangan elektronik BSrE-BSSN.",
     "category": "lomba",
     "categories": [
       "lomba",
       "cyber security"
     ],
     "issueDate": "2025-10-29",
-    "credentialId": "",
+    "credentialId": "000.6.4.1/1126.144/114.5/2025",
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/1ml5DVWVJWeyr7U8kxbymVqUIO0XU5Xf3/view?usp=drivesdk",
     "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBPozy5cGTkleJ8i1DaW2cg5b2ZEi3IiqXhXfUVedspKmLhhfdEeYJT_-hECq8aq6aY2JvZIq8786ygvYxwKExYao8XgB2377XiC3sxNgVwVve4tFw=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBN_lTa73S_8DmXVmqa5o5JQcfgnHi6g46MlJY78MtyBFp4iEGWfwkrw5Xo2hJOfNPoUgI5kDiE9BwiyrCoM_k3TK_4ykCR9RTG5UtC9M3rjuOy2yg=s220",
     "fileName": "jcc.pdf",
-    "modifiedTime": "2025-12-30T11:51:27.063Z"
+    "modifiedTime": "2025-12-30T11:51:27.063Z",
+    "featured": false
   },
   {
     "id": "1FlF4sK7BSPyNGhkde7iSI3VGxKBVoUZN",
     "driveFileId": "1FlF4sK7BSPyNGhkde7iSI3VGxKBVoUZN",
-    "title": "generate pdf",
-    "issuer": "pelatihan",
-    "description": "",
+    "title": "Preparation Course for Azure AI Fundamentals (AI-900)",
+    "issuer": "Microsoft & ElevAite",
+    "description": "Sertifikat kelulusan pelatihan online persiapan ujian sertifikasi Microsoft Azure AI Fundamentals (AI-900).",
     "category": "pelatihan",
     "categories": [
-      "pelatihan"
+      "pelatihan",
+      "ai"
     ],
-    "issueDate": "2025-10-13",
-    "credentialId": "",
+    "issueDate": "2025-09-26",
+    "credentialId": "254fbc68",
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/1FlF4sK7BSPyNGhkde7iSI3VGxKBVoUZN/view?usp=drivesdk",
     "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBObjhRujjJ3S4yzN0m3XdY_1Sqff_TEbhbcN-xlXpiola3isDXs372UV5ar0MBnW60M8wcaL9jWUGTpZJQB7l8Oo4_3Qbh2YxYqnepTt6WDodyoMac=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBPf9y87ER1dasXlUtiKilWuNQ02FJrn5xT8Gg7Z6YXufstvMY1vEZwMgjQNvJgW9xN9Ym9ApOneHZ6GLxil19L0CpLiAhKbl3txhnWqdhy4l80GIw=s220",
     "fileName": "generate-pdf.pdf",
-    "modifiedTime": "2025-10-13T00:01:26.000Z"
-  },
-  {
-    "id": "1CshTOrgLiUCYicqO7W1jcppevBv0N40V",
-    "driveFileId": "1CshTOrgLiUCYicqO7W1jcppevBv0N40V",
-    "title": "Aliezzar Wijaya",
-    "issuer": "webinar",
-    "description": "",
-    "category": "webinar",
-    "categories": [
-      "webinar"
-    ],
-    "issueDate": "2025-08-14",
-    "credentialId": "",
-    "credentialUrl": "",
-    "webViewLink": "https://drive.google.com/file/d/1CshTOrgLiUCYicqO7W1jcppevBv0N40V/view?usp=drivesdk",
-    "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBOSDIbcG4PZUW3cHs7D3WsOimvy5iwANN2C7kjqzirPqskJ-7fDjspDJJ0Qvn6Ue4rEFAC0oJbeibx-VdO1zOHgxof6H0zzPv0cyFk_M_P7n4k2xRc=s220",
-    "fileName": "Aliezzar_Wijaya.pdf",
-    "modifiedTime": "2025-08-14T23:30:49.000Z"
-  },
-  {
-    "id": "1B7XPE7QCtN8_2zigR21rPTHMq-9m9Evp",
-    "driveFileId": "1B7XPE7QCtN8_2zigR21rPTHMq-9m9Evp",
-    "title": "codeolympiad",
-    "issuer": "webdev",
-    "description": "",
-    "category": "lomba",
-    "categories": [
-      "lomba",
-      "webdev"
-    ],
-    "issueDate": "2025-07-24",
-    "credentialId": "",
-    "credentialUrl": "",
-    "webViewLink": "https://drive.google.com/file/d/1B7XPE7QCtN8_2zigR21rPTHMq-9m9Evp/view?usp=drivesdk",
-    "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBONC8Eo7-KTwe59QVAiOjOnIPvjsyfrVhcMCW9Pz54d66mNCgk22-0IVIIjNICC408D2evUG7P2BAqzNbb-vJUe-fO8sS7YcwMKBd5rPrmJbgk_eQ=s220",
-    "fileName": "codeolympiad.pdf",
-    "modifiedTime": "2025-12-30T11:50:49.825Z"
+    "modifiedTime": "2025-10-13T00:01:26.000Z",
+    "featured": false
   },
   {
     "id": "1woO5fdvsblwbpp7UZ2eVQuTGU_UAyr6w",
     "driveFileId": "1woO5fdvsblwbpp7UZ2eVQuTGU_UAyr6w",
-    "title": "Aliezzar Wijaya",
-    "issuer": "pelatihan",
-    "description": "",
+    "title": "HackPoint Red Team Bootcamp 1",
+    "issuer": "HackPoint (Izudin AlGhozi)",
+    "description": "Sertifikat pelatihan intensif Red Team Bootcamp 1 mencakup Cybersecurity Fundamentals & Penetration Testing.",
     "category": "pelatihan",
     "categories": [
-      "pelatihan"
+      "pelatihan",
+      "cyber security"
     ],
-    "issueDate": "2025-07-16",
-    "credentialId": "",
+    "issueDate": "2025-07-12",
+    "credentialId": "HP-BOOTCAMP-2025-003",
     "credentialUrl": "",
     "webViewLink": "https://drive.google.com/file/d/1woO5fdvsblwbpp7UZ2eVQuTGU_UAyr6w/view?usp=drivesdk",
     "mimeType": "application/pdf",
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBM7E9P6hBRGDJPL0xFa07oANp62tjWZTBzULLNAR8GoiCq_fhh2dhvtQkwXCwL00FlpU-Hr2M7lSUXV4ozjtqUcCd3rC7nAMK1ipTvmkFMgdFtwIMc=s220",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBO-mEZ-TenfNu3S0-r-FJBqUFhS6q3uAee-o3LqVyXH9d9Tu9vJVZiEKTw-iL_6QLnOA_ttxuCk-ZWLEyCKvdgoHDrhkV73FAVoL7nC-Cxy6bxwWZ4=s220",
     "fileName": "Aliezzar_Wijaya.pdf",
-    "modifiedTime": "2025-07-16T04:03:52.000Z"
+    "modifiedTime": "2025-07-16T04:03:52.000Z",
+    "featured": false
+  },
+  {
+    "id": "1CshTOrgLiUCYicqO7W1jcppevBv0N40V",
+    "driveFileId": "1CshTOrgLiUCYicqO7W1jcppevBv0N40V",
+    "title": "HackPoint Starter Red Team Bootcamp",
+    "issuer": "HackPoint (Izudin AlGhozi)",
+    "description": "Sertifikat kelulusan 7-day intensive bootcamp HackPoint (Web Application Security, OWASP Top 10, Pentest Workflow, CTF Challenge).",
+    "category": "webinar",
+    "categories": [
+      "webinar",
+      "cyber security"
+    ],
+    "issueDate": "2025-07-12",
+    "credentialId": "HP-BOOTCAMP-2025-003",
+    "credentialUrl": "",
+    "webViewLink": "https://drive.google.com/file/d/1CshTOrgLiUCYicqO7W1jcppevBv0N40V/view?usp=drivesdk",
+    "mimeType": "application/pdf",
+    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNZC_T-zZ7-YbtpMKks78TluK3m6607Kcedsb8gc3htG7sBuylPCkGweyzvMxIRUC7DS-oMUICsH05TwmmtZ7xJ_HgE00mIpkjYpbSWv5opXGx0FyI=s220",
+    "fileName": "Aliezzar_Wijaya.pdf",
+    "modifiedTime": "2025-08-14T23:30:49.000Z",
+    "featured": false
   }
 ]

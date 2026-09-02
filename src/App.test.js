@@ -1,18 +1,13 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import App from "./App";
+import { mount } from "@vue/test-utils";
+import { describe, expect, it } from "vitest";
+import App from "./App.vue";
 
-test("navigates between the main portfolio sections", () => {
-  window.scrollTo = jest.fn();
-  render(<App />);
-
-  expect(screen.getByRole("heading", { name: /Aliezzar Wijaya/i })).toBeInTheDocument();
-
-  fireEvent.click(screen.getByRole("button", { name: "03 Karya" }));
-  expect(screen.getByRole("heading", { name: /Karya berdasarkan bidang dan teknologi/i })).toBeInTheDocument();
-
-  fireEvent.click(screen.getByRole("button", { name: "04 Sertifikat" }));
-  expect(screen.getByRole("heading", { name: /Kumpulan sertifikat/i })).toBeInTheDocument();
-
-  fireEvent.click(screen.getByRole("button", { name: "05 Kontak" }));
-  expect(screen.getByRole("heading", { name: /Ada ide/i })).toBeInTheDocument();
+describe("App.vue", () => {
+  it("renders brand avatar and default navigation heading", () => {
+    const wrapper = mount(App);
+    const avatar = wrapper.find("img[src='/avatar.jpg']");
+    expect(avatar.exists()).toBe(true);
+    expect(wrapper.text()).toContain("Aliezzar Wijaya");
+    expect(wrapper.text()).toContain("Fokus membangun arsitektur Backend tangguh");
+  });
 });
