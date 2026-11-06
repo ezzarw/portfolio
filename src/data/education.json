@@ -1,29 +1,30 @@
 [
   {
-    "period": "2015 — 2019",
-    "sub": "Sep 2015 – Jun 2019",
-    "logo": "/assets/logos/westbridge.webp",
-    "name": "Westbridge University",
-    "degree": "Bachelor's Degree, Computer Science",
+    "name": "SMK Telkom Sidoarjo",
+    "degree": "Sekolah Menengah Kejuruan (SMK) · Sistem Informasi Jaringan dan Aplikasi (SIJA)",
+    "period": "2024 — 2028",
+    "sub": "2024 – 2028",
+    "logo": "/assets/education/smk-telkom.webp",
     "desc": [
-      "Focused on software engineering, databases, and human-computer interaction.",
-      "Worked as a teaching assistant for the introductory web development course."
+      "Program kejuruan 4 tahun berfokus pada rekayasa perangkat lunak, arsitektur jaringan komputer, administrasi server Linux, cloud computing, dan cyber security.",
+      "Aktif mengasah kemampuan kompetisi CTF, pengujian penetrasi sistem, dan hardening infrastruktur jaringan."
     ],
     "highlights": [
-      {
-        "k": "Thesis",
-        "t": "Predicting Delivery Delays with Gradient-Boosted Trees."
-      }
+      { "k": "Fokus Kejuruan", "t": "Software Engineering, Network Architecture & Linux Systems" },
+      { "k": "Komunitas Aktif", "t": "Skomda Cyber Security, IMPHNEN, KTCG" }
     ]
   },
   {
-    "period": "2019",
-    "sub": "Mar 2019 – Jun 2019",
-    "logo": "/assets/logos/codecamp.webp",
-    "name": "CodeCamp Academy",
-    "degree": "Full Stack Web Development Bootcamp",
+    "name": "ADINUSA",
+    "degree": "Bootcamp & Training · Cloud & DevOps Engineering",
+    "period": "2024",
+    "sub": "Bootcamp & Training",
+    "logo": "/assets/education/adinusa.webp",
     "desc": [
-      "Twelve-week program covering JavaScript, React, Node.js, and SQL, ending with a team capstone project."
+      "Pelatihan intensif implementasi teknologi open source, kontainerisasi dengan Podman & Docker, Linux server automation, dan orkestrasi cloud."
+    ],
+    "highlights": [
+      { "k": "Praktik Lab", "t": "Hands-on Linux SysAdmin, Podman/Docker Containerization & CI/CD Pipelines" }
     ]
   }
 ]

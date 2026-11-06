@@ -1,89 +1,16 @@
 [
   {
-    "title": "Pulse Analytics",
-    "status": "Live",
-    "desc": "Self-serve analytics dashboard for retail teams. Tracks sales, stock, and staffing across stores in one place, with scheduled email reports.",
-    "tags": [],
-    "wins": [],
-    "img": "pulse-dashboard",
-    "live": "https://example.com",
-    "cta": "Visit Pulse",
-    "src": "",
-    "type": "WEB"
-  },
-  {
-    "title": "Trailmate Hiking App",
-    "status": "Live",
-    "desc": "Offline-first hiking companion with downloadable maps, trail difficulty ratings, and trip sharing.",
-    "tags": [
-      "React Native",
-      "Expo",
-      "SQLite"
-    ],
-    "wins": [],
-    "img": "trailmate",
-    "live": "https://play.google.com/store",
-    "src": "",
-    "type": "MOBILE"
-  },
-  {
-    "title": "Shelfie Books",
-    "status": "Live",
-    "desc": "Online bookstore with search, wishlists, and Stripe checkout.",
-    "tags": [
-      "Next.js",
-      "Stripe",
-      "PostgreSQL"
-    ],
-    "wins": [
-      "Cut checkout drop-off by 25% with a one-page flow"
-    ],
-    "img": "shelfie",
-    "live": "https://example.com",
-    "src": "https://github.com",
-    "type": "WEB"
-  },
-  {
-    "title": "Mealplan",
+    "title": "Spentaru Archive",
     "status": "Demo",
-    "desc": "Weekly meal planner that turns recipes into a shopping list grouped by aisle.",
+    "desc": "Solusi dari masalah arsip arsip sekolah di SMP Negeri 1 Waru yang masih dikelola secara offline dan bertumpuk tumpuk (chaos) sehingga dibuatkan sistem sebuah web app yaitu spentaru archive system\n\nsaya di sini sebagai DevOps engineer + Backend engineer",
     "tags": [
-      "Flutter",
-      "Firebase"
+      "Laravel"
     ],
     "wins": [],
-    "img": "mealplan",
+    "img": "spentaru-archive",
     "live": "",
+    "cta": "",
     "src": "",
-    "type": "MOBILE"
-  },
-  {
-    "title": "Helpdesk AI Inbox",
-    "status": "Live",
-    "desc": "Shared support inbox that drafts replies with an LLM and routes tickets by topic.",
-    "tags": [
-      "NestJS",
-      "Redis",
-      "OpenAI"
-    ],
-    "wins": [],
-    "img": "helpdesk-ai",
-    "live": "https://example.com",
-    "src": "",
-    "type": "WEB"
-  },
-  {
-    "title": "Parcel Tracker",
-    "status": "Demo",
-    "desc": "Delivery tracking app with live courier location and push notifications.",
-    "tags": [
-      "React Native",
-      "Express"
-    ],
-    "wins": [],
-    "img": "parcel-tracker",
-    "live": "",
-    "src": "https://github.com",
-    "type": "MOBILE"
+    "category": "Web App"
   }
 ]

@@ -1,69 +1,50 @@
 {
-  "name": "Alex Rivera",
-  "brand": "alex",
+  "name": "Aliezzar Wijaya",
+  "brand": "ezzar",
   "site": "https://example.com",
   "seo": {
-    "title": "Alex Rivera — Software Engineer",
-    "description": "Sample portfolio built with Astro. Replace the files in src/data/ with your own content."
+    "title": "Aliezzar Wijaya — Software Engineer & DevSecOps",
+    "description": "Portofolio Aliezzar Wijaya — Software Engineer, DevOps, dan DevSecOps pemula."
   },
   "ogImage": "/assets/sample/og-image.png",
-  "favicon": "/assets/sample/favicon.ico",
-  "footerNote": "built with Astro",
+  "favicon": "/assets/favicon.webp",
+  "footerNote": "dibuat dengan Astro",
   "credit": {
     "text": "Template by Haris Wahyudi",
     "url": "https://www.haris.my.id"
   },
-  "careerStart": 2019,
+  "careerStart": 2024,
   "roles": [
     "Software Engineer",
-    "Frontend Developer",
-    "Backend Developer",
-    "Full Stack Developer"
+    "DevOps Engineer",
+    "DevSecOps Engineer"
   ],
-  "description": "years of hands-on experience, building web and mobile products end to end.",
-  "tagline": "I enjoy turning messy requirements into simple, reliable software.",
-  "avatar": "/assets/sample/avatar.webp",
+  "bio": "Mengawali langkah di dunia rekayasa perangkat lunak dengan fokus pada pengembangan kode yang efisien, otomatisasi alur kerja (DevOps), serta integrasi keamanan sejak dini (DevSecOps) untuk membangun sistem yang andal dan aman.",
+  "description": "tahun mendalami rekayasa perangkat lunak dan infrastruktur modern.",
+  "tagline": "Membangun sistem yang efisien, terotomatisasi, dan aman sejak baris kode pertama.",
+  "avatar": "/assets/avatar.webp",
   "resume": "/cv/sample-resume.pdf",
   "social": {
-    "github": "https://github.com",
-    "linkedin": "https://www.linkedin.com"
+    "github": "https://github.com/ezzarw",
+    "linkedin": "https://id.linkedin.com/in/aliezzar-wijaya-7a9a56356"
   },
   "stats": {
-    "projects": 30,
-    "rating": 9.5
+    "competitions": 5,
+    "projects": 0,
+    "labsOrCerts": 20
   },
   "companies": [
     {
-      "name": "Northwind Labs",
-      "logo": "/assets/logos/northwind.webp"
+      "name": "Skomda Cyber Security",
+      "logo": "/assets/communities/skomda-cyber.webp"
     },
     {
-      "name": "Gigwise",
-      "logo": "/assets/logos/gigwise.webp"
+      "name": "IMPHNEN",
+      "logo": "/assets/communities/imphnen.webp"
     },
     {
-      "name": "Kite Commerce",
-      "logo": "/assets/logos/kite.webp"
-    },
-    {
-      "name": "Orbit Health",
-      "logo": "/assets/logos/orbit.webp"
-    },
-    {
-      "name": "Brightpath Studio",
-      "logo": "/assets/logos/brightpath.webp"
-    },
-    {
-      "name": "Acme Cloud",
-      "logo": "/assets/logos/acme.webp"
-    },
-    {
-      "name": "Lumen Finance",
-      "logo": "/assets/logos/lumen.webp"
-    },
-    {
-      "name": "Westbridge University",
-      "logo": "/assets/logos/westbridge.webp"
+      "name": "KTCG",
+      "logo": "/assets/communities/ktcg.webp"
     }
   ],
   "techCdn": "/techstack/",

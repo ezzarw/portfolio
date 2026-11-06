@@ -10,11 +10,16 @@
     "check": "astro check"
   },
   "dependencies": {
+    "@neon/config": "^1.10.0",
+    "@neon/env": "^1.6.8",
     "astro": "^5.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@emnapi/runtime": "^1.11.3",
+    "@types/form-data": "^2.2.1",
+    "@types/node": "^26.6.6",
+    "form-data": "^4.0.6",
     "typescript": "^5.9.3"
   }
 }

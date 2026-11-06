@@ -1,101 +1,31 @@
 [
   {
-    "company": "Northwind Labs",
-    "role": "Senior Full Stack Engineer",
+    "company": "SEVIMA",
+    "role": "Associate Software Engineer",
+    "startDate": "2026-12-07",
     "start": [
-      2023,
-      2
+      2026,
+      12
     ],
     "type": "Full-time",
-    "location": "Remote",
-    "logo": "/assets/logos/northwind.webp",
+    "location": "Surabaya, Indonesia",
+    "logo": "/assets/logos/sevima.webp",
     "story": [
-      "Leading a small product team that builds analytics tools for mid-size retailers."
+      "Mengembangkan dan memelihara modul platform teknologi pendidikan tinggi (EdTech) untuk mendukung digitalisasi sistem akademik dan tata kelola perguruan tinggi di Indonesia."
     ],
     "wins": [
       {
-        "m": "−40%",
-        "k": "Page load time",
-        "t": "Moved the dashboard to server rendering and trimmed the client bundle."
+        "m": "EdTech",
+        "k": "Higher Education Platform",
+        "t": "Berkontribusi dalam pengembangan solusi digital akademik yang digunakan oleh berbagai perguruan tinggi."
       },
       {
-        "m": "3 weeks",
-        "k": "Mobile companion app",
-        "t": "Shipped a React Native app for store managers on iOS & Android."
-      },
-      {
-        "m": "99.9%",
-        "k": "Uptime",
-        "t": "Added health checks, alerting, and zero-downtime deploys."
+        "m": "Engineering",
+        "k": "Clean & Secure Code",
+        "t": "Menerapkan standar best practice rekayasa perangkat lunak, testing, dan kolaborasi tim tangkas."
       }
     ],
-    "link": "https://example.com",
-    "linkLabel": "Visit company"
-  },
-  {
-    "company": "Gigwise",
-    "role": "Freelance Developer",
-    "start": [
-      2021,
-      5
-    ],
-    "end": [
-      2023,
-      1
-    ],
-    "type": "Freelance",
-    "location": "Remote",
-    "logo": "/assets/logos/gigwise.webp",
-    "story": [
-      "Delivered web and mobile projects for clients found through the Gigwise marketplace."
-    ],
-    "wins": [
-      {
-        "m": "4.9★",
-        "k": "Client rating",
-        "t": "Average rating across 20+ completed contracts."
-      }
-    ],
-    "clients": [
-      {
-        "name": "Kite Commerce",
-        "logo": "/assets/logos/kite.webp",
-        "m": "3 projects",
-        "t": "Storefront, admin panel, and payment integration."
-      },
-      {
-        "name": "Orbit Health",
-        "logo": "/assets/logos/orbit.webp",
-        "m": "2 apps",
-        "t": "Patient booking app and clinic dashboard."
-      }
-    ],
-    "link": "https://example.com",
-    "linkLabel": "View profile"
-  },
-  {
-    "company": "Brightpath Studio",
-    "role": "Junior Web Developer",
-    "start": [
-      2019,
-      7
-    ],
-    "end": [
-      2021,
-      4
-    ],
-    "type": "Full-time",
-    "location": "On-site",
-    "logo": "/assets/logos/brightpath.webp",
-    "story": [
-      "Built marketing sites and small web apps for agency clients."
-    ],
-    "wins": [
-      {
-        "m": "15+ sites",
-        "k": "Client websites",
-        "t": "Responsive sites with a reusable component library."
-      }
-    ]
+    "link": "https://sevima.com",
+    "linkLabel": "Kunjungi SEVIMA"
   }
 ]

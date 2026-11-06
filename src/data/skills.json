@@ -1,108 +1,95 @@
 [
   {
-    "name": "Frontend",
-    "icon": "palette",
-    "items": [
-      {
-        "name": "React",
-        "icon": "react",
-        "since": 2019,
-        "projects": 12,
-        "description": "Component-driven UIs with hooks and a focus on accessible, responsive layouts."
-      },
-      {
-        "name": "Next.js",
-        "icon": "next",
-        "since": 2021,
-        "projects": 6,
-        "description": "Server-rendered apps and static sites with the App Router."
-      },
-      {
-        "name": "Tailwind CSS",
-        "icon": "tailwind",
-        "since": 2020,
-        "projects": 10,
-        "description": "Utility-first styling and small design systems."
-      }
-    ]
-  },
-  {
     "name": "Backend",
     "icon": "settings",
     "items": [
       {
-        "name": "Node.js / Express",
-        "icon": "express",
-        "since": 2019,
-        "projects": 10,
-        "description": "REST APIs, auth, and background jobs."
+        "name": "Golang",
+        "icon": "go",
+        "since": 2026,
+        "projects": 0,
+        "description": "main backend"
       },
       {
-        "name": "NestJS",
-        "icon": "nestjs",
-        "since": 2022,
+        "name": "Laravel",
+        "icon": "laravel",
+        "since": 2025,
         "projects": 4,
-        "description": "Modular, typed services with validation and testing built in."
+        "description": "Untuk membuat web app lebih cepat, karena monolith dan mudah dipakai"
       }
     ]
   },
   {
-    "name": "Database & Storage",
-    "icon": "database",
-    "items": [
-      {
-        "name": "PostgreSQL",
-        "icon": "postgresql",
-        "since": 2020,
-        "projects": 9,
-        "description": "Relational schemas, indexing, and query tuning."
-      },
-      {
-        "name": "Redis",
-        "icon": "redis",
-        "since": 2021,
-        "projects": 4,
-        "description": "Caching, queues, and rate limiting."
-      }
-    ]
-  },
-  {
-    "name": "DevOps & Cloud",
+    "name": "Cloud/DevOps",
     "icon": "cloud",
     "items": [
       {
-        "name": "Docker",
-        "icon": "docker",
-        "since": 2020,
-        "projects": 8,
-        "description": "Containerized dev environments and deployments."
+        "name": "Cloudflare",
+        "icon": "cloudflare",
+        "since": 2025,
+        "projects": 0,
+        "description": "Untuk monitoring, security, dan tunneling"
       },
       {
-        "name": "AWS",
-        "icon": "aws",
-        "since": 2021,
-        "projects": 5,
-        "description": "EC2, S3, and managed databases."
+        "name": "Nginx",
+        "icon": "nginx",
+        "since": 2025,
+        "projects": 0,
+        "description": "Webserver andalan, lebih siap pakai di industri daripada Apache"
+      },
+      {
+        "name": "Github",
+        "icon": "github",
+        "since": 2024,
+        "projects": 0,
+        "description": "Sebagai version control untuk menyimpan dan mengelola kode project serta ci cd"
+      },
+      {
+        "name": "Docker",
+        "icon": "docker",
+        "since": 2025,
+        "projects": 10,
+        "description": "sangat membantu untuk project yang gak mau ribet deploymentnya"
       }
     ]
   },
   {
-    "name": "Tools & Others",
+    "name": "Tools",
     "icon": "build",
     "items": [
       {
-        "name": "TypeScript",
-        "icon": "typescript",
-        "since": 2020,
-        "projects": 14,
-        "description": "Typed JavaScript across frontend and backend."
+        "name": "Hermes",
+        "icon": "hermes",
+        "since": 2026,
+        "projects": 0,
+        "description": "Hermes agent, agentic AI yang selalu saya gunakan, untuk memudahkan project"
       },
       {
-        "name": "Figma",
-        "icon": "figma",
-        "since": 2019,
-        "projects": 8,
-        "description": "Wireframes and handoff with designers."
+        "name": "linux",
+        "icon": "tux-svg",
+        "since": 2024,
+        "projects": 0,
+        "description": "Sebagai operating system, ringan, dan hobi"
+      }
+    ]
+  },
+  {
+    "name": "Database",
+    "icon": "database",
+    "items": [
+      {
+        "name": "MySQL",
+        "icon": "mysql",
+        "since": 2024,
+        "projects": 0,
+        "description": "Database basic untuk project kecil"
+      },
+      {
+        "name": "PostgreSQL",
+        "icon": "postgresql",
+        "since": 2025,
+        "projects": 10,
+        "description": "Database jika project biasanya menggunakan agentic AI karena mudah"
       }
     ]
   }

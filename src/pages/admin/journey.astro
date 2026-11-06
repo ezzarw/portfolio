@@ -1,0 +1,508 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import Icon from '../../components/Icon.astro';
+import jobs from '../../data/jobs.json';
+
+if (!import.meta.env.DEV) {
+  return Astro.redirect('/');
+}
+---
+
+<AdminLayout
+  title="Journey Studio"
+  studioName="Journey Studio"
+  activeTab="journey"
+  description="Local development dashboard for managing work experience and career journey"
+>
+  <Fragment slot="topbar-actions">
+    <span class="stat-pill">Total: <b id="journey-count">{jobs.length}</b> posisi</span>
+    <button type="button" class="btn btn--primary btn--sm" id="btn-new-job">
+      <span>+ Tambah Pengalaman</span>
+    </button>
+  </Fragment>
+
+  <!-- Left Panel: Experience List -->
+  <section class="admin-panel admin-list-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <h2>Riwayat Karier</h2>
+        <p class="sub">Klik posisi untuk mengedit detail pengalaman kerja</p>
+      </div>
+    </div>
+
+    <div class="studio-list" id="job-list-container">
+      <!-- Rendered by client JS -->
+    </div>
+  </section>
+
+  <!-- Right Panel: Form Editor -->
+  <section class="admin-panel admin-form-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <span class="mode-badge" id="form-mode-badge">TAMBAH BARU</span>
+        <h3 id="form-heading">Tambah Pengalaman Baru</h3>
+        <p class="sub" id="form-sub">Lengkapi detail riwayat karier, peran, dan kontribusi utama</p>
+      </div>
+      <div class="form-actions-top">
+        <button type="button" class="btn btn--sm" id="btn-cancel-edit" style="display:none;">Batal Edit</button>
+        <button type="button" class="btn btn--sm btn--danger" id="btn-delete-job" style="display:none;">Hapus Posisi</button>
+      </div>
+    </div>
+
+    <form id="job-form" class="studio-form">
+      <input type="hidden" id="edit-index" value="-1" />
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="f-company">Nama Perusahaan / Instansi <span class="req">*</span></label>
+          <input type="text" id="f-company" required placeholder="Contoh: SEVIMA" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="f-role">Jabatan / Posisi <span class="req">*</span></label>
+          <input type="text" id="f-role" required placeholder="Contoh: Associate Software Engineer" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="f-type">Tipe Pekerjaan <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-type"
+            list="job-type-list"
+            required
+            placeholder="Full-time, Internship, Contract..."
+            value="Full-time"
+          />
+          <datalist id="job-type-list">
+            <option value="Full-time"></option>
+            <option value="Internship"></option>
+            <option value="Contract"></option>
+            <option value="Part-time"></option>
+            <option value="Freelance"></option>
+          </datalist>
+        </div>
+
+        <div class="field">
+          <label for="f-location">Lokasi Kerja <span class="req">*</span></label>
+          <input type="text" id="f-location" required placeholder="Contoh: Surabaya, Indonesia" />
+        </div>
+
+        <div class="field span-2">
+          <label for="f-startdate">Tanggal Mulai (YYYY-MM-DD) <span class="req">*</span></label>
+          <input type="date" id="f-startdate" required />
+          <span class="hint">
+            Digunakan untuk perhitungan durasi otomatis &amp; deteksi transisi status <code>Incoming</code> ke <code>Current</code>
+          </span>
+        </div>
+
+        <!-- Unified Media Box: Company Logo -->
+        <div class="field span-2">
+          <div class="media-box">
+            <div class="media-box__head">
+              <span class="media-box__title">Logo Perusahaan (.webp)</span>
+              <span class="media-box__badge">public/assets/logos/&lt;slug&gt;.webp</span>
+            </div>
+
+            <div class="media-box__main">
+              <div class="media-preview" id="logo-preview-box">
+                <img id="logo-preview-img" src="" alt="Logo Preview" style="display:none;" />
+                <span id="logo-preview-ph" class="media-preview__ph">Logo</span>
+              </div>
+
+              <div class="media-controls">
+                <input
+                  type="text"
+                  id="f-logo"
+                  placeholder="/assets/logos/sevima.webp"
+                  autocomplete="off"
+                  style="font-family:var(--mono);font-size:12.5px;"
+                />
+
+                <div class="upload-bar">
+                  <input type="file" id="f-logo-file" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
+                  <button type="button" class="btn btn--xs btn--primary" id="btn-upload-logo">
+                    Upload &amp; WebP
+                  </button>
+                </div>
+                <span class="status-Feedback" id="logo-upload-status"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deskripsi Peran -->
+        <div class="field span-2">
+          <label for="f-story">Deskripsi Peran &amp; Tanggung Jawab <span class="req">*</span></label>
+          <textarea
+            id="f-story"
+            rows="3"
+            required
+            placeholder="Jelaskan fokus tanggung jawab, sistem yang dibangun, dan kolaborasi tim (pisahkan baris baru untuk paragraf baru)..."
+          ></textarea>
+        </div>
+
+        <!-- Poin Pencapaian (Wins) -->
+        <div class="field span-2">
+          <div class="field-label-row">
+            <label>Poin Pencapaian &amp; Kontribusi (Wins / Highlights)</label>
+            <button type="button" class="btn btn--xs" id="btn-add-win">+ Tambah Poin Pencapaian</button>
+          </div>
+          <div id="wins-container" class="dyn-list"></div>
+          <span class="hint">Format: <b>Judul Highlight</b> — Deskripsi pencapaian · <em>Tag Bidang</em></span>
+        </div>
+
+        <!-- Website Link -->
+        <div class="field">
+          <label for="f-link">URL Website Perusahaan (Opsional)</label>
+          <input type="url" id="f-link" placeholder="https://sevima.com" />
+        </div>
+
+        <div class="field">
+          <label for="f-linklabel">Label Tombol Website</label>
+          <input type="text" id="f-linklabel" placeholder="Kunjungi SEVIMA" value="Kunjungi Website" />
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <span class="status-Feedback" id="form-status"></span>
+        <button type="submit" class="btn btn--primary" id="btn-save">
+          <Icon name="trend" />
+          <span id="btn-save-label">Simpan Pengalaman</span>
+        </button>
+      </div>
+    </form>
+  </section>
+</AdminLayout>
+
+<style>
+  :global(.win-grid-row) {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr) 120px 34px;
+    gap: 8px;
+    align-items: center;
+    background: #F8FAFC;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 720px) {
+    :global(.win-grid-row) {
+      grid-template-columns: 1fr auto;
+    }
+    :global(.win-grid-row input) {
+      grid-column: span 2;
+    }
+    :global(.win-grid-row .win-m) {
+      grid-column: span 1;
+    }
+  }
+</style>
+
+<script is:inline>
+  let jobsData = [];
+  let selectedIdx = -1;
+
+  const listContainer = document.getElementById('job-list-container');
+  const jobForm = document.getElementById('job-form');
+  const editIdxInput = document.getElementById('edit-index');
+  const fCompany = document.getElementById('f-company');
+  const fRole = document.getElementById('f-role');
+  const fType = document.getElementById('f-type');
+  const fLocation = document.getElementById('f-location');
+  const fStartDate = document.getElementById('f-startdate');
+  const fLogo = document.getElementById('f-logo');
+  const fStory = document.getElementById('f-story');
+  const fLink = document.getElementById('f-link');
+  const fLinkLabel = document.getElementById('f-linklabel');
+  const winsContainer = document.getElementById('wins-container');
+  const btnAddWin = document.getElementById('btn-add-win');
+  const btnCancel = document.getElementById('btn-cancel-edit');
+  const btnDelete = document.getElementById('btn-delete-job');
+  const btnNewJob = document.getElementById('btn-new-job');
+  const btnSaveLabel = document.getElementById('btn-save-label');
+  const journeyCount = document.getElementById('journey-count');
+  const modeBadge = document.getElementById('form-mode-badge');
+  const formHeading = document.getElementById('form-heading');
+  const formSub = document.getElementById('form-sub');
+  const formStatus = document.getElementById('form-status');
+  const logoPreviewImg = document.getElementById('logo-preview-img');
+  const logoPreviewPh = document.getElementById('logo-preview-ph');
+  const fLogoFile = document.getElementById('f-logo-file');
+  const btnUploadLogo = document.getElementById('btn-upload-logo');
+  const logoUploadStatus = document.getElementById('logo-upload-status');
+
+  function updateLogoPreview(src) {
+    if (!src) {
+      logoPreviewImg.style.display = 'none';
+      logoPreviewPh.style.display = 'block';
+      return;
+    }
+    logoPreviewImg.src = src;
+    logoPreviewImg.onload = () => {
+      logoPreviewImg.style.display = 'block';
+      logoPreviewPh.style.display = 'none';
+    };
+    logoPreviewImg.onerror = () => {
+      logoPreviewImg.style.display = 'none';
+      logoPreviewPh.style.display = 'block';
+    };
+  }
+
+  fLogo.addEventListener('input', (e) => updateLogoPreview(e.target.value.trim()));
+
+  async function handleLogoUpload() {
+    const file = fLogoFile.files && fLogoFile.files[0];
+    if (!file) {
+      logoUploadStatus.textContent = '✕ Pilih file gambar logo terlebih dahulu';
+      logoUploadStatus.className = 'status-Feedback error';
+      return;
+    }
+    const slugHint = (fCompany.value.trim() || file.name.replace(/\.[^.]+$/, ''))
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '-');
+
+    logoUploadStatus.textContent = 'Mengoptimasi logo ke WebP...';
+    logoUploadStatus.className = 'status-Feedback loading';
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const res = await fetch('/api/dev/upload-logo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            filename: `${slugHint}.webp`,
+            data: e.target.result,
+            folder: 'logos'
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Gagal upload logo');
+        fLogo.value = data.path;
+        updateLogoPreview(`${data.path}?t=${Date.now()}`);
+        logoUploadStatus.textContent = `✓ Tersimpan di ${data.path}`;
+        logoUploadStatus.className = 'status-Feedback success';
+      } catch (err) {
+        logoUploadStatus.textContent = '✕ ' + err.message;
+        logoUploadStatus.className = 'status-Feedback error';
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  btnUploadLogo.addEventListener('click', handleLogoUpload);
+  fLogoFile.addEventListener('change', handleLogoUpload);
+
+  function addWinRow(k = '', t = '', m = '') {
+    const row = document.createElement('div');
+    row.className = 'win-grid-row';
+    row.innerHTML = `
+      <input type="text" class="win-k" placeholder="Judul Highlight" value="${String(k).replace(/"/g, '&quot;')}" />
+      <input type="text" class="win-t" placeholder="Deskripsi kontribusi / dampak..." value="${String(t).replace(/"/g, '&quot;')}" />
+      <input type="text" class="win-m" placeholder="Tag (mis: EdTech)" value="${String(m).replace(/"/g, '&quot;')}" />
+      <button type="button" class="btn-icon-del" title="Hapus poin">&times;</button>
+    `;
+    row.querySelector('.btn-icon-del').addEventListener('click', () => row.remove());
+    winsContainer.appendChild(row);
+  }
+
+  btnAddWin.addEventListener('click', () => addWinRow());
+
+  async function loadJobs() {
+    try {
+      const res = await fetch('/api/dev/jobs');
+      if (!res.ok) throw new Error('Gagal memuat data jobs');
+      jobsData = await res.json();
+      renderList();
+    } catch (err) {
+      setStatus('✕ Gagal mengambil data dari server', 'error');
+    }
+  }
+
+  function getJobStatusInfo(job) {
+    const now = new Date();
+    if (job.startDate && new Date(job.startDate) > now) {
+      return { label: `Incoming · ${job.startDate}`, cls: 'list-card__badge--amber' };
+    }
+    if (!job.end) {
+      return { label: 'Current', cls: 'list-card__badge--green' };
+    }
+    return { label: 'Past', cls: '' };
+  }
+
+  function renderList() {
+    listContainer.innerHTML = '';
+    journeyCount.textContent = jobsData.length;
+
+    if (jobsData.length === 0) {
+      listContainer.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state__icon">💼</div>
+          <h4>Belum Ada Riwayat Karier</h4>
+          <p>Gunakan formulir di sebelah kanan untuk menambahkan pengalaman kerja baru.</p>
+        </div>
+      `;
+      return;
+    }
+
+    jobsData.forEach((job, idx) => {
+      const card = document.createElement('div');
+      card.className = `list-card ${selectedIdx === idx ? 'is-selected' : ''}`;
+      const st = getJobStatusInfo(job);
+
+      card.innerHTML = `
+        <div class="list-card__thumb">
+          ${job.logo
+            ? `<img src="${job.logo}" alt="" onerror="this.style.display='none';this.parentElement.textContent='${(job.company || 'J').slice(0, 2).toUpperCase()}'" />`
+            : `<span>${(job.company || 'J').slice(0, 2).toUpperCase()}</span>`}
+        </div>
+        <div class="list-card__body">
+          <div class="list-card__top">
+            <span class="list-card__title">${job.company}</span>
+            <span class="list-card__badge ${st.cls}">${st.label}</span>
+          </div>
+          <div class="list-card__sub">${job.role}</div>
+          <div class="list-card__meta">
+            <span>${job.type || 'Full-time'}</span>
+            <span>·</span>
+            <span>${job.location || ''}</span>
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', () => editJob(idx));
+      listContainer.appendChild(card);
+    });
+  }
+
+  function editJob(idx) {
+    selectedIdx = idx;
+    const job = jobsData[idx];
+    editIdxInput.value = idx;
+    fCompany.value = job.company || '';
+    fRole.value = job.role || '';
+    fType.value = job.type || 'Full-time';
+    fLocation.value = job.location || '';
+    fStartDate.value = job.startDate || '';
+    fLogo.value = job.logo || '';
+    fStory.value = Array.isArray(job.story) ? job.story.join('\n') : (job.story || '');
+    fLink.value = job.link || '';
+    fLinkLabel.value = job.linkLabel || 'Kunjungi Website';
+
+    updateLogoPreview(job.logo);
+
+    winsContainer.innerHTML = '';
+    if (job.wins && job.wins.length > 0) {
+      job.wins.forEach(w => addWinRow(w.k || '', w.t || '', w.m || ''));
+    }
+
+    modeBadge.textContent = 'MODE EDIT';
+    modeBadge.classList.add('is-edit');
+    formHeading.textContent = job.company;
+    formSub.textContent = `Memperbarui posisi ${job.role}`;
+    btnCancel.style.display = 'inline-flex';
+    btnDelete.style.display = 'inline-flex';
+    btnSaveLabel.textContent = 'Perbarui Pengalaman';
+    renderList();
+  }
+
+  function resetForm() {
+    selectedIdx = -1;
+    editIdxInput.value = '-1';
+    jobForm.reset();
+    winsContainer.innerHTML = '';
+    logoUploadStatus.textContent = '';
+    updateLogoPreview('');
+    modeBadge.textContent = 'TAMBAH BARU';
+    modeBadge.classList.remove('is-edit');
+    formHeading.textContent = 'Tambah Pengalaman Baru';
+    formSub.textContent = 'Lengkapi detail riwayat karier, peran, dan kontribusi utama';
+    btnCancel.style.display = 'none';
+    btnDelete.style.display = 'none';
+    btnSaveLabel.textContent = 'Simpan Pengalaman';
+    renderList();
+  }
+
+  btnCancel.addEventListener('click', resetForm);
+  btnNewJob.addEventListener('click', resetForm);
+
+  btnDelete.addEventListener('click', async () => {
+    const idx = Number(editIdxInput.value);
+    if (idx >= 0 && confirm(`Hapus pengalaman kerja di "${jobsData[idx].company}"?`)) {
+      jobsData.splice(idx, 1);
+      await saveJobs('Pengalaman kerja berhasil dihapus');
+      resetForm();
+    }
+  });
+
+  jobForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const wins = [];
+    winsContainer.querySelectorAll('.win-grid-row').forEach(row => {
+      const k = row.querySelector('.win-k').value.trim();
+      const t = row.querySelector('.win-t').value.trim();
+      const m = row.querySelector('.win-m').value.trim();
+      if (k || t || m) wins.push({ m, k, t });
+    });
+
+    const startDateVal = fStartDate.value;
+    let startArr = undefined;
+    if (startDateVal) {
+      const parts = startDateVal.split('-');
+      if (parts.length >= 2) startArr = [Number(parts[0]), Number(parts[1])];
+    }
+
+    const storyParagraphs = fStory.value
+      .split('\n')
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const item = {
+      company: fCompany.value.trim(),
+      role: fRole.value.trim(),
+      startDate: startDateVal,
+      start: startArr,
+      type: fType.value.trim(),
+      location: fLocation.value.trim(),
+      logo: fLogo.value.trim(),
+      story: storyParagraphs,
+      wins,
+      link: fLink.value.trim(),
+      linkLabel: fLinkLabel.value.trim()
+    };
+
+    const idx = Number(editIdxInput.value);
+    if (idx >= 0) {
+      // Preserve optional existing fields like end or clients if present
+      jobsData[idx] = { ...jobsData[idx], ...item };
+    } else {
+      jobsData.unshift(item);
+    }
+
+    await saveJobs('Berhasil disimpan ke src/data/jobs.json!');
+    resetForm();
+  });
+
+  async function saveJobs(msg = 'Berhasil disimpan ke src/data/jobs.json!') {
+    setStatus('Menyimpan...', 'loading');
+    try {
+      const res = await fetch('/api/dev/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jobsData)
+      });
+      if (!res.ok) throw new Error('Gagal menyimpan');
+      setStatus(`✓ ${msg}`, 'success');
+      setTimeout(() => setStatus('', ''), 3500);
+      renderList();
+    } catch (err) {
+      setStatus('✕ Gagal menyimpan data', 'error');
+    }
+  }
+
+  function setStatus(msg, type) {
+    formStatus.textContent = msg;
+    formStatus.className = `status-Feedback ${type}`;
+  }
+
+  loadJobs();
+</script>

@@ -1,0 +1,804 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import Icon from '../../components/Icon.astro';
+import skills from '../../data/skills.json';
+
+// Hanya bisa diakses saat mode development. Jika dibuild (production), akses ditutup total.
+if (!import.meta.env.DEV) {
+  return Astro.redirect('/');
+}
+
+const totalSkills = skills.reduce((acc: number, cat: any) => acc + (cat.items?.length || 0), 0);
+---
+
+<AdminLayout
+  title="Skills Studio"
+  studioName="Skills Studio"
+  activeTab="skills"
+  description="Local development dashboard for managing technical skills"
+>
+  <Fragment slot="topbar-actions">
+    <span class="stat-pill">
+      Total: <b id="skill-count">{totalSkills}</b> skill (<span id="cat-count">{skills.length}</span> kategori)
+    </span>
+    <button type="button" class="btn btn--primary btn--sm" id="btn-new-skill">
+      <span>+ Tambah Skill</span>
+    </button>
+  </Fragment>
+
+  <!-- Left Panel: Categories & Skills Tree -->
+  <section class="admin-panel admin-list-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <h2>Matriks Keahlian</h2>
+        <p class="sub">Klik skill untuk mengedit atau kelola kategori</p>
+      </div>
+      <button type="button" class="btn btn--xs" id="btn-add-cat">+ Kategori</button>
+    </div>
+
+    <div class="studio-list" id="skills-tree-container">
+      <!-- Rendered by client JS -->
+    </div>
+  </section>
+
+  <!-- Right Panel: Skill Editor -->
+  <section class="admin-panel admin-form-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <span class="mode-badge" id="form-mode-badge">TAMBAH BARU</span>
+        <h3 id="form-heading">Tambah Skill Baru</h3>
+        <p class="sub" id="form-sub">Pilih kategori bidang dan lengkapi detail penguasaan teknologi</p>
+      </div>
+      <div class="form-actions-top">
+        <button type="button" class="btn btn--sm" id="btn-cancel-edit" style="display:none;">Batal Edit</button>
+        <button type="button" class="btn btn--sm btn--danger" id="btn-delete-item" style="display:none;">Hapus Skill</button>
+      </div>
+    </div>
+
+    <form id="skill-form" class="studio-form">
+      <input type="hidden" id="edit-cat-index" value="-1" />
+      <input type="hidden" id="edit-item-index" value="-1" />
+
+      <div class="form-grid">
+        <!-- Kategori & Nama Skill -->
+        <div class="field">
+          <div class="field-label-row">
+            <label for="f-category">Kategori Bidang <span class="req">*</span></label>
+            <button type="button" class="link-btn" id="btn-quick-cat">+ Buat Kategori</button>
+          </div>
+          <select id="f-category" required>
+            <!-- Populated by JS -->
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="f-name">Nama Teknologi / Tool <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-name"
+            required
+            placeholder="Contoh: Golang, Docker, Wireshark"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Tahun Mulai & Estimasi Proyek -->
+        <div class="field">
+          <label for="f-since">Mulai Dipelajari Sejak Tahun <span class="req">*</span></label>
+          <input type="number" id="f-since" required min="2015" max="2035" value="2024" />
+          <span class="hint">Otomatis dihitung menjadi durasi tahun pengalaman</span>
+        </div>
+
+        <div class="field">
+          <label for="f-projects">Estimasi Proyek / Lab Selesai</label>
+          <input type="number" id="f-projects" min="0" max="500" value="3" />
+          <span class="hint">Ditampilkan pada badge kartu dan tooltip keahlian</span>
+        </div>
+
+        <!-- Media Box: Icon Teknologi -->
+        <div class="field span-2">
+          <div class="media-box">
+            <div class="media-box__head">
+              <span class="media-box__title">Icon Teknologi <span class="req">*</span></span>
+              <span class="media-box__badge">public/techstack/&lt;slug&gt;.webp</span>
+            </div>
+
+            <div class="media-box__main">
+              <div class="media-preview" id="icon-preview-box">
+                <img id="icon-preview-img" src="" alt="Preview" style="display:none;" />
+                <span id="icon-preview-ph" class="media-preview__ph">Icon</span>
+              </div>
+
+              <div class="media-controls">
+                <div class="slug-group">
+                  <span class="slug-group__affix slug-group__affix--left">/techstack/</span>
+                  <input type="text" id="f-icon" required placeholder="nama-icon" autocomplete="off" />
+                  <span class="slug-group__affix slug-group__affix--right">.webp</span>
+                </div>
+
+                <div class="upload-bar">
+                  <input type="file" id="f-icon-file" accept="image/*" />
+                  <label class="rembg-check">
+                    <input type="checkbox" id="f-remove-bg" checked />
+                    <span>Auto Hapus Background</span>
+                  </label>
+                  <button type="button" class="btn btn--xs btn--primary" id="btn-upload-icon">
+                    Upload &amp; WebP
+                  </button>
+                </div>
+                <span class="status-Feedback" id="icon-upload-status"></span>
+              </div>
+            </div>
+
+            <!-- Interactive Icon Gallery Chips -->
+            <div class="icon-gallery">
+              <span class="icon-gallery__label">Pilih cepat dari koleksi icon tersedia:</span>
+              <div class="icon-chips" id="available-icons-chips">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deskripsi Singkat -->
+        <div class="field span-2">
+          <label for="f-desc">Deskripsi Singkat / Catatan Tooltip <span class="req">*</span></label>
+          <textarea
+            id="f-desc"
+            rows="3"
+            required
+            placeholder="Jelaskan fokus pemakaian, arsitektur, atau implementasi teknologi ini..."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <span class="status-Feedback" id="form-status"></span>
+        <button type="submit" class="btn btn--primary" id="btn-save">
+          <Icon name="trend" />
+          <span id="btn-save-label">Simpan Skill</span>
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Modal Add Category -->
+  <div class="modal-backdrop" id="cat-modal" style="display:none;">
+    <div class="modal-card">
+      <div class="panel-head">
+        <div class="panel-head__info">
+          <h3>Tambah Kategori Keahlian</h3>
+          <p class="sub">Kelompokkan teknologi berdasarkan domain keahlian</p>
+        </div>
+        <button type="button" class="btn btn--xs" id="btn-close-cat-modal">✕</button>
+      </div>
+      <form id="cat-form" class="studio-form">
+        <div class="form-grid">
+          <div class="field span-2">
+            <label for="f-cat-name">Nama Kategori <span class="req">*</span></label>
+            <input
+              type="text"
+              id="f-cat-name"
+              required
+              placeholder="Contoh: Backend & Systems, DevSecOps & Security"
+              autocomplete="off"
+            />
+          </div>
+          <div class="field span-2">
+            <label for="f-cat-icon">Icon Kategori <span class="req">*</span></label>
+            <select id="f-cat-icon" required>
+              <option value="settings">Settings — Backend &amp; Systems</option>
+              <option value="cloud">Cloud — DevOps &amp; Infrastructure</option>
+              <option value="build">Build — Cyber Security &amp; Tools</option>
+              <option value="database">Database — Data &amp; Storage</option>
+              <option value="palette">Palette — Frontend &amp; UI</option>
+              <option value="code">Code — Languages &amp; Core</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-footer">
+          <button type="button" class="btn btn--sm" id="btn-cancel-cat">Batal</button>
+          <button type="submit" class="btn btn--primary btn--sm">Tambahkan Kategori</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</AdminLayout>
+
+<style>
+  .link-btn {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--teal-d);
+    cursor: pointer;
+  }
+  .link-btn:hover {
+    text-decoration: underline;
+  }
+
+  .rembg-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: var(--body) !important;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .rembg-check input {
+    width: auto !important;
+    accent-color: var(--teal);
+  }
+
+  .icon-gallery {
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .icon-gallery__label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .icon-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 132px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 2px;
+  }
+  .icon-chips::-webkit-scrollbar {
+    width: 6px;
+  }
+  .icon-chips::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 999px;
+  }
+  :global(.icon-chip) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--body);
+    cursor: pointer;
+    transition: all 0.15s var(--ease);
+    flex-shrink: 0;
+  }
+  :global(.icon-chip img) {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+  }
+  :global(.icon-chip:hover) {
+    border-color: var(--teal);
+    background: var(--teal-bg2);
+    color: var(--teal-d);
+  }
+  :global(.icon-chip.is-active) {
+    border-color: var(--teal);
+    background: var(--teal-bg);
+    color: var(--teal-d);
+    font-weight: 600;
+  }
+
+  /* Category Cards in Left Panel */
+  :global(.cat-group) {
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: #FAFBFD;
+    flex-shrink: 0;
+  }
+  :global(.cat-group__head) {
+    padding: 10px 14px;
+    background: #F1F5F9;
+    border-bottom: 1px solid var(--line);
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  :global(.cat-group__title) {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  :global(.cat-group__count) {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--muted);
+    border: 1px solid var(--line);
+  }
+  :global(.cat-group__del) {
+    appearance: none;
+    background: transparent;
+    border: 1px solid transparent;
+    color: #DC2626;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  :global(.cat-group__del:hover) {
+    background: #FEE2E2;
+    border-color: #FECACA;
+  }
+  :global(.cat-group__items) {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    width: 100%;
+    max-width: 440px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.16);
+  }
+</style>
+
+<script is:inline>
+  let skillsData = [];
+  const AVAILABLE_ICONS = [
+    'golang', 'go', 'docker', 'podman', 'postgresql', 'mysql', 'redis', 'mongodb',
+    'react', 'next', 'vue', 'tailwind', 'typescript', 'javascript', 'laravel',
+    'express', 'nestjs', 'fastapi', 'aws', 'nmap', 'wireshark', 'burpsuite',
+    'owasp-zap', 'ghidra', 'hermes', 'jest', 'figma', 'langchain'
+  ];
+
+  const treeContainer = document.getElementById('skills-tree-container');
+  const skillForm = document.getElementById('skill-form');
+  const fCategory = document.getElementById('f-category');
+  const fName = document.getElementById('f-name');
+  const fIcon = document.getElementById('f-icon');
+  const fIconFile = document.getElementById('f-icon-file');
+  const fRemoveBg = document.getElementById('f-remove-bg');
+  const btnUploadIcon = document.getElementById('btn-upload-icon');
+  const iconUploadStatus = document.getElementById('icon-upload-status');
+  const fSince = document.getElementById('f-since');
+  const fProjects = document.getElementById('f-projects');
+  const fDesc = document.getElementById('f-desc');
+  const editCatIdxInput = document.getElementById('edit-cat-index');
+  const editItemIdxInput = document.getElementById('edit-item-index');
+  const modeBadge = document.getElementById('form-mode-badge');
+  const formHeading = document.getElementById('form-heading');
+  const formSub = document.getElementById('form-sub');
+  const formStatus = document.getElementById('form-status');
+  const btnCancel = document.getElementById('btn-cancel-edit');
+  const btnDelete = document.getElementById('btn-delete-item');
+  const btnNewSkill = document.getElementById('btn-new-skill');
+  const btnSaveLabel = document.getElementById('btn-save-label');
+  const skillCount = document.getElementById('skill-count');
+  const catCount = document.getElementById('cat-count');
+  const iconPreviewImg = document.getElementById('icon-preview-img');
+  const iconPreviewPh = document.getElementById('icon-preview-ph');
+  const chipsContainer = document.getElementById('available-icons-chips');
+
+  // Modal elements
+  const catModal = document.getElementById('cat-modal');
+  const btnAddCat = document.getElementById('btn-add-cat');
+  const btnQuickCat = document.getElementById('btn-quick-cat');
+  const btnCloseCat = document.getElementById('btn-close-cat-modal');
+  const btnCancelCat = document.getElementById('btn-cancel-cat');
+  const catForm = document.getElementById('cat-form');
+  const fCatName = document.getElementById('f-cat-name');
+  const fCatIcon = document.getElementById('f-cat-icon');
+
+  function renderChips() {
+    const currentSlug = fIcon.value.trim().toLowerCase();
+    chipsContainer.innerHTML = '';
+    AVAILABLE_ICONS.forEach(ic => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = `icon-chip ${currentSlug === ic ? 'is-active' : ''}`;
+      chip.innerHTML = `<img src="/techstack/${ic}.webp" alt="" onerror="this.style.display='none'" /><span>${ic}</span>`;
+      chip.addEventListener('click', () => {
+        fIcon.value = ic;
+        if (!fName.value.trim()) {
+          fName.value = ic.charAt(0).toUpperCase() + ic.slice(1);
+        }
+        updateIconPreview(ic);
+        renderChips();
+      });
+      chipsContainer.appendChild(chip);
+    });
+  }
+
+  function updateIconPreview(slug) {
+    if (!slug) {
+      iconPreviewImg.style.display = 'none';
+      iconPreviewPh.style.display = 'block';
+      return;
+    }
+    iconPreviewImg.src = `/techstack/${slug}.webp?t=${Date.now()}`;
+    iconPreviewImg.onload = () => {
+      iconPreviewImg.style.display = 'block';
+      iconPreviewPh.style.display = 'none';
+    };
+    iconPreviewImg.onerror = () => {
+      iconPreviewImg.style.display = 'none';
+      iconPreviewPh.style.display = 'block';
+    };
+  }
+
+  fIcon.addEventListener('input', (e) => {
+    const val = e.target.value.trim().toLowerCase();
+    updateIconPreview(val);
+    renderChips();
+  });
+
+  btnUploadIcon.addEventListener('click', async () => {
+    const file = fIconFile.files?.[0];
+    if (!file) {
+      setIconUploadStatus('✕ Pilih file gambar terlebih dahulu', 'error');
+      return;
+    }
+
+    const removeBg = fRemoveBg.checked;
+    setIconUploadStatus(
+      removeBg ? 'Memproses hapus background & konversi WebP...' : 'Mengonversi ke WebP...',
+      'loading'
+    );
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const res = await fetch('/api/dev/upload-icon', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            filename: fIcon.value.trim() ? `${fIcon.value.trim()}.webp` : file.name,
+            data: reader.result,
+            removeBg
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Gagal mengupload icon');
+
+        fIcon.value = data.slug;
+        updateIconPreview(data.slug);
+        setIconUploadStatus(`✓ Tersimpan di /techstack/${data.slug}.webp`, 'success');
+
+        if (!AVAILABLE_ICONS.includes(data.slug)) {
+          AVAILABLE_ICONS.unshift(data.slug);
+        }
+        renderChips();
+      } catch (err) {
+        setIconUploadStatus(`✕ Gagal: ${err.message}`, 'error');
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function setIconUploadStatus(msg, type) {
+    iconUploadStatus.textContent = msg;
+    iconUploadStatus.className = `status-Feedback ${type}`;
+  }
+
+  async function loadSkills() {
+    try {
+      const res = await fetch('/api/dev/skills');
+      if (!res.ok) throw new Error('Gagal memuat data skills');
+      skillsData = await res.json();
+      renderSkillsTree();
+      populateCategorySelect();
+      renderChips();
+    } catch (err) {
+      treeContainer.innerHTML = `<div class="empty-state"><h4>Error</h4><p>${err.message}</p></div>`;
+    }
+  }
+
+  function populateCategorySelect() {
+    const prevVal = fCategory.value;
+    fCategory.innerHTML = '';
+    if (skillsData.length === 0) {
+      const opt = document.createElement('option');
+      opt.value = '-1';
+      opt.textContent = '— Buat kategori terlebih dahulu —';
+      fCategory.appendChild(opt);
+      return;
+    }
+    skillsData.forEach((cat, idx) => {
+      const opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = cat.name;
+      fCategory.appendChild(opt);
+    });
+    if (prevVal !== '' && Number(prevVal) >= 0 && Number(prevVal) < skillsData.length) {
+      fCategory.value = prevVal;
+    }
+  }
+
+  function renderSkillsTree() {
+    treeContainer.innerHTML = '';
+    let total = 0;
+    catCount.textContent = skillsData.length;
+
+    if (skillsData.length === 0) {
+      skillCount.textContent = '0';
+      treeContainer.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state__icon">⚙</div>
+          <h4>Belum Ada Kategori Skill</h4>
+          <p>Mulai dengan membuat kategori baru atau inisialisasi template kategori standar.</p>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;align-items:center;">
+            <button type="button" class="btn btn--primary btn--sm" id="btn-seed-cats">
+              + Muat Kategori Standar
+            </button>
+          </div>
+        </div>
+      `;
+      document.getElementById('btn-seed-cats')?.addEventListener('click', async () => {
+        skillsData = [
+          { name: 'Backend & Database', icon: 'database', items: [] },
+          { name: 'DevOps & Cloud', icon: 'cloud', items: [] },
+          { name: 'Cyber Security & Tools', icon: 'build', items: [] },
+          { name: 'Frontend & UI', icon: 'palette', items: [] },
+        ];
+        await saveSkills('Kategori standar berhasil dibuat!');
+      });
+      return;
+    }
+
+    skillsData.forEach((cat, catIdx) => {
+      const catCard = document.createElement('div');
+      catCard.className = 'cat-group';
+
+      const catHeader = document.createElement('div');
+      catHeader.className = 'cat-group__head';
+      catHeader.innerHTML = `
+        <div class="cat-group__title">
+          <span>${cat.name}</span>
+          <span class="cat-group__count">${cat.items?.length || 0}</span>
+        </div>
+        <button type="button" class="cat-group__del" data-cat-del="${catIdx}">Hapus</button>
+      `;
+
+      const itemsWrap = document.createElement('div');
+      itemsWrap.className = 'cat-group__items';
+
+      if (!cat.items || cat.items.length === 0) {
+        itemsWrap.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--muted);text-align:center;">Belum ada skill di kategori ini.</div>';
+      } else {
+        cat.items.forEach((item, itemIdx) => {
+          total++;
+          const isSelected = Number(editCatIdxInput.value) === catIdx && Number(editItemIdxInput.value) === itemIdx;
+          const row = document.createElement('div');
+          row.className = `list-card ${isSelected ? 'is-selected' : ''}`;
+          row.innerHTML = `
+            <div class="list-card__thumb">
+              <img src="/techstack/${item.icon}.webp" onerror="this.style.display='none';this.parentElement.textContent='${(item.name || 'S').slice(0,2).toUpperCase()}'" alt="" />
+            </div>
+            <div class="list-card__body">
+              <div class="list-card__top">
+                <span class="list-card__title">${item.name}</span>
+                <span class="list-card__badge list-card__badge--teal">Sejak ${item.since || 2024}</span>
+              </div>
+              <div class="list-card__meta">
+                <span>/${item.icon}.webp</span>
+                ${item.projects ? `<span>· ${item.projects} proyek</span>` : ''}
+              </div>
+            </div>
+          `;
+          row.addEventListener('click', () => editSkill(catIdx, itemIdx));
+          itemsWrap.appendChild(row);
+        });
+      }
+
+      catCard.appendChild(catHeader);
+      catCard.appendChild(itemsWrap);
+      treeContainer.appendChild(catCard);
+    });
+
+    skillCount.textContent = total;
+
+    document.querySelectorAll('[data-cat-del]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const idx = Number(btn.getAttribute('data-cat-del'));
+        const catName = skillsData[idx].name;
+        if (confirm(`Yakin ingin menghapus kategori "${catName}" beserta seluruh skill di dalamnya?`)) {
+          skillsData.splice(idx, 1);
+          await saveSkills('Kategori berhasil dihapus');
+          resetForm();
+        }
+      });
+    });
+  }
+
+  function editSkill(catIdx, itemIdx) {
+    const cat = skillsData[catIdx];
+    const item = cat.items[itemIdx];
+    editCatIdxInput.value = catIdx;
+    editItemIdxInput.value = itemIdx;
+
+    fCategory.value = catIdx;
+    fName.value = item.name || '';
+    fIcon.value = item.icon || '';
+    fSince.value = item.since || 2024;
+    fProjects.value = item.projects ?? 0;
+    fDesc.value = item.description || '';
+
+    updateIconPreview(item.icon);
+    renderChips();
+
+    modeBadge.textContent = 'MODE EDIT';
+    modeBadge.classList.add('is-edit');
+    formHeading.textContent = item.name;
+    formSub.textContent = `Mengubah detail skill pada kategori ${cat.name}`;
+    btnCancel.style.display = 'inline-flex';
+    btnDelete.style.display = 'inline-flex';
+    btnSaveLabel.textContent = 'Perbarui Skill';
+
+    renderSkillsTree();
+  }
+
+  function resetForm() {
+    editCatIdxInput.value = '-1';
+    editItemIdxInput.value = '-1';
+    skillForm.reset();
+    updateIconPreview('');
+    iconUploadStatus.textContent = '';
+    modeBadge.textContent = 'TAMBAH BARU';
+    modeBadge.classList.remove('is-edit');
+    formHeading.textContent = 'Tambah Skill Baru';
+    formSub.textContent = 'Pilih kategori bidang dan lengkapi detail penguasaan teknologi';
+    btnCancel.style.display = 'none';
+    btnDelete.style.display = 'none';
+    btnSaveLabel.textContent = 'Simpan Skill';
+    populateCategorySelect();
+    renderChips();
+    renderSkillsTree();
+  }
+
+  btnCancel.addEventListener('click', resetForm);
+  btnNewSkill.addEventListener('click', resetForm);
+
+  btnDelete.addEventListener('click', async () => {
+    const catIdx = Number(editCatIdxInput.value);
+    const itemIdx = Number(editItemIdxInput.value);
+    if (catIdx >= 0 && itemIdx >= 0) {
+      const item = skillsData[catIdx].items[itemIdx];
+      if (confirm(`Hapus skill "${item.name}"?`)) {
+        skillsData[catIdx].items.splice(itemIdx, 1);
+        await saveSkills('Skill berhasil dihapus');
+        resetForm();
+      }
+    }
+  });
+
+  skillForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const targetCatIdx = Number(fCategory.value);
+    if (targetCatIdx < 0 || targetCatIdx >= skillsData.length) {
+      catModal.style.display = 'flex';
+      fCatName.focus();
+      return;
+    }
+
+    const skillItem = {
+      name: fName.value.trim(),
+      icon: fIcon.value.trim().toLowerCase(),
+      since: Number(fSince.value),
+      projects: Number(fProjects.value) || 0,
+      description: fDesc.value.trim()
+    };
+
+    const prevCatIdx = Number(editCatIdxInput.value);
+    const prevItemIdx = Number(editItemIdxInput.value);
+
+    if (prevCatIdx >= 0 && prevItemIdx >= 0) {
+      if (prevCatIdx === targetCatIdx) {
+        skillsData[targetCatIdx].items[prevItemIdx] = skillItem;
+      } else {
+        skillsData[prevCatIdx].items.splice(prevItemIdx, 1);
+        if (!skillsData[targetCatIdx].items) skillsData[targetCatIdx].items = [];
+        skillsData[targetCatIdx].items.push(skillItem);
+      }
+    } else {
+      if (!skillsData[targetCatIdx].items) skillsData[targetCatIdx].items = [];
+      skillsData[targetCatIdx].items.push(skillItem);
+    }
+
+    await saveSkills('Skill berhasil disimpan ke skills.json!');
+    resetForm();
+  });
+
+  async function saveSkills(msg = 'Berhasil disimpan ke skills.json!') {
+    setStatus('Menyimpan...', 'loading');
+    try {
+      const res = await fetch('/api/dev/skills', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(skillsData)
+      });
+      if (!res.ok) throw new Error('Gagal menyimpan perubahan');
+      setStatus(`✓ ${msg}`, 'success');
+      setTimeout(() => setStatus('', ''), 3500);
+      renderSkillsTree();
+      populateCategorySelect();
+    } catch (err) {
+      setStatus('✕ Gagal menyimpan data: ' + err.message, 'error');
+    }
+  }
+
+  function setStatus(msg, type) {
+    formStatus.textContent = msg;
+    formStatus.className = `status-Feedback ${type}`;
+  }
+
+  function openCatModal() {
+    fCatName.value = '';
+    catModal.style.display = 'flex';
+    setTimeout(() => fCatName.focus(), 50);
+  }
+
+  btnAddCat.addEventListener('click', openCatModal);
+  btnQuickCat.addEventListener('click', openCatModal);
+  btnCloseCat.addEventListener('click', () => (catModal.style.display = 'none'));
+  btnCancelCat.addEventListener('click', () => (catModal.style.display = 'none'));
+  catModal.addEventListener('click', (e) => {
+    if (e.target === catModal) catModal.style.display = 'none';
+  });
+
+  catForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = fCatName.value.trim();
+    const icon = fCatIcon.value;
+    if (!name) return;
+
+    skillsData.push({
+      name,
+      icon,
+      items: []
+    });
+
+    await saveSkills(`Kategori "${name}" berhasil ditambahkan!`);
+    fCategory.value = String(skillsData.length - 1);
+    catModal.style.display = 'none';
+  });
+
+  loadSkills();
+</script>

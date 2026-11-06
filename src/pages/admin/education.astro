@@ -1,0 +1,475 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import Icon from '../../components/Icon.astro';
+import education from '../../data/education.json';
+
+// DEV-only guard
+if (!import.meta.env.DEV) {
+  return Astro.redirect('/');
+}
+---
+
+<AdminLayout
+  title="Education Studio"
+  studioName="Education Studio"
+  activeTab="education"
+  description="Local development dashboard for managing education background"
+>
+  <Fragment slot="topbar-actions">
+    <span class="stat-pill">Total: <b id="edu-count">{education.length}</b> instansi</span>
+    <button type="button" class="btn btn--primary btn--sm" id="btn-new-edu">
+      <span>+ Tambah Instansi</span>
+    </button>
+  </Fragment>
+
+  <!-- Left Panel: Education List -->
+  <section class="admin-panel admin-list-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <h2>Riwayat Pendidikan</h2>
+        <p class="sub">Klik instansi atau bootcamp untuk mengedit detailnya</p>
+      </div>
+    </div>
+
+    <div class="studio-list" id="edu-list-container">
+      <!-- Rendered by client JS -->
+    </div>
+  </section>
+
+  <!-- Right Panel: Form Editor -->
+  <section class="admin-panel admin-form-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <span class="mode-badge" id="form-mode-badge">TAMBAH BARU</span>
+        <h3 id="form-heading">Tambah Instansi Pendidikan</h3>
+        <p class="sub" id="form-sub">Lengkapi detail pendidikan formal, bootcamp, maupun sertifikasi intensif</p>
+      </div>
+      <div class="form-actions-top">
+        <button type="button" class="btn btn--sm" id="btn-cancel-edit" style="display:none;">Batal Edit</button>
+        <button type="button" class="btn btn--sm btn--danger" id="btn-delete-edu" style="display:none;">Hapus Instansi</button>
+      </div>
+    </div>
+
+    <form id="edu-form" class="studio-form">
+      <input type="hidden" id="edit-index" value="-1" />
+
+      <div class="form-grid">
+        <!-- School / Institution Name -->
+        <div class="field span-2">
+          <label for="f-name">Nama Instansi / Sekolah / Bootcamp <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-name"
+            required
+            placeholder="Contoh: SMK Telkom Sidoarjo atau ADINUSA"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Degree / Program -->
+        <div class="field span-2">
+          <label for="f-degree">Program / Jurusan / Bidang <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-degree"
+            required
+            placeholder="Contoh: Sistem Informasi Jaringan dan Aplikasi (SIJA)"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Period & Sub -->
+        <div class="field">
+          <label for="f-period">Periode Utama <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-period"
+            required
+            placeholder="Contoh: 2024 — 2028 atau 2024"
+            autocomplete="off"
+          />
+          <span class="hint">Menunjukkan rentang tahun studi atau pelatihan</span>
+        </div>
+
+        <div class="field">
+          <label for="f-sub">Sub Label / Badge <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-sub"
+            required
+            placeholder="Contoh: 2024 – 2028 atau Bootcamp & Training"
+            autocomplete="off"
+          />
+          <span class="hint">Label ringkas pada badge kartu pendidikan</span>
+        </div>
+
+        <!-- Unified Media Box: Logo Instansi -->
+        <div class="field span-2">
+          <div class="media-box">
+            <div class="media-box__head">
+              <span class="media-box__title">Logo Instansi <span class="req">*</span></span>
+              <span class="media-box__badge">public/assets/education/&lt;slug&gt;.webp</span>
+            </div>
+
+            <div class="media-box__main">
+              <div class="media-preview" id="logo-preview-box">
+                <img id="logo-preview" src="" alt="Preview" style="display:none;" />
+                <span id="no-logo-text" class="media-preview__ph">Logo</span>
+              </div>
+
+              <div class="media-controls">
+                <input
+                  type="text"
+                  id="f-logo"
+                  required
+                  placeholder="/assets/education/smk-telkom.webp"
+                  autocomplete="off"
+                  style="font-family:var(--mono);font-size:12.5px;"
+                />
+
+                <div class="upload-bar">
+                  <input type="file" id="f-edu-file" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
+                  <button type="button" class="btn btn--xs btn--primary" id="btn-upload-edu">
+                    Upload &amp; WebP
+                  </button>
+                </div>
+                <span class="status-Feedback" id="edu-upload-status"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Descriptions (Array) -->
+        <div class="field span-2">
+          <label for="f-desc">Deskripsi Kurikulum / Aktivitas (Satu paragraf per baris) <span class="req">*</span></label>
+          <textarea
+            id="f-desc"
+            rows="4"
+            required
+            placeholder="Tulis paragraf deskripsi kegiatan pendidikan atau capaian utama.&#10;Tekan Enter untuk memisahkan antar paragraf baru."
+          ></textarea>
+          <span class="hint">Setiap baris baru akan disimpan sebagai paragraf tersendiri di dalam array <code>desc</code></span>
+        </div>
+
+        <!-- Highlights (Array of Key-Value) -->
+        <div class="field span-2">
+          <div class="field-label-row">
+            <label>Key Highlights / Fokus Kompetensi</label>
+            <button type="button" class="btn btn--xs" id="btn-add-highlight">+ Tambah Highlight</button>
+          </div>
+          <div id="highlights-list" class="dyn-list"></div>
+          <span class="hint">Format: <b>Label (k)</b> — Keterangan lengkap (t). Contoh: <code>Fokus Kejuruan</code> — <code>Software Engineering, Network Architecture</code></span>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <span id="save-status" class="status-Feedback"></span>
+        <button type="submit" class="btn btn--primary" id="btn-save">
+          <Icon name="trend" />
+          <span id="btn-save-label">Simpan Pendidikan</span>
+        </button>
+      </div>
+    </form>
+  </section>
+</AdminLayout>
+
+<style>
+  :global(.hl-grid-row) {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr) 34px;
+    gap: 8px;
+    align-items: center;
+    background: #F8FAFC;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 640px) {
+    :global(.hl-grid-row) {
+      grid-template-columns: 1fr auto;
+    }
+    :global(.hl-grid-row .hl-k) {
+      grid-column: span 2;
+    }
+  }
+</style>
+
+<script is:inline>
+  let educationList = [];
+  let selectedIdx = -1;
+
+  const container = document.getElementById('edu-list-container');
+  const countEl = document.getElementById('edu-count');
+  const form = document.getElementById('edu-form');
+  const editIndexInput = document.getElementById('edit-index');
+  const modeBadge = document.getElementById('form-mode-badge');
+  const formHeading = document.getElementById('form-heading');
+  const formSub = document.getElementById('form-sub');
+  const btnCancel = document.getElementById('btn-cancel-edit');
+  const btnDelete = document.getElementById('btn-delete-edu');
+  const btnNewEdu = document.getElementById('btn-new-edu');
+  const btnSaveLabel = document.getElementById('btn-save-label');
+  const saveStatus = document.getElementById('save-status');
+  const logoPreview = document.getElementById('logo-preview');
+  const noLogoText = document.getElementById('no-logo-text');
+  const logoInput = document.getElementById('f-logo');
+  const highlightsContainer = document.getElementById('highlights-list');
+  const btnAddHighlight = document.getElementById('btn-add-highlight');
+  const fEduFile = document.getElementById('f-edu-file');
+  const btnUploadEdu = document.getElementById('btn-upload-edu');
+  const eduUploadStatus = document.getElementById('edu-upload-status');
+
+  async function loadEducation() {
+    try {
+      const res = await fetch('/api/dev/education');
+      if (!res.ok) throw new Error('Gagal memuat data education');
+      educationList = await res.json();
+      renderList();
+    } catch (err) {
+      container.innerHTML = `<div class="empty-state"><h4>Error</h4><p>${err.message}</p></div>`;
+    }
+  }
+
+  function renderList() {
+    countEl.textContent = educationList.length;
+
+    if (educationList.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state__icon">🎓</div>
+          <h4>Belum Ada Data Pendidikan</h4>
+          <p>Gunakan formulir di sebelah kanan untuk menambahkan instansi atau bootcamp baru.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = educationList.map((item, idx) => `
+      <div class="list-card ${selectedIdx === idx ? 'is-selected' : ''}" data-idx="${idx}">
+        <div class="list-card__thumb">
+          <img src="${item.logo || ''}" onerror="this.style.display='none';this.parentElement.textContent='${(item.name || 'E').slice(0,2).toUpperCase()}'" alt="${item.name || ''}" />
+        </div>
+        <div class="list-card__body">
+          <div class="list-card__top">
+            <span class="list-card__title">${item.name || 'Tanpa Nama'}</span>
+            <span class="list-card__badge list-card__badge--teal">${item.sub || item.period || ''}</span>
+          </div>
+          <div class="list-card__sub">${item.degree || ''}</div>
+          <div class="list-card__meta">
+            <span>${item.period || ''}</span>
+            ${item.highlights?.length ? `<span>· ${item.highlights.length} highlight</span>` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.list-card').forEach(el => {
+      el.addEventListener('click', () => {
+        selectItem(Number(el.dataset.idx));
+      });
+    });
+  }
+
+  function renderHighlights(highlights = []) {
+    highlightsContainer.innerHTML = '';
+    highlights.forEach(h => addHighlightRow(h.k || '', h.t || ''));
+  }
+
+  function addHighlightRow(kVal = '', tVal = '') {
+    const row = document.createElement('div');
+    row.className = 'hl-grid-row';
+    row.innerHTML = `
+      <input type="text" class="hl-k" placeholder="Label (mis: Fokus Kejuruan)" value="${String(kVal).replace(/"/g, '&quot;')}" />
+      <input type="text" class="hl-t" placeholder="Keterangan lengkap..." value="${String(tVal).replace(/"/g, '&quot;')}" />
+      <button type="button" class="btn-icon-del" title="Hapus highlight">&times;</button>
+    `;
+    row.querySelector('.btn-icon-del').addEventListener('click', () => row.remove());
+    highlightsContainer.appendChild(row);
+  }
+
+  btnAddHighlight.addEventListener('click', () => addHighlightRow());
+
+  function selectItem(idx) {
+    selectedIdx = idx;
+    const item = educationList[idx];
+    editIndexInput.value = idx;
+    modeBadge.textContent = 'MODE EDIT';
+    modeBadge.classList.add('is-edit');
+    formHeading.textContent = item.name;
+    formSub.textContent = 'Memperbarui rincian pendidikan atau pelatihan';
+    btnCancel.style.display = 'inline-flex';
+    btnDelete.style.display = 'inline-flex';
+    btnSaveLabel.textContent = 'Perbarui Pendidikan';
+
+    document.getElementById('f-name').value = item.name || '';
+    document.getElementById('f-degree').value = item.degree || '';
+    document.getElementById('f-period').value = item.period || '';
+    document.getElementById('f-sub').value = item.sub || '';
+    document.getElementById('f-logo').value = item.logo || '';
+    document.getElementById('f-desc').value = Array.isArray(item.desc) ? item.desc.join('\n') : (item.desc || '');
+
+    renderHighlights(item.highlights || []);
+    updateLogoPreview(item.logo);
+    renderList();
+  }
+
+  function resetForm() {
+    selectedIdx = -1;
+    editIndexInput.value = '-1';
+    modeBadge.textContent = 'TAMBAH BARU';
+    modeBadge.classList.remove('is-edit');
+    formHeading.textContent = 'Tambah Instansi Pendidikan';
+    formSub.textContent = 'Lengkapi detail pendidikan formal, bootcamp, maupun sertifikasi intensif';
+    btnCancel.style.display = 'none';
+    btnDelete.style.display = 'none';
+    btnSaveLabel.textContent = 'Simpan Pendidikan';
+    form.reset();
+    highlightsContainer.innerHTML = '';
+    eduUploadStatus.textContent = '';
+    updateLogoPreview('');
+    renderList();
+  }
+
+  function updateLogoPreview(path) {
+    if (!path) {
+      logoPreview.style.display = 'none';
+      noLogoText.style.display = 'block';
+      return;
+    }
+    logoPreview.src = path;
+    logoPreview.onload = () => {
+      logoPreview.style.display = 'block';
+      noLogoText.style.display = 'none';
+    };
+    logoPreview.onerror = () => {
+      logoPreview.style.display = 'none';
+      noLogoText.style.display = 'block';
+    };
+  }
+
+  logoInput.addEventListener('input', (e) => {
+    updateLogoPreview(e.target.value.trim());
+  });
+
+  async function handleEduLogoUpload() {
+    if (!fEduFile || !fEduFile.files || fEduFile.files.length === 0) {
+      eduUploadStatus.textContent = '✕ Pilih file logo terlebih dahulu';
+      eduUploadStatus.className = 'status-Feedback error';
+      return;
+    }
+    const file = fEduFile.files[0];
+    const rawSlug = (
+      document.getElementById('f-name').value.trim() ||
+      file.name.replace(/\.[^.]+$/, '')
+    ).toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+
+    eduUploadStatus.textContent = 'Mengoptimasi logo ke WebP...';
+    eduUploadStatus.className = 'status-Feedback loading';
+
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      try {
+        const res = await fetch('/api/dev/upload-logo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            filename: `${rawSlug}.webp`,
+            data: ev.target.result,
+            folder: 'education'
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.error || 'Upload gagal');
+
+        logoInput.value = data.path;
+        updateLogoPreview(`${data.path}?t=${Date.now()}`);
+        eduUploadStatus.textContent = `✓ Tersimpan di ${data.path}`;
+        eduUploadStatus.className = 'status-Feedback success';
+      } catch (err) {
+        eduUploadStatus.textContent = `✕ Error: ${err.message}`;
+        eduUploadStatus.className = 'status-Feedback error';
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  btnUploadEdu?.addEventListener('click', handleEduLogoUpload);
+  fEduFile?.addEventListener('change', handleEduLogoUpload);
+
+  btnNewEdu.addEventListener('click', resetForm);
+  btnCancel.addEventListener('click', resetForm);
+
+  btnDelete.addEventListener('click', async () => {
+    if (selectedIdx < 0) return;
+    const name = educationList[selectedIdx].name;
+    if (!confirm(`Yakin ingin menghapus instansi "${name}"?`)) return;
+
+    educationList.splice(selectedIdx, 1);
+    await saveAllEducation('Data pendidikan berhasil dihapus');
+    resetForm();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const idx = Number(editIndexInput.value);
+
+    const descArr = document.getElementById('f-desc').value
+      .split('\n')
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const highlightRows = highlightsContainer.querySelectorAll('.hl-grid-row');
+    const highlights = [];
+    highlightRows.forEach(row => {
+      const k = row.querySelector('.hl-k').value.trim();
+      const t = row.querySelector('.hl-t').value.trim();
+      if (k || t) {
+        highlights.push({ k, t });
+      }
+    });
+
+    const eduData = {
+      name: document.getElementById('f-name').value.trim(),
+      degree: document.getElementById('f-degree').value.trim(),
+      period: document.getElementById('f-period').value.trim(),
+      sub: document.getElementById('f-sub').value.trim(),
+      logo: document.getElementById('f-logo').value.trim(),
+      desc: descArr,
+      highlights
+    };
+
+    if (idx >= 0) {
+      educationList[idx] = eduData;
+    } else {
+      educationList.push(eduData);
+    }
+
+    await saveAllEducation('Data pendidikan berhasil disimpan ke education.json!');
+    resetForm();
+  });
+
+  async function saveAllEducation(successMsg) {
+    try {
+      saveStatus.className = 'status-Feedback loading';
+      saveStatus.textContent = 'Menyimpan...';
+      const res = await fetch('/api/dev/education', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(educationList),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
+      saveStatus.className = 'status-Feedback success';
+      saveStatus.textContent = `✓ ${successMsg}`;
+      renderList();
+      setTimeout(() => {
+        if (saveStatus.textContent.includes('✓')) saveStatus.textContent = '';
+      }, 3500);
+    } catch (err) {
+      saveStatus.className = 'status-Feedback error';
+      saveStatus.textContent = '✕ Gagal menyimpan: ' + err.message;
+    }
+  }
+
+  loadEducation();
+</script>

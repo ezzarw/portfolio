@@ -3,14 +3,28 @@ import Icon from './Icon.astro';
 import projects from '../data/projects.json';
 import profile from '../data/profile.json';
 const LIMIT = 10;
-const TYPES = {
-  WEB: { tab: 'Web', label: 'Web App' },
-  MOBILE: { tab: 'Mobile', label: 'Mobile App' },
-} as const;
-type ProjectType = keyof typeof TYPES;
+interface Project {
+  title: string;
+  status?: string;
+  desc: string;
+  tags: string[];
+  wins: string[];
+  img: string;
+  live?: string;
+  cta?: string;
+  src?: string;
+  category: string;
+}
+const projectList = projects as Project[];
+
+// Ekstrak kategori unik secara dinamis dari data proyek
+const categories = Array.from(
+  new Set(projectList.map((p) => p.category).filter(Boolean))
+);
+
 const filters = [
-  ['All', 'All', projects.length],
-  ...Object.entries(TYPES).map(([k, t]) => [k, t.tab, projects.filter((p) => p.type === k).length]),
+  ['All', 'All', projectList.length],
+  ...categories.map((cat) => [cat, cat, projectList.filter((p) => p.category === cat).length]),
 ];
 const liveLabel = (url: string) =>
   url.includes('play.google.com')
@@ -27,35 +41,46 @@ const liveLabel = (url: string) =>
       <h2>Projects</h2>
     </div>
     <div class="rails">
-      <div class="proj-bar">
-        <h3>
-          All Projects <span
-            class="mono"
-            style="font-size:13px;font-weight:400;color:var(--muted)"
-            data-proj-count
-            >{String(projects.length).padStart(2, '0')} projects</span>
-        </h3>
-        <div class="proj-bar__rule"></div>
-        <div class="seg" role="group" aria-label="Filter projects">
-          {
-            filters.map(([k, tab, n], i) => (
-              <button
-                type="button"
-                data-filter={k}
-                aria-pressed={i === 0 ? 'true' : 'false'}
-              >
-                {tab} ({n})
-              </button>
-            ))
-          }
+      {projects.length > 0 && (
+        <div class="proj-bar">
+          <h3>
+            All Projects <span
+              class="mono"
+              style="font-size:13px;font-weight:400;color:var(--muted)"
+              data-proj-count
+              >{String(projects.length).padStart(2, '0')} projects</span>
+          </h3>
+          <div class="proj-bar__rule"></div>
+          <div class="seg" role="group" aria-label="Filter projects">
+            {
+              filters.map(([k, tab, n], i) => (
+                <button
+                  type="button"
+                  data-filter={k}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                >
+                  {tab} ({n})
+                </button>
+              ))
+            }
+          </div>
         </div>
-      </div>
+      )}
       <div class="proj-grid">
         {
-          projects.map((p, i) => (
+          projectList.length === 0 ? (
+            <div class="empty-works">
+              <div class="empty-works__card">
+                <div class="empty-works__icon"><Icon name="trend" /></div>
+                <h4>Belum Ada Proyek</h4>
+                <p>Saat ini daftar proyek sedang dalam proses kurasi dan pengembangan aktif. Showcase proyek terbaru akan segera diperbarui di sini.</p>
+              </div>
+            </div>
+          ) : (
+            projectList.map((p, i) => (
             <article
               class={`card reveal${i === 0 ? ' card--featured' : ''}`}
-              data-kind={p.type}
+              data-kind={p.category}
               hidden={i >= LIMIT}
             >
               <div class="card__visual">
@@ -75,7 +100,7 @@ const liveLabel = (url: string) =>
                   <>
                     <b data-num>{String(i + 1).padStart(2, '0')}</b>
                     <i />
-                    <span>{TYPES[p.type as ProjectType].label}</span>
+                    <span>{p.category}</span>
                   </>
                 </div>
                 <h4>{p.title}</h4>
@@ -127,6 +152,7 @@ const liveLabel = (url: string) =>
               </div>
             </article>
           ))
+          )
         }
       </div>
       <div class="more" hidden={projects.length <= LIMIT}>
@@ -138,3 +164,43 @@ const liveLabel = (url: string) =>
     </div>
   </div>
 </section>
+
+<style>
+  .empty-works {
+    grid-column: 1 / -1;
+    padding: 60px 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .empty-works__card {
+    max-width: 520px;
+    text-align: center;
+    padding: 44px 32px;
+    border-radius: 16px;
+    border: 1px dashed var(--line);
+    background: var(--panel);
+  }
+  .empty-works__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--teal-bg);
+    color: var(--teal-d);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin: 0 auto 16px auto;
+  }
+  .empty-works__card h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .empty-works__card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+</style>

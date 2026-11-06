@@ -1,29 +1,86 @@
 ---
+import Icon from './Icon.astro';
 import education from '../data/education.json';
 ---
+
 <section id="education" class="block">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="pill">Education</span>
-      <h2>Always Learning</h2>
+      <span class="pill">Academic & Learning</span>
+      <h2>Education</h2>
+      <p class="mono">{education.length} instansi · Sekolah Menengah Kejuruan & Pelatihan</p>
     </div>
     <div class="rails">
-      {education.map((e: any) => (
-        <article class="row reveal">
-          <div class="row__head">
-            <img class="logo-box" style="width:64px;height:64px;border-radius:14px;padding:4px" src={e.logo} alt={e.name} width="64" height="64" loading="lazy" decoding="async" />
-            <div class="row__title">
-              <h3 style="font-size:24px">{e.name}</h3>
-              <div class="row__meta"><span class="row__role">{e.degree}</span></div>
+      {education.map((e: any) => {
+        const period = e.period || (e.startDate === e.endDate || !e.endDate ? e.startDate : `${e.startDate} — ${e.endDate}`);
+        const isCurrent = period?.includes('2028') || period?.includes('Sekarang') || period?.includes('Now') || e.endDate === '2028';
+        const name = e.name || e.school;
+        const degree = e.degree ? `${e.degree}${e.field ? ` · ${e.field}` : ''}` : e.field;
+        
+        return (
+          <article class="row reveal">
+            <div class="row__head">
+              {e.logo ? (
+                <img
+                  class="logo-box"
+                  src={e.logo}
+                  alt={name}
+                  width="56"
+                  height="56"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <span class="logo-box logo-box--letter">{name?.[0] || 'E'}</span>
+              )}
+              <div class="row__title">
+                <h3>{name}</h3>
+                <div class="row__meta">
+                  <span class="row__role">{degree}</span>
+                  {e.location && (
+                    <span class="row__loc mono"><Icon name="pin" />{e.location}</span>
+                  )}
+                </div>
+              </div>
+              <div class="row__tags">
+                {isCurrent && <span class="current">Current</span>}
+                <span class="date-pill">{period}</span>
+              </div>
             </div>
-            <span class="date-pill">{e.sub}</span>
-          </div>
-          <div class="row__story" style="font-size:16px;line-height:1.85">{e.desc.map((d: string) => <p>{d}</p>)}</div>
-          {e.highlights?.length > 0 && (
-            <ul class="wins">{e.highlights.map((h: any) => <li><span><strong>{h.k}</strong> — {h.t}</span></li>)}</ul>
-          )}
-        </article>
-      ))}
+
+            {Array.isArray(e.desc) ? (
+              <div class="row__story">
+                {e.desc.map((d: string) => <p>{d}</p>)}
+              </div>
+            ) : e.description ? (
+              <div class="row__story">
+                <p>{e.description}</p>
+              </div>
+            ) : e.desc ? (
+              <div class="row__story">
+                <p>{e.desc}</p>
+              </div>
+            ) : null}
+
+            {e.highlights?.length > 0 && (
+              <ul class="wins">
+                {e.highlights.map((h: any) => (
+                  <li>
+                    <span><strong>{h.k}</strong> — {h.t}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {e.activities && (
+              <div class="subs">
+                <p class="subs__label mono">Aktivitas & Komunitas</p>
+                <p style="font-size: 15px; color: var(--lead); line-height: 1.6;">{e.activities}</p>
+              </div>
+            )}
+          </article>
+        );
+      })}
     </div>
   </div>
 </section>

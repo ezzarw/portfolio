@@ -1,13 +1,32 @@
 ---
 import Icon from './Icon.astro';
 import profile from '../data/profile.json';
+import skills from '../data/skills.json';
+
 const T = profile.techCdn;
 const years = new Date().getFullYear() - profile.careerStart;
+
+// Ambil semua icon unik dari skills.json
+const allSkillIcons: string[] = Array.from(
+  new Set(
+    skills.flatMap((cat: any) => (cat.items || []).map((it: any) => it.icon).filter(Boolean))
+  )
+);
+
+// Susun ke 2 ring orbit (ring dalam max 5, sisanya di ring luar)
+const innerIcons = allSkillIcons.slice(0, 5);
+const outerIcons = allSkillIcons.slice(5, 14);
+
 const orbit = [
-  ['react', 0, 28, 20, 11], ['javascript', 90, 28, 20, 11], ['tailwind', 180, 28, 20, 11], ['typescript', 270, 28, 20, 11],
-  ['nestjs', 0, 45, 36, 9, 1], ['laravel', 45, 45, 36, 9, 1], ['docker', 90, 45, 36, 9, 1], ['postgresql', 135, 45, 36, 9, 1],
-  ['mongodb', 180, 45, 36, 9, 1], ['go', 225, 45, 36, 9, 1], ['aws', 270, 45, 36, 9, 1], ['redis', 315, 45, 36, 9, 1],
-] as const;
+  ...innerIcons.map((icon, idx) => {
+    const step = 360 / (innerIcons.length || 1);
+    return [icon, Math.round(idx * step), 28, 22, 11, 0] as const;
+  }),
+  ...outerIcons.map((icon, idx) => {
+    const step = 360 / (outerIcons.length || 1);
+    return [icon, Math.round(idx * step), 45, 38, 9, 1] as const;
+  }),
+];
 ---
 <section id="about" class="hero">
   <div class="hero__dots"></div>
@@ -17,11 +36,11 @@ const orbit = [
         <span class="pill roles">{profile.roles.map(r => <span>{r}</span>)}</span>
       </div>
       <h1 class="intro__name reveal" data-reveal="100">{profile.name}</h1>
-      <p class="intro__lead reveal" data-reveal="200">Experienced professional with <em><span data-years>{years}</span> {profile.description.split(' ').slice(0, 4).join(' ')}</em> {profile.description.split(' ').slice(4).join(' ')} {profile.tagline}</p>
+      <p class="intro__lead reveal" data-reveal="200">{profile.bio ? profile.bio : <>Experienced professional with <em><span data-years>{years}</span> {profile.description.split(' ').slice(0, 4).join(' ')}</em> {profile.description.split(' ').slice(4).join(' ')} {profile.tagline}</>}</p>
       <dl class="intro__stats reveal" data-reveal="300">
-        <div><dt><span data-count={years} data-years>{years}</span>+</dt><dd>Years experience</dd></div>
-        <div><dt><span data-count={profile.stats.projects}>{profile.stats.projects}</span>+</dt><dd>Projects shipped</dd></div>
-        <div><dt><span data-count={profile.stats.rating} data-dec="1">{profile.stats.rating}</span><small>/10</small></dt><dd>Client rating</dd></div>
+        <div><dt><span data-count={profile.stats.competitions}>{profile.stats.competitions}</span>+</dt><dd>Kompetisi & CTF</dd></div>
+        <div><dt><span data-count={profile.stats.projects}>{profile.stats.projects}</span>+</dt><dd>Proyek Selesai</dd></div>
+        <div><dt><span data-count={profile.stats.labsOrCerts}>{profile.stats.labsOrCerts}</span>+</dt><dd>Labs & Eksplorasi</dd></div>
       </dl>
       <div class="intro__cta reveal" data-reveal="400">
         <a class="intro__btn" href="#contact"><span>Get in Touch</span><b><Icon name="arrow" /></b></a>

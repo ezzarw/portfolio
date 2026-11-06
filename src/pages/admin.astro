@@ -1,0 +1,506 @@
+---
+import AdminLayout from '../layouts/AdminLayout.astro';
+import Icon from '../components/Icon.astro';
+import projects from '../data/projects.json';
+
+// Hanya bisa diakses saat mode development. Jika dibuild (production), akses ditutup total.
+if (!import.meta.env.DEV) {
+  return Astro.redirect('/');
+}
+---
+
+<AdminLayout
+  title="Project Studio"
+  studioName="Project Studio"
+  activeTab="projects"
+  description="Local development dashboard for managing portfolio projects"
+>
+  <Fragment slot="topbar-actions">
+    <span class="stat-pill">Total: <b id="project-count">{projects.length}</b> proyek</span>
+    <button type="button" class="btn btn--primary btn--sm" id="btn-new-project">
+      <span>+ Tambah Proyek</span>
+    </button>
+  </Fragment>
+
+  <!-- Left Panel: Project List -->
+  <section class="admin-panel admin-list-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <h2>Daftar Proyek</h2>
+        <p class="sub">Klik proyek untuk mengedit atau filter per kategori</p>
+      </div>
+    </div>
+
+    <div class="panel-toolbar" id="admin-filter-group">
+      <button type="button" class="f-btn active" data-f="ALL">Semua</button>
+    </div>
+
+    <div class="studio-list" id="project-list-container">
+      <!-- Rendered by client JS -->
+    </div>
+  </section>
+
+  <!-- Right Panel: Form Editor -->
+  <section class="admin-panel admin-form-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <span class="mode-badge" id="form-mode-badge">TAMBAH BARU</span>
+        <h3 id="form-heading">Tambah Proyek Baru</h3>
+        <p class="sub" id="form-sub">Lengkapi informasi karya untuk ditampilkan pada showcase portofolio</p>
+      </div>
+      <div class="form-actions-top">
+        <button type="button" class="btn btn--sm" id="btn-cancel-edit" style="display:none;">Batal Edit</button>
+        <button type="button" class="btn btn--sm btn--danger" id="btn-delete-project" style="display:none;">Hapus Proyek</button>
+      </div>
+    </div>
+
+    <form id="project-form" class="studio-form">
+      <input type="hidden" id="edit-index" value="-1" />
+
+      <div class="form-grid">
+        <!-- Title -->
+        <div class="field span-2">
+          <label for="f-title">Nama Proyek <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-title"
+            required
+            placeholder="Contoh: Stoodify — AI Study Assistant"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Category & Status -->
+        <div class="field">
+          <label for="f-category">Kategori Proyek <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-category"
+            list="category-list"
+            required
+            placeholder="Pilih atau ketik kategori baru..."
+            autocomplete="off"
+          />
+          <datalist id="category-list">
+            <option value="Web App"></option>
+            <option value="Mobile App"></option>
+            <option value="DevOps & Infra"></option>
+            <option value="Cyber Security"></option>
+            <option value="API & Backend"></option>
+          </datalist>
+          <span class="hint">Pilih opsi standar atau ketik kategori baru secara bebas</span>
+        </div>
+
+        <div class="field">
+          <label for="f-status">Status Rilis <span class="req">*</span></label>
+          <select id="f-status" required>
+            <option value="Live">Live (Production)</option>
+            <option value="Demo">Demo / Prototype</option>
+            <option value="In Development">In Development</option>
+          </select>
+          <span class="hint">Menentukan badge status perkembangan proyek</span>
+        </div>
+
+        <!-- Description -->
+        <div class="field span-2">
+          <label for="f-desc">Deskripsi Singkat <span class="req">*</span></label>
+          <textarea
+            id="f-desc"
+            rows="3"
+            required
+            placeholder="Jelaskan solusi, arsitektur singkat, dan masalah yang diselesaikan proyek ini dalam 1–2 kalimat..."
+          ></textarea>
+        </div>
+
+        <!-- Media Upload & Thumbnail Slug -->
+        <div class="field span-2">
+          <div class="media-box">
+            <div class="media-box__head">
+              <span class="media-box__title">Thumbnail Visual Proyek <span class="req">*</span></span>
+              <span class="media-box__badge">public/projects/&lt;slug&gt;.webp</span>
+            </div>
+
+            <div class="media-box__main">
+              <div class="media-preview media-preview--wide" id="img-preview-box">
+                <img id="img-preview" src="" alt="Preview" style="display:none;" />
+                <span id="no-img-text" class="media-preview__ph">Belum ada<br />thumbnail</span>
+              </div>
+
+              <div class="media-controls">
+                <div class="slug-group">
+                  <span class="slug-group__affix slug-group__affix--left">/projects/</span>
+                  <input type="text" id="f-img" required placeholder="nama-thumbnail" autocomplete="off" />
+                  <span class="slug-group__affix slug-group__affix--right">.webp</span>
+                </div>
+
+                <div class="upload-bar">
+                  <input type="file" id="f-file" accept="image/webp,image/png,image/jpeg" />
+                  <span class="status-Feedback" id="upload-status"></span>
+                </div>
+                <span class="hint">Pilih gambar (PNG/JPG/WebP) — otomatis dikonversi &amp; dioptimasi ke format <code>.webp</code></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech Stack / Tags -->
+        <div class="field span-2">
+          <label for="f-tags">Tech Stack / Tags</label>
+          <input
+            type="text"
+            id="f-tags"
+            placeholder="Contoh: Go, Gin, PostgreSQL, Redis, Docker (pisahkan dengan koma)"
+            autocomplete="off"
+          />
+          <span class="hint">Pisahkan setiap teknologi dengan tanda koma (<code>,</code>)</span>
+        </div>
+
+        <!-- Key Highlights / Wins (Dynamic Rows) -->
+        <div class="field span-2">
+          <div class="field-label-row">
+            <label>Key Highlights / Pencapaian Utama (Opsional)</label>
+            <button type="button" class="btn btn--xs" id="btn-add-win">+ Tambah Poin</button>
+          </div>
+          <div id="wins-container" class="dyn-list"></div>
+          <span class="hint">Metrik performa atau dampak utama (contoh: &ldquo;Optimasi query latency hingga 40% dengan Redis caching&rdquo;)</span>
+        </div>
+
+        <!-- Links -->
+        <div class="field">
+          <label for="f-live">URL Live / Demo (Opsional)</label>
+          <input type="url" id="f-live" placeholder="https://stoodify.app" />
+        </div>
+
+        <div class="field">
+          <label for="f-cta">Label Tombol CTA (Opsional)</label>
+          <input type="text" id="f-cta" placeholder="Lihat Demo / Kunjungi Situs" />
+        </div>
+
+        <div class="field span-2">
+          <label for="f-src">URL Source Code / GitHub (Opsional)</label>
+          <input type="url" id="f-src" placeholder="https://github.com/ezzarw/nama-repo" />
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <span id="save-status" class="status-Feedback"></span>
+        <button type="submit" class="btn btn--primary" id="btn-save">
+          <Icon name="trend" />
+          <span id="btn-save-label">Simpan Proyek</span>
+        </button>
+      </div>
+    </form>
+  </section>
+</AdminLayout>
+
+<script is:inline>
+  let projectList = [];
+  let activeFilter = 'ALL';
+  let selectedIdx = -1;
+
+  const container = document.getElementById('project-list-container');
+  const countEl = document.getElementById('project-count');
+  const form = document.getElementById('project-form');
+  const editIndexInput = document.getElementById('edit-index');
+  const modeBadge = document.getElementById('form-mode-badge');
+  const formHeading = document.getElementById('form-heading');
+  const formSub = document.getElementById('form-sub');
+  const btnCancel = document.getElementById('btn-cancel-edit');
+  const btnDelete = document.getElementById('btn-delete-project');
+  const btnSaveLabel = document.getElementById('btn-save-label');
+  const saveStatus = document.getElementById('save-status');
+  const uploadStatus = document.getElementById('upload-status');
+  const imgPreview = document.getElementById('img-preview');
+  const noImgText = document.getElementById('no-img-text');
+  const fileInput = document.getElementById('f-file');
+  const imgSlugInput = document.getElementById('f-img');
+  const winsContainer = document.getElementById('wins-container');
+  const btnAddWin = document.getElementById('btn-add-win');
+
+  function addWinRow(val = '') {
+    const row = document.createElement('div');
+    row.className = 'dyn-row';
+    row.innerHTML = `
+      <input type="text" class="win-input" placeholder="Contoh: Menurunkan response time API sebesar 45%..." value="${String(val).replace(/"/g, '&quot;')}" style="flex:1;" />
+      <button type="button" class="btn-icon-del" title="Hapus poin">&times;</button>
+    `;
+    row.querySelector('.btn-icon-del').addEventListener('click', () => row.remove());
+    winsContainer.appendChild(row);
+  }
+
+  btnAddWin.addEventListener('click', () => addWinRow());
+
+  async function loadProjects() {
+    try {
+      const res = await fetch('/api/dev/projects');
+      if (!res.ok) throw new Error('Gagal memuat data proyek');
+      projectList = await res.json();
+      renderList();
+    } catch (err) {
+      container.innerHTML = `<div class="empty-state"><h4>Gagal Memuat</h4><p>${err.message}</p></div>`;
+    }
+  }
+
+  function statusBadgeClass(status) {
+    if (status === 'Live') return 'list-card__badge--green';
+    if (status === 'In Development') return 'list-card__badge--amber';
+    return 'list-card__badge--teal';
+  }
+
+  function renderList() {
+    countEl.textContent = projectList.length;
+
+    const categories = Array.from(new Set(projectList.map(p => p.category).filter(Boolean)));
+    const datalist = document.getElementById('category-list');
+    if (datalist) {
+      const defaults = ['Web App', 'Mobile App', 'DevOps & Infra', 'Cyber Security', 'API & Backend'];
+      const allCats = Array.from(new Set([...defaults, ...categories]));
+      datalist.innerHTML = allCats.map(c => `<option value="${c}"></option>`).join('');
+    }
+
+    const filterGroup = document.getElementById('admin-filter-group');
+    if (filterGroup) {
+      const filterCats = ['ALL', ...categories];
+      filterGroup.innerHTML = filterCats.map(cat => {
+        const count = cat === 'ALL' ? projectList.length : projectList.filter(p => p.category === cat).length;
+        return `
+          <button type="button" class="f-btn ${activeFilter === cat ? 'active' : ''}" data-f="${cat}">
+            ${cat === 'ALL' ? 'Semua' : cat} (${count})
+          </button>
+        `;
+      }).join('');
+
+      filterGroup.querySelectorAll('.f-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          activeFilter = b.dataset.f;
+          renderList();
+        });
+      });
+    }
+
+    const filtered = projectList
+      .map((p, idx) => ({ ...p, originalIdx: idx }))
+      .filter(p => activeFilter === 'ALL' || p.category === activeFilter);
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state__icon">✦</div>
+          <h4>Belum Ada Proyek</h4>
+          <p>${activeFilter === 'ALL'
+            ? 'Daftar proyek masih kosong. Gunakan formulir di sebelah kanan untuk menambahkan showcase proyek pertama.'
+            : `Belum ada proyek pada kategori "${activeFilter}".`}</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(p => `
+      <div class="list-card ${selectedIdx === p.originalIdx ? 'is-selected' : ''}" data-idx="${p.originalIdx}">
+        <div class="list-card__thumb list-card__thumb--cover">
+          <img src="/projects/${p.img}.webp" onerror="this.style.display='none';this.parentElement.textContent='${(p.title || 'P').slice(0,2).toUpperCase()}'" alt="${p.title}" />
+        </div>
+        <div class="list-card__body">
+          <div class="list-card__top">
+            <span class="list-card__title">${p.title}</span>
+            <span class="list-card__badge ${statusBadgeClass(p.status)}">${p.status || 'Live'}</span>
+          </div>
+          <div class="list-card__sub">${p.category || 'General'}</div>
+          <div class="list-card__meta">
+            <span>${(p.tags || []).slice(0, 4).join(' · ') || 'Tanpa tag'}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.list-card').forEach(el => {
+      el.addEventListener('click', () => {
+        selectProject(Number(el.dataset.idx));
+      });
+    });
+  }
+
+  function selectProject(idx) {
+    selectedIdx = idx;
+    const p = projectList[idx];
+    editIndexInput.value = idx;
+    modeBadge.textContent = 'MODE EDIT';
+    modeBadge.classList.add('is-edit');
+    formHeading.textContent = p.title || 'Edit Proyek';
+    formSub.textContent = `Memperbarui detail proyek pada kategori ${p.category || 'General'}`;
+    btnCancel.style.display = 'inline-flex';
+    btnDelete.style.display = 'inline-flex';
+    btnSaveLabel.textContent = 'Perbarui Proyek';
+
+    document.getElementById('f-title').value = p.title || '';
+    document.getElementById('f-category').value = p.category || '';
+    document.getElementById('f-status').value = p.status || 'Live';
+    document.getElementById('f-desc').value = p.desc || '';
+    document.getElementById('f-img').value = p.img || '';
+    document.getElementById('f-tags').value = (p.tags || []).join(', ');
+    document.getElementById('f-live').value = p.live || '';
+    document.getElementById('f-cta').value = p.cta || '';
+    document.getElementById('f-src').value = p.src || '';
+
+    winsContainer.innerHTML = '';
+    if (Array.isArray(p.wins) && p.wins.length > 0) {
+      p.wins.forEach(w => addWinRow(w));
+    }
+
+    updateImagePreview(p.img);
+    renderList();
+  }
+
+  function resetForm() {
+    selectedIdx = -1;
+    editIndexInput.value = '-1';
+    modeBadge.textContent = 'TAMBAH BARU';
+    modeBadge.classList.remove('is-edit');
+    formHeading.textContent = 'Tambah Proyek Baru';
+    formSub.textContent = 'Lengkapi informasi karya untuk ditampilkan pada showcase portofolio';
+    btnCancel.style.display = 'none';
+    btnDelete.style.display = 'none';
+    btnSaveLabel.textContent = 'Simpan Proyek';
+    form.reset();
+    winsContainer.innerHTML = '';
+    uploadStatus.textContent = '';
+    updateImagePreview('');
+    renderList();
+  }
+
+  function updateImagePreview(slug) {
+    if (!slug) {
+      imgPreview.style.display = 'none';
+      noImgText.style.display = 'block';
+      return;
+    }
+    imgPreview.src = `/projects/${slug}.webp?t=${Date.now()}`;
+    imgPreview.onload = () => {
+      imgPreview.style.display = 'block';
+      noImgText.style.display = 'none';
+    };
+    imgPreview.onerror = () => {
+      imgPreview.style.display = 'none';
+      noImgText.style.display = 'block';
+    };
+  }
+
+  imgSlugInput.addEventListener('input', (e) => {
+    updateImagePreview(e.target.value.trim());
+  });
+
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const defaultSlug = (
+      document.getElementById('f-title').value.trim() ||
+      file.name.replace(/\.[^.]+$/, '')
+    ).toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const targetSlug = imgSlugInput.value.trim() || defaultSlug;
+    imgSlugInput.value = targetSlug;
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        uploadStatus.className = 'status-Feedback loading';
+        uploadStatus.textContent = 'Mengoptimasi ke WebP...';
+        const res = await fetch('/api/dev/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            filename: `${targetSlug}.webp`,
+            data: reader.result,
+          }),
+        });
+        const json = await res.json();
+        if (json.success) {
+          uploadStatus.className = 'status-Feedback success';
+          uploadStatus.textContent = `✓ Tersimpan (${json.slug}.webp)`;
+          imgSlugInput.value = json.slug;
+          updateImagePreview(json.slug);
+        } else {
+          throw new Error(json.error);
+        }
+      } catch (err) {
+        uploadStatus.className = 'status-Feedback error';
+        uploadStatus.textContent = '✕ Gagal: ' + err.message;
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('btn-new-project').addEventListener('click', resetForm);
+  btnCancel.addEventListener('click', resetForm);
+
+  btnDelete.addEventListener('click', async () => {
+    if (selectedIdx < 0) return;
+    const title = projectList[selectedIdx].title;
+    if (!confirm(`Yakin ingin menghapus proyek "${title}"?`)) return;
+
+    projectList.splice(selectedIdx, 1);
+    await saveAllProjects('Proyek berhasil dihapus');
+    resetForm();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const idx = Number(editIndexInput.value);
+    const tags = document.getElementById('f-tags').value
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean);
+
+    const wins = [];
+    winsContainer.querySelectorAll('.win-input').forEach(inp => {
+      const val = inp.value.trim();
+      if (val) wins.push(val);
+    });
+
+    const projectData = {
+      title: document.getElementById('f-title').value.trim(),
+      status: document.getElementById('f-status').value,
+      desc: document.getElementById('f-desc').value.trim(),
+      tags,
+      wins,
+      img: document.getElementById('f-img').value.trim(),
+      live: document.getElementById('f-live').value.trim(),
+      cta: document.getElementById('f-cta').value.trim(),
+      src: document.getElementById('f-src').value.trim(),
+      category: document.getElementById('f-category').value.trim() || 'Web App',
+    };
+
+    if (idx >= 0) {
+      projectList[idx] = projectData;
+    } else {
+      projectList.unshift(projectData);
+    }
+
+    await saveAllProjects('Perubahan berhasil disimpan ke projects.json');
+    resetForm();
+  });
+
+  async function saveAllProjects(successMsg) {
+    try {
+      saveStatus.className = 'status-Feedback loading';
+      saveStatus.textContent = 'Menyimpan...';
+      const res = await fetch('/api/dev/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(projectList),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
+      saveStatus.className = 'status-Feedback success';
+      saveStatus.textContent = `✓ ${successMsg}`;
+      renderList();
+      setTimeout(() => {
+        if (saveStatus.textContent.includes('✓')) saveStatus.textContent = '';
+      }, 3500);
+    } catch (err) {
+      saveStatus.className = 'status-Feedback error';
+      saveStatus.textContent = '✕ Gagal menyimpan: ' + err.message;
+    }
+  }
+
+  loadProjects();
+</script>

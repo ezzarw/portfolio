@@ -5,6 +5,17 @@ import profile from '../data/profile.json';
 const Y = new Date().getFullYear();
 const exp = (since: number) => { const y = Y - since; return y < 1 ? '< 1 year' : `${y}+ year${y > 1 ? 's' : ''}`; };
 const DARK = ['express', 'next', 'langchain'];
+const skillGroups = skills as Array<{
+  name: string;
+  icon: string;
+  items: Array<{
+    name: string;
+    icon: string;
+    since: number;
+    projects?: number;
+    description: string;
+  }>;
+}>;
 ---
 <section id="skills" class="block">
   <div class="wrap">
@@ -16,7 +27,7 @@ const DARK = ['express', 'next', 'langchain'];
     <div class="rails tree">
       <div class="tree__rule"></div>
       <div class="tree__grid">
-        {skills.map((g) => (
+        {skillGroups.map((g) => (
           <div class="tree__col reveal">
             <div class="tree__stem"></div>
             <div class="tree__cat"><Icon name={g.icon} />{g.name}</div>

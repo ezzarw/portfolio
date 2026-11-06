@@ -37,9 +37,33 @@ import profile from '../data/profile.json';
     el.textContent = y; if (el.dataset.count) el.dataset.count = y;
   });
   document.querySelectorAll('[data-start]').forEach((el) => {
+    const startDateStr = el.dataset.startDate;
+    if (startDateStr) {
+      const targetDate = new Date(startDateStr);
+      if (now < targetDate) {
+        el.textContent = 'Incoming · Starts Dec 7, 2026';
+        return;
+      }
+    }
     const [sy, sm] = el.dataset.start.split('-').map(Number);
     const m = now.getFullYear() * 12 + now.getMonth() + 1 - (sy * 12 + sm) + 1, y = Math.floor(m / 12), r = m % 12;
     el.textContent = [y ? `${y} yr${y > 1 ? 's' : ''}` : '', r ? `${r} mo${r > 1 ? 's' : ''}` : ''].filter(Boolean).join(' ');
+  });
+
+  document.querySelectorAll('[data-status-pill]').forEach((el) => {
+    const target = new Date(el.dataset.startDate);
+    if (now < target) {
+      el.textContent = 'Incoming';
+    } else {
+      el.textContent = 'Current';
+    }
+  });
+
+  document.querySelectorAll('[data-date-pill]').forEach((el) => {
+    const target = new Date(el.dataset.startDate);
+    if (now < target) {
+      el.textContent = 'Dec 2026 — Now';
+    }
   });
 
   // Hero roles pill: resize to fit the role currently shown

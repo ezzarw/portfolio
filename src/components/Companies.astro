@@ -7,7 +7,7 @@ const rows = [0, 1].map((r) => profile.companies.filter((_, i) => i % 2 === r));
 ---
 <section class="companies reveal">
   <div class="wrap">
-    <p class="companies__label">Companies I’ve worked with &amp; grown alongside as an engineer.</p>
+    <p class="companies__label">Komunitas &amp; tim tempat belajar dan berkontribusi.</p>
     <div class="marquee">
       {rows.map((row, r) => (
         <div class={`marquee__track${r ? ' marquee__track--rev' : ''}`} style={`animation-duration:${row.length * 9}s`}>
