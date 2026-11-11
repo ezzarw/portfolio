@@ -1,0 +1,746 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import Icon from '../../components/Icon.astro';
+import competitions from '../../data/competitions.json';
+
+// DEV-only guard
+if (!import.meta.env.DEV) {
+  return Astro.redirect('/');
+}
+---
+
+<AdminLayout
+  title="Competitions Studio"
+  studioName="Competitions Studio"
+  activeTab="competitions"
+  description="Local development dashboard for managing competitions and achievements"
+>
+  <Fragment slot="topbar-actions">
+    <span class="stat-pill">Total: <b id="comp-count">{competitions.length}</b> kompetisi</span>
+    <button type="button" class="btn btn--primary btn--sm" id="btn-new-comp">
+      <span>+ Tambah Kompetisi</span>
+    </button>
+  </Fragment>
+
+  <!-- Left Panel: Competitions List -->
+  <section class="admin-panel admin-list-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <h2>Riwayat Kompetisi</h2>
+        <p class="sub">Klik kompetisi untuk mengedit detail atau filter per kategori</p>
+      </div>
+    </div>
+
+    <div class="panel-toolbar" id="comp-filter-group">
+      <button type="button" class="f-btn active" data-f="ALL">Semua</button>
+    </div>
+
+    <div class="studio-list" id="comp-list-container">
+      <!-- Rendered by client JS -->
+    </div>
+  </section>
+
+  <!-- Right Panel: Form Editor -->
+  <section class="admin-panel admin-form-panel">
+    <div class="panel-head">
+      <div class="panel-head__info">
+        <span class="mode-badge" id="form-mode-badge">TAMBAH BARU</span>
+        <h3 id="form-heading">Tambah Kompetisi</h3>
+        <p class="sub" id="form-sub">Catat riwayat keikutsertaan, dokumentasi foto, serta pencapaian kompetisi</p>
+      </div>
+      <div class="form-actions-top">
+        <button type="button" class="btn btn--sm" id="btn-cancel-edit" style="display:none;">Batal Edit</button>
+        <button type="button" class="btn btn--sm btn--danger" id="btn-delete-comp" style="display:none;">Hapus Kompetisi</button>
+      </div>
+    </div>
+
+    <form id="comp-form" class="studio-form">
+      <input type="hidden" id="edit-index" value="-1" />
+
+      <div class="form-grid">
+        <!-- Competition Title -->
+        <div class="field span-2">
+          <label for="f-title">Nama Kompetisi <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-title"
+            required
+            placeholder="Masukkan nama kompetisi..."
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Organizer & Category -->
+        <div class="field">
+          <label for="f-organizer">Penyelenggara / Instansi <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-organizer"
+            required
+            placeholder="Nama penyelenggara atau institusi..."
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="field">
+          <label for="f-category">Kategori <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-category"
+            list="comp-category-list"
+            required
+            placeholder="Pilih atau ketik kategori..."
+            autocomplete="off"
+          />
+          <datalist id="comp-category-list">
+            <option value="Cyber Security"></option>
+            <option value="Cloud & DevOps"></option>
+            <option value="Web Development"></option>
+            <option value="Software Engineering"></option>
+            <option value="Networking"></option>
+            <option value="General"></option>
+          </datalist>
+        </div>
+
+        <!-- Achievement, Level, Date -->
+        <div class="field">
+          <label for="f-achievement">Pencapaian / Status <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-achievement"
+            list="comp-achievement-list"
+            required
+            placeholder="Contoh: Juara 1, Finalis, Top 10, Peserta"
+            autocomplete="off"
+          />
+          <datalist id="comp-achievement-list">
+            <option value="Juara 1"></option>
+            <option value="Juara 2"></option>
+            <option value="Juara 3"></option>
+            <option value="Finalis"></option>
+            <option value="Top 10 Finalist"></option>
+            <option value="Peserta"></option>
+          </datalist>
+          <span class="hint">Kata kunci seperti <code>Juara</code> atau <code>Winner</code> otomatis mendapat badge emas</span>
+        </div>
+
+        <div class="field">
+          <label for="f-level">Tingkat Kompetisi</label>
+          <input
+            type="text"
+            id="f-level"
+            list="comp-level-list"
+            placeholder="Contoh: Nasional, Provinsi, Internasional"
+            autocomplete="off"
+          />
+          <datalist id="comp-level-list">
+            <option value="Nasional"></option>
+            <option value="Provinsi"></option>
+            <option value="Kabupaten / Kota"></option>
+            <option value="Internasional"></option>
+            <option value="Umum / Mahasiswa"></option>
+          </datalist>
+        </div>
+
+        <div class="field span-2">
+          <label for="f-date">Waktu / Tahun Pelaksanaan <span class="req">*</span></label>
+          <input
+            type="text"
+            id="f-date"
+            required
+            placeholder="Contoh: 2025 atau Okt 2025"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Multiple Photo Upload: Foto / Dokumentasi Kompetisi -->
+        <div class="field span-2">
+          <div class="media-box">
+            <div class="media-box__head">
+              <span class="media-box__title">Foto / Dokumentasi Kompetisi (Multiple Slide)</span>
+              <span class="media-box__badge">public/competitions/&lt;slug&gt;.webp</span>
+            </div>
+
+            <div class="media-controls">
+              <div class="upload-bar">
+                <input
+                  type="file"
+                  id="f-comp-files"
+                  accept="image/png,image/jpeg,image/webp"
+                  multiple
+                />
+                <button type="button" class="btn btn--xs btn--primary" id="btn-upload-photos">
+                  + Upload Foto Slide
+                </button>
+              </div>
+              <span class="hint">
+                Bisa pilih <b>banyak foto sekaligus</b> (PNG/JPG/WebP) — otomatis dikonversi ke <code>.webp</code> dan ditampilkan sebagai slide kanan-kiri
+              </span>
+              <span class="status-Feedback" id="comp-upload-status"></span>
+            </div>
+
+            <!-- Interactive Gallery Grid + Slide Preview -->
+            <div id="photos-gallery-wrap" class="comp-gallery-wrap">
+              <div class="comp-gallery-empty" id="photos-empty">
+                Belum ada foto dokumentasi. Pilih satu atau beberapa foto di atas untuk membuat slide.
+              </div>
+              <div class="comp-gallery-grid" id="photos-grid" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Descriptions (Array) -->
+        <div class="field span-2">
+          <label for="f-desc">Deskripsi Kompetisi (Satu paragraf per baris) <span class="req">*</span></label>
+          <textarea
+            id="f-desc"
+            rows="3"
+            required
+            placeholder="Jelaskan deskripsi kegiatan, bidang yang dilombakan, atau kontribusi tim.&#10;Tekan Enter untuk memisahkan paragraf baru."
+          ></textarea>
+          <span class="hint">Setiap baris baru akan disimpan sebagai paragraf di dalam array <code>desc</code></span>
+        </div>
+
+        <!-- Tags -->
+        <div class="field span-2">
+          <label for="f-tags">Tags / Topik (Opsional)</label>
+          <input
+            type="text"
+            id="f-tags"
+            placeholder="Pisahkan dengan tanda koma (,)"
+            autocomplete="off"
+          />
+          <span class="hint">Pisahkan setiap tag dengan tanda koma (<code>,</code>)</span>
+        </div>
+
+        <!-- Highlights (Array of Key-Value) -->
+        <div class="field span-2">
+          <div class="field-label-row">
+            <label>Key Highlights / Poin Pencapaian (Opsional)</label>
+            <button type="button" class="btn btn--xs" id="btn-add-highlight">+ Tambah Highlight</button>
+          </div>
+          <div id="highlights-list" class="dyn-list"></div>
+          <span class="hint">Format: <b>Label</b> — Keterangan singkat</span>
+        </div>
+
+        <!-- Certificate / Documentation Link -->
+        <div class="field">
+          <label for="f-link">URL Tautan / Dokumentasi (Opsional)</label>
+          <input type="url" id="f-link" placeholder="https://..." />
+        </div>
+
+        <div class="field">
+          <label for="f-linklabel">Label Tombol Link (Opsional)</label>
+          <input type="text" id="f-linklabel" placeholder="Lihat Detail / Sertifikat" />
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <span id="save-status" class="status-Feedback"></span>
+        <button type="submit" class="btn btn--primary" id="btn-save">
+          <Icon name="trend" />
+          <span id="btn-save-label">Simpan Kompetisi</span>
+        </button>
+      </div>
+    </form>
+  </section>
+</AdminLayout>
+
+<style>
+  :global(.hl-grid-row) {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr) 34px;
+    gap: 8px;
+    align-items: center;
+    background: #F8FAFC;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 640px) {
+    :global(.hl-grid-row) {
+      grid-template-columns: 1fr auto;
+    }
+    :global(.hl-grid-row .hl-k) {
+      grid-column: span 2;
+    }
+  }
+
+  .comp-gallery-wrap {
+    margin-top: 2px;
+  }
+
+  .comp-gallery-empty {
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px dashed #CBD5E1;
+    background: #fff;
+    color: var(--muted);
+    font-size: 12.5px;
+    text-align: center;
+  }
+
+  .comp-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  :global(.photo-card) {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #0F172A;
+    aspect-ratio: 16 / 10;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+  }
+
+  :global(.photo-card img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  :global(.photo-card__badge) {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.75);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+  }
+
+  :global(.photo-card__actions) {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    display: flex;
+    gap: 4px;
+  }
+
+  :global(.photo-card__btn) {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(15, 23, 42, 0.75);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  :global(.photo-card__btn:hover) {
+    background: var(--teal);
+    border-color: var(--teal);
+  }
+
+  :global(.photo-card__btn--del:hover) {
+    background: #DC2626;
+    border-color: #DC2626;
+  }
+</style>
+
+<script is:inline>
+  let compList = [];
+  let currentImages = [];
+  let activeFilter = 'ALL';
+  let selectedIdx = -1;
+
+  const container = document.getElementById('comp-list-container');
+  const countEl = document.getElementById('comp-count');
+  const form = document.getElementById('comp-form');
+  const editIndexInput = document.getElementById('edit-index');
+  const modeBadge = document.getElementById('form-mode-badge');
+  const formHeading = document.getElementById('form-heading');
+  const formSub = document.getElementById('form-sub');
+  const btnCancel = document.getElementById('btn-cancel-edit');
+  const btnDelete = document.getElementById('btn-delete-comp');
+  const btnNewComp = document.getElementById('btn-new-comp');
+  const btnSaveLabel = document.getElementById('btn-save-label');
+  const saveStatus = document.getElementById('save-status');
+  const highlightsContainer = document.getElementById('highlights-list');
+  const btnAddHighlight = document.getElementById('btn-add-highlight');
+  const fCompFiles = document.getElementById('f-comp-files');
+  const btnUploadPhotos = document.getElementById('btn-upload-photos');
+  const compUploadStatus = document.getElementById('comp-upload-status');
+  const photosEmpty = document.getElementById('photos-empty');
+  const photosGrid = document.getElementById('photos-grid');
+
+  function badgeClassForAchievement(ach) {
+    if (!ach) return 'list-card__badge--teal';
+    if (/juara|winner|1st|2nd|3rd|gold|silver|bronze|best/i.test(ach)) {
+      return 'list-card__badge--amber';
+    }
+    if (/finalis|top/i.test(ach)) {
+      return 'list-card__badge--green';
+    }
+    return 'list-card__badge--teal';
+  }
+
+  function renderPhotosGallery() {
+    if (!currentImages || currentImages.length === 0) {
+      photosEmpty.style.display = 'block';
+      photosGrid.style.display = 'none';
+      photosGrid.innerHTML = '';
+      return;
+    }
+
+    photosEmpty.style.display = 'none';
+    photosGrid.style.display = 'grid';
+    photosGrid.innerHTML = currentImages.map((src, idx) => `
+      <div class="photo-card">
+        <img src="${src}" alt="Slide ${idx + 1}" />
+        <span class="photo-card__badge">${idx === 0 ? 'Slide 1 (Utama)' : `Slide ${idx + 1}`}</span>
+        <div class="photo-card__actions">
+          ${idx > 0 ? `<button type="button" class="photo-card__btn" data-move-left="${idx}" title="Geser ke kiri">‹</button>` : ''}
+          ${idx < currentImages.length - 1 ? `<button type="button" class="photo-card__btn" data-move-right="${idx}" title="Geser ke kanan">›</button>` : ''}
+          <button type="button" class="photo-card__btn photo-card__btn--del" data-del-photo="${idx}" title="Hapus foto">&times;</button>
+        </div>
+      </div>
+    `).join('');
+
+    photosGrid.querySelectorAll('[data-move-left]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.dataset.moveLeft);
+        if (i > 0) {
+          const tmp = currentImages[i - 1];
+          currentImages[i - 1] = currentImages[i];
+          currentImages[i] = tmp;
+          renderPhotosGallery();
+        }
+      });
+    });
+
+    photosGrid.querySelectorAll('[data-move-right]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.dataset.moveRight);
+        if (i < currentImages.length - 1) {
+          const tmp = currentImages[i + 1];
+          currentImages[i + 1] = currentImages[i];
+          currentImages[i] = tmp;
+          renderPhotosGallery();
+        }
+      });
+    });
+
+    photosGrid.querySelectorAll('[data-del-photo]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.dataset.delPhoto);
+        currentImages.splice(i, 1);
+        renderPhotosGallery();
+      });
+    });
+  }
+
+  async function loadCompetitions() {
+    try {
+      const res = await fetch('/api/dev/competitions');
+      if (!res.ok) throw new Error('Gagal memuat data kompetisi');
+      compList = await res.json();
+      renderList();
+    } catch (err) {
+      container.innerHTML = `<div class="empty-state"><h4>Error</h4><p>${err.message}</p></div>`;
+    }
+  }
+
+  function renderList() {
+    countEl.textContent = compList.length;
+
+    const categories = Array.from(new Set(compList.map(c => c.category).filter(Boolean)));
+    const filterGroup = document.getElementById('comp-filter-group');
+    if (filterGroup) {
+      const filterCats = ['ALL', ...categories];
+      filterGroup.innerHTML = filterCats.map(cat => {
+        const count = cat === 'ALL' ? compList.length : compList.filter(c => c.category === cat).length;
+        return `
+          <button type="button" class="f-btn ${activeFilter === cat ? 'active' : ''}" data-f="${cat}">
+            ${cat === 'ALL' ? 'Semua' : cat} (${count})
+          </button>
+        `;
+      }).join('');
+
+      filterGroup.querySelectorAll('.f-btn').forEach(b => {
+        b.addEventListener('click', () => {
+          activeFilter = b.dataset.f;
+          renderList();
+        });
+      });
+    }
+
+    const filtered = compList
+      .map((c, idx) => ({ ...c, originalIdx: idx }))
+      .filter(c => activeFilter === 'ALL' || c.category === activeFilter);
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state__icon">🏆</div>
+          <h4>Belum Ada Data Kompetisi</h4>
+          <p>${activeFilter === 'ALL'
+            ? 'Gunakan formulir di sebelah kanan untuk menambahkan riwayat kompetisi pertama.'
+            : `Belum ada kompetisi pada kategori "${activeFilter}".`}</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map((item) => {
+      const firstPhoto = Array.isArray(item.images) && item.images.length > 0 ? item.images[0] : '';
+      const photoCount = Array.isArray(item.images) ? item.images.length : 0;
+      return `
+        <div class="list-card ${selectedIdx === item.originalIdx ? 'is-selected' : ''}" data-idx="${item.originalIdx}">
+          <div class="list-card__thumb ${firstPhoto ? 'list-card__thumb--cover' : ''}">
+            ${firstPhoto
+              ? `<img src="${firstPhoto}" onerror="this.style.display='none';this.parentElement.textContent='🏆'" alt="${item.title || ''}" />`
+              : `<span>🏆</span>`}
+          </div>
+          <div class="list-card__body">
+            <div class="list-card__top">
+              <span class="list-card__title">${item.title || 'Tanpa Judul'}</span>
+              <span class="list-card__badge ${badgeClassForAchievement(item.achievement)}">${item.achievement || 'Peserta'}</span>
+            </div>
+            <div class="list-card__sub">${item.organizer || ''}</div>
+            <div class="list-card__meta">
+              <span>${item.category || 'Kompetisi'}</span>
+              ${item.date ? `<span>· ${item.date}</span>` : ''}
+              ${photoCount > 0 ? `<span>· ${photoCount} foto</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    container.querySelectorAll('.list-card').forEach(el => {
+      el.addEventListener('click', () => {
+        selectItem(Number(el.dataset.idx));
+      });
+    });
+  }
+
+  function renderHighlights(highlights = []) {
+    highlightsContainer.innerHTML = '';
+    highlights.forEach(h => addHighlightRow(h.k || '', h.t || ''));
+  }
+
+  function addHighlightRow(kVal = '', tVal = '') {
+    const row = document.createElement('div');
+    row.className = 'hl-grid-row';
+    row.innerHTML = `
+      <input type="text" class="hl-k" placeholder="Label" value="${String(kVal).replace(/"/g, '&quot;')}" />
+      <input type="text" class="hl-t" placeholder="Keterangan singkat..." value="${String(tVal).replace(/"/g, '&quot;')}" />
+      <button type="button" class="btn-icon-del" title="Hapus highlight">&times;</button>
+    `;
+    row.querySelector('.btn-icon-del').addEventListener('click', () => row.remove());
+    highlightsContainer.appendChild(row);
+  }
+
+  btnAddHighlight.addEventListener('click', () => addHighlightRow());
+
+  function selectItem(idx) {
+    selectedIdx = idx;
+    const item = compList[idx];
+    editIndexInput.value = idx;
+    modeBadge.textContent = 'MODE EDIT';
+    modeBadge.classList.add('is-edit');
+    formHeading.textContent = item.title || 'Edit Kompetisi';
+    formSub.textContent = `Memperbarui rincian kompetisi ${item.organizer || ''}`;
+    btnCancel.style.display = 'inline-flex';
+    btnDelete.style.display = 'inline-flex';
+    btnSaveLabel.textContent = 'Perbarui Kompetisi';
+
+    document.getElementById('f-title').value = item.title || '';
+    document.getElementById('f-organizer').value = item.organizer || '';
+    document.getElementById('f-category').value = item.category || '';
+    document.getElementById('f-achievement').value = item.achievement || '';
+    document.getElementById('f-level').value = item.level || '';
+    document.getElementById('f-date').value = item.date || '';
+    document.getElementById('f-desc').value = Array.isArray(item.desc) ? item.desc.join('\n') : (item.desc || '');
+    document.getElementById('f-tags').value = (item.tags || []).join(', ');
+    document.getElementById('f-link').value = item.link || '';
+    document.getElementById('f-linklabel').value = item.linkLabel || '';
+
+    currentImages = Array.isArray(item.images) ? [...item.images] : [];
+    renderPhotosGallery();
+    renderHighlights(item.highlights || []);
+    renderList();
+  }
+
+  function resetForm() {
+    selectedIdx = -1;
+    editIndexInput.value = '-1';
+    modeBadge.textContent = 'TAMBAH BARU';
+    modeBadge.classList.remove('is-edit');
+    formHeading.textContent = 'Tambah Kompetisi';
+    formSub.textContent = 'Catat riwayat keikutsertaan, dokumentasi foto, serta pencapaian kompetisi';
+    btnCancel.style.display = 'none';
+    btnDelete.style.display = 'none';
+    btnSaveLabel.textContent = 'Simpan Kompetisi';
+    form.reset();
+    currentImages = [];
+    renderPhotosGallery();
+    highlightsContainer.innerHTML = '';
+    compUploadStatus.textContent = '';
+    renderList();
+  }
+
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('Gagal membaca file'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function handleMultiplePhotosUpload() {
+    const files = fCompFiles?.files ? Array.from(fCompFiles.files) : [];
+    if (files.length === 0) {
+      compUploadStatus.textContent = '✕ Pilih minimal 1 file foto terlebih dahulu';
+      compUploadStatus.className = 'status-Feedback error';
+      return;
+    }
+
+    const baseTitle = (
+      document.getElementById('f-title').value.trim() || 'comp'
+    ).toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+
+    compUploadStatus.textContent = `Mengoptimasi ${files.length} foto ke WebP...`;
+    compUploadStatus.className = 'status-Feedback loading';
+
+    let uploadedCount = 0;
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const dataUrl = await readFileAsDataURL(file);
+        const suffix = `${Date.now().toString(36)}-${i + 1}`;
+        const slug = `${baseTitle}-${suffix}`;
+
+        const res = await fetch('/api/dev/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            filename: `${slug}.webp`,
+            data: dataUrl,
+            folder: 'competitions'
+          })
+        });
+        const json = await res.json();
+        if (!res.ok || !json.success) {
+          throw new Error(json.error || 'Gagal mengupload foto');
+        }
+        currentImages.push(json.path);
+        uploadedCount++;
+        renderPhotosGallery();
+      }
+
+      fCompFiles.value = '';
+      compUploadStatus.textContent = `✓ ${uploadedCount} foto berhasil ditambahkan ke slide`;
+      compUploadStatus.className = 'status-Feedback success';
+    } catch (err) {
+      compUploadStatus.textContent = `✕ Error: ${err.message}`;
+      compUploadStatus.className = 'status-Feedback error';
+    }
+  }
+
+  btnUploadPhotos?.addEventListener('click', handleMultiplePhotosUpload);
+  fCompFiles?.addEventListener('change', handleMultiplePhotosUpload);
+
+  btnNewComp.addEventListener('click', resetForm);
+  btnCancel.addEventListener('click', resetForm);
+
+  btnDelete.addEventListener('click', async () => {
+    if (selectedIdx < 0) return;
+    const title = compList[selectedIdx].title;
+    if (!confirm(`Yakin ingin menghapus kompetisi "${title}"?`)) return;
+
+    compList.splice(selectedIdx, 1);
+    await saveAllCompetitions('Data kompetisi berhasil dihapus');
+    resetForm();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const idx = Number(editIndexInput.value);
+
+    const descArr = document.getElementById('f-desc').value
+      .split('\n')
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const tags = document.getElementById('f-tags').value
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean);
+
+    const highlightRows = highlightsContainer.querySelectorAll('.hl-grid-row');
+    const highlights = [];
+    highlightRows.forEach(row => {
+      const k = row.querySelector('.hl-k').value.trim();
+      const t = row.querySelector('.hl-t').value.trim();
+      if (k || t) {
+        highlights.push({ k, t });
+      }
+    });
+
+    const compData = {
+      title: document.getElementById('f-title').value.trim(),
+      organizer: document.getElementById('f-organizer').value.trim(),
+      category: document.getElementById('f-category').value.trim(),
+      achievement: document.getElementById('f-achievement').value.trim(),
+      level: document.getElementById('f-level').value.trim(),
+      date: document.getElementById('f-date').value.trim(),
+      images: [...currentImages],
+      desc: descArr,
+      tags,
+      highlights,
+      link: document.getElementById('f-link').value.trim(),
+      linkLabel: document.getElementById('f-linklabel').value.trim()
+    };
+
+    if (idx >= 0) {
+      compList[idx] = compData;
+    } else {
+      compList.unshift(compData);
+    }
+
+    await saveAllCompetitions('Data kompetisi berhasil disimpan ke competitions.json!');
+    resetForm();
+  });
+
+  async function saveAllCompetitions(successMsg) {
+    try {
+      saveStatus.className = 'status-Feedback loading';
+      saveStatus.textContent = 'Menyimpan...';
+      const res = await fetch('/api/dev/competitions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(compList),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error);
+      saveStatus.className = 'status-Feedback success';
+      saveStatus.textContent = `✓ ${successMsg}`;
+      renderList();
+      setTimeout(() => {
+        if (saveStatus.textContent.includes('✓')) saveStatus.textContent = '';
+      }, 3500);
+    } catch (err) {
+      saveStatus.className = 'status-Feedback error';
+      saveStatus.textContent = '✕ Gagal menyimpan: ' + err.message;
+    }
+  }
+
+  loadCompetitions();
+</script>

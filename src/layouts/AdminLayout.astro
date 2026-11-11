@@ -6,7 +6,7 @@ import profile from '../data/profile.json';
 interface Props {
   title: string;
   studioName: string;
-  activeTab: 'projects' | 'skills' | 'journey' | 'education';
+  activeTab: 'projects' | 'skills' | 'journey' | 'education' | 'competitions';
   description?: string;
 }
 
@@ -66,6 +66,10 @@ const {
             <a href="/admin/education" class={`admin-nav__tab ${activeTab === 'education' ? 'is-active' : ''}`}>
               <Icon name="settings" />
               <span>Education</span>
+            </a>
+            <a href="/admin/competitions" class={`admin-nav__tab ${activeTab === 'competitions' ? 'is-active' : ''}`}>
+              <Icon name="trophy" />
+              <span>Competitions</span>
             </a>
           </nav>
 

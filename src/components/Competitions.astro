@@ -1,0 +1,488 @@
+---
+import Icon from './Icon.astro';
+import competitions from '../data/competitions.json';
+
+interface Competition {
+  title: string;
+  organizer: string;
+  category?: string;
+  achievement?: string;
+  level?: string;
+  date?: string;
+  images?: string[];
+  desc?: string[];
+  tags?: string[];
+  highlights?: Array<{ k: string; t: string }>;
+  link?: string;
+  linkLabel?: string;
+}
+
+const compList = competitions as Competition[];
+---
+
+<section id="competitions" class="block">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="pill">Achievements</span>
+      <h2>Competitions</h2>
+      <p class="mono">{compList.length} kompetisi</p>
+    </div>
+
+    <div class="rails">
+      {
+        compList.length === 0 ? (
+          <div class="empty-comp">
+            <div class="empty-comp__card">
+              <div class="empty-comp__icon">
+                <Icon name="trophy" />
+              </div>
+              <h4>Belum Ada Data Kompetisi</h4>
+              <p>
+                Daftar riwayat kompetisi dan pencapaian sedang dikurasi dan akan
+                segera ditampilkan di sini.
+              </p>
+            </div>
+          </div>
+        ) : (
+          compList.map((c) => {
+            const isWin =
+              c.achievement &&
+              /juara|winner|1st|2nd|3rd|gold|silver|bronze|best/i.test(
+                c.achievement
+              );
+            const photos = Array.isArray(c.images)
+              ? c.images.filter(Boolean)
+              : [];
+
+            return (
+              <article class="row comp-item reveal">
+                <div class="comp-layout">
+                  {/* Slide Gallery Dokumentasi (jika ada foto) */}
+                  {photos.length > 0 && (
+                    <div class="comp-slider" data-comp-slider>
+                      <div class="comp-slider__viewport">
+                        <div class="comp-slider__track" data-slider-track>
+                          {photos.map((src, idx) => (
+                            <div class="comp-slider__slide">
+                              <img
+                                src={src}
+                                alt={`${c.title} — Dokumentasi ${idx + 1}`}
+                                width="720"
+                                height="480"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                            </div>
+                          ))}
+                        </div>
+
+                        {photos.length > 1 && (
+                          <>
+                            <button
+                              type="button"
+                              class="comp-slider__nav comp-slider__nav--prev"
+                              data-slider-prev
+                              aria-label="Foto sebelumnya"
+                            >
+                              <Icon name="chevron" />
+                            </button>
+                            <button
+                              type="button"
+                              class="comp-slider__nav comp-slider__nav--next"
+                              data-slider-next
+                              aria-label="Foto berikutnya"
+                            >
+                              <Icon name="chevron" />
+                            </button>
+                          </>
+                        )}
+
+                        <div class="comp-slider__counter mono" data-slider-count>
+                          1 / {photos.length}
+                        </div>
+                      </div>
+
+                      {photos.length > 1 && (
+                        <div class="comp-slider__dots" data-slider-dots>
+                          {photos.map((_, idx) => (
+                            <button
+                              type="button"
+                              class={`comp-slider__dot${idx === 0 ? ' is-active' : ''}`}
+                              data-slide-to={idx}
+                              aria-label={`Slide ${idx + 1}`}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Detail Kompetisi */}
+                  <div class="comp-content">
+                    <div class="row__head">
+                      <span class="logo-box logo-box--letter">
+                        <Icon name="trophy" />
+                      </span>
+
+                      <div class="row__title">
+                        <h3>{c.title}</h3>
+                        <div class="row__meta">
+                          <span class="row__role">{c.organizer}</span>
+                          {c.category && <span class="mono">· {c.category}</span>}
+                          {c.level && (
+                            <span class="row__loc mono">
+                              <Icon name="pin" />
+                              Tingkat {c.level}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div class="row__tags">
+                        {c.achievement && (
+                          <span
+                            class={
+                              isWin ? 'comp-badge comp-badge--win' : 'comp-badge'
+                            }
+                          >
+                            <Icon name="trophy" />
+                            {c.achievement}
+                          </span>
+                        )}
+                        {c.date && <span class="date-pill">{c.date}</span>}
+                      </div>
+                    </div>
+
+                    {Array.isArray(c.desc) && c.desc.length > 0 && (
+                      <div class="row__story">
+                        {c.desc.map((d) => (
+                          <p>{d}</p>
+                        ))}
+                      </div>
+                    )}
+
+                    {Array.isArray(c.highlights) && c.highlights.length > 0 && (
+                      <ul class="wins">
+                        {c.highlights.map((h) => (
+                          <li>
+                            <span>
+                              <strong>{h.k}</strong> — {h.t}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {(Array.isArray(c.tags) && c.tags.length > 0) || c.link ? (
+                      <div class="comp-foot">
+                        {Array.isArray(c.tags) && c.tags.length > 0 && (
+                          <div class="tags">
+                            {c.tags.map((t) => (
+                              <span class="tag">{t}</span>
+                            ))}
+                          </div>
+                        )}
+                        {c.link && (
+                          <a
+                            class="btn btn--sm"
+                            href={c.link}
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            {c.linkLabel || 'Lihat Detail'}{' '}
+                            <Icon name="arrow" />
+                          </a>
+                        )}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-comp-slider]').forEach((slider) => {
+    const track = slider.querySelector('[data-slider-track]') as HTMLElement | null;
+    const prevBtn = slider.querySelector('[data-slider-prev]') as HTMLButtonElement | null;
+    const nextBtn = slider.querySelector('[data-slider-next]') as HTMLButtonElement | null;
+    const countEl = slider.querySelector('[data-slider-count]') as HTMLElement | null;
+    const dots = Array.from(slider.querySelectorAll('[data-slide-to]')) as HTMLButtonElement[];
+    const slides = track ? track.children.length : 0;
+
+    if (!track || slides <= 1) return;
+
+    let current = 0;
+
+    const goTo = (index: number) => {
+      current = (index + slides) % slides;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      if (countEl) countEl.textContent = `${current + 1} / ${slides}`;
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+    };
+
+    prevBtn?.addEventListener('click', () => goTo(current - 1));
+    nextBtn?.addEventListener('click', () => goTo(current + 1));
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        goTo(Number(dot.dataset.slideTo || 0));
+      });
+    });
+
+    // Touch swipe support
+    let startX = 0;
+    track.addEventListener(
+      'touchstart',
+      (e) => {
+        startX = e.touches[0].clientX;
+      },
+      { passive: true }
+    );
+    track.addEventListener(
+      'touchend',
+      (e) => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) {
+          goTo(diff > 0 ? current + 1 : current - 1);
+        }
+      },
+      { passive: true }
+    );
+  });
+</script>
+
+<style>
+  .comp-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .comp-layout:has(.comp-slider) {
+    grid-template-columns: 380px minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  @media (max-width: 960px) {
+    .comp-layout:has(.comp-slider) {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+
+  .comp-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+  }
+
+  /* Slider Dokumentasi */
+  .comp-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .comp-slider__viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #0F172A;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .comp-slider__track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s var(--ease);
+    will-change: transform;
+  }
+
+  .comp-slider__slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0F172A;
+  }
+
+  .comp-slider__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .comp-slider__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+    z-index: 2;
+  }
+
+  .comp-slider__nav:hover {
+    background: var(--teal);
+    border-color: var(--teal);
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  .comp-slider__nav--prev {
+    left: 10px;
+  }
+
+  .comp-slider__nav--prev .icon {
+    transform: rotate(90deg);
+    width: 18px;
+    height: 18px;
+  }
+
+  .comp-slider__nav--next {
+    right: 10px;
+  }
+
+  .comp-slider__nav--next .icon {
+    transform: rotate(-90deg);
+    width: 18px;
+    height: 18px;
+  }
+
+  .comp-slider__counter {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    pointer-events: none;
+  }
+
+  .comp-slider__dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .comp-slider__dot {
+    appearance: none;
+    border: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #CBD5E1;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.25s var(--ease);
+  }
+
+  .comp-slider__dot.is-active {
+    width: 22px;
+    background: var(--teal);
+  }
+
+  .comp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--teal-bg);
+    color: var(--teal-d);
+    border: 1px solid #B6E6EE;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .comp-badge--win {
+    background: #FEF3C7;
+    color: #B45309;
+    border-color: #FDE68A;
+  }
+
+  .comp-badge .icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .comp-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+  }
+
+  .empty-comp {
+    padding: 60px 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .empty-comp__card {
+    max-width: 520px;
+    text-align: center;
+    padding: 44px 32px;
+    border-radius: 16px;
+    border: 1px dashed var(--line);
+    background: var(--panel);
+  }
+
+  .empty-comp__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--teal-bg);
+    color: var(--teal-d);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin: 0 auto 16px auto;
+  }
+
+  .empty-comp__card h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .empty-comp__card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+</style>

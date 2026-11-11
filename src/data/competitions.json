@@ -1,0 +1,263 @@
+[
+  {
+    "title": "Steven Capture The Flag (SCTF) 2026",
+    "organizer": "Darmajaya Cyber Security Club (DCSC)",
+    "category": "Cyber Security",
+    "achievement": "Top 14",
+    "level": "Nasional",
+    "date": "Jul 2026",
+    "images": [
+      "/competitions/steven-capture-the-flag-sctf-2026.webp"
+    ],
+    "desc": [
+      "Sertifikat Top 14 Steven Capture The Flag (SCTF) Tingkat Nasional 2026 (Tim: SCS - mon0xside) di Kampus IIB Darmajaya."
+    ],
+    "tags": [
+      "CTF",
+      "Capture The Flag"
+    ],
+    "highlights": [
+      {
+        "k": "No. Sertifikat",
+        "t": "DCSC/SCTF/2026/151"
+      },
+      {
+        "k": "Tim",
+        "t": "SCS - mon0xside"
+      }
+    ],
+    "link": "https://drive.google.com/file/d/12ehoZMQzZPuNYpZAvNR2MHjg60mye4u4/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "Cyber Jawara 2025",
+    "organizer": "CSIRT.ID & ID-SIRTII",
+    "category": "Cyber Security",
+    "achievement": "Finalis",
+    "level": "Nasional",
+    "date": "Apr 2026",
+    "images": [
+      "/competitions/cyber-jawara-2025.webp"
+    ],
+    "desc": [
+      "Sertifikat Finalis Kategori SMA/SMK kompetisi hacking nasional Cyber Jawara 2025 (Tim: Murid DWP) di Bogor."
+    ],
+    "tags": [
+      "Cyber Security"
+    ],
+    "highlights": [
+      {
+        "k": "Tim",
+        "t": "Murid DWP"
+      }
+    ],
+    "link": "https://drive.google.com/file/d/1mOR4JFxJSH90k2IdNSQC262Ny1PqhlQI/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "CTF ARA 7.0",
+    "organizer": "HMIT ITS (Departemen Teknologi Informasi ITS)",
+    "category": "Cyber Security",
+    "achievement": "Finalis",
+    "level": "Nasional",
+    "date": "Feb 2026",
+    "images": [
+      "/competitions/ctf-ara-7-0.webp"
+    ],
+    "desc": [
+      "Sertifikat Finalis kompetisi Capture The Flag ARA 7.0 Institut Teknologi Sepuluh Nopember."
+    ],
+    "tags": [
+      "CTF",
+      "Capture The Flag"
+    ],
+    "highlights": [
+      {
+        "k": "No. Sertifikat",
+        "t": "448/SER/ARA/RISTEK/HMIT-ITS/II/2026"
+      }
+    ],
+    "link": "https://drive.google.com/file/d/1LLw_Alc6VYDVjD25lgffXOsbgO7RYyoW/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "FITCOM 3.0 Cyber Security Competition",
+    "organizer": "Universitas Dinamika & Disdik Jatim",
+    "category": "Cyber Security",
+    "achievement": "Finalis",
+    "level": "Nasional",
+    "date": "Okt 2025",
+    "images": [
+      "/competitions/fitcom-3-0-cyber-security-competition.webp"
+    ],
+    "desc": [
+      "Sertifikat Finalis Lomba Cyber Security FITCOM 3.0 (Faculty of Informatics Technology Competition) Universitas Dinamika."
+    ],
+    "tags": [
+      "Cyber Security"
+    ],
+    "highlights": [
+      {
+        "k": "No. Sertifikat",
+        "t": "350/FTI/FITCOM/SL/X/2025"
+      }
+    ],
+    "link": "https://drive.google.com/file/d/1xWd-WGW3O9cNwpgXnoM68jzOfvxd1giM/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "International Code Olympiad 2025 - Web Development",
+    "organizer": "Coding Bee Academy",
+    "category": "Web Development",
+    "achievement": "Juara 3",
+    "level": "Internasional",
+    "date": "Jul 2025",
+    "images": [
+      "/competitions/international-code-olympiad-2025-web-development.webp"
+    ],
+    "desc": [
+      "Sertifikat Juara 3 (3rd Place Winner) pada International Code Olympiad 2025 Innovation Challenge: Web Development."
+    ],
+    "tags": [
+      "Web Development"
+    ],
+    "highlights": [],
+    "link": "https://drive.google.com/file/d/1B7XPE7QCtN8_2zigR21rPTHMq-9m9Evp/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "Capture The Flag - Arkavidia 10.0",
+    "organizer": "HMIF ITB (Himpunan Mahasiswa Informatika ITB)",
+    "category": "Cyber Security",
+    "achievement": "Peserta",
+    "level": "Nasional (PTN)",
+    "date": "Apr 2026",
+    "images": [
+      "/competitions/capture-the-flag-arkavidia-10-0.webp"
+    ],
+    "desc": [
+      "Sertifikat apresiasi partisipasi pada kompetisi Capture The Flag Arkavidia 10.0 ITB."
+    ],
+    "tags": [
+      "Kompetisi"
+    ],
+    "highlights": [],
+    "link": "https://drive.google.com/file/d/1h7OZn95hEBAPAIKpqNZXmH0bHtcMM3WV/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "Lomba Waskita Manunggal Siber TA 2026",
+    "organizer": "Pussiberad (Pusat Siber TNI AD)",
+    "category": "Cyber Security",
+    "achievement": "Peserta",
+    "level": "Nasional",
+    "date": "Apr 2026",
+    "images": [
+      "/competitions/lomba-waskita-manunggal-siber-ta-2026.webp"
+    ],
+    "desc": [
+      "Sertifikat peserta Lomba Waskita Manunggal Siber TA 2026 di Pussiberad Jakarta."
+    ],
+    "tags": [
+      "Security"
+    ],
+    "highlights": [],
+    "link": "https://drive.google.com/file/d/1QeLlW47sc4q-y3io-w0loyheWmIKbAwl/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "NETCOMP 4.0 Cybersecurity Competition",
+    "organizer": "Universitas Gadjah Mada (UGM)",
+    "category": "Cyber Security",
+    "achievement": "Peserta",
+    "level": "Nasional",
+    "date": "Apr 2026",
+    "images": [
+      "/competitions/netcomp-4-0-cybersecurity-competition.webp"
+    ],
+    "desc": [
+      "Sertifikat peserta kompetisi keamanan siber NETCOMP 4.0 Universitas Gadjah Mada (Tim: Kata ketua nama tim nya bebas)."
+    ],
+    "tags": [
+      "Cyber Security"
+    ],
+    "highlights": [
+      {
+        "k": "Tim",
+        "t": "Kata ketua nama tim nya bebas"
+      }
+    ],
+    "link": "https://drive.google.com/file/d/1iL5kMMq-JeF5U3z3Otxk2p-mkXYyiwdJ/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "Capture The Flag COMPFEST 17",
+    "organizer": "Fasilkom Universitas Indonesia (UI)",
+    "category": "Cyber Security",
+    "achievement": "Peserta",
+    "level": "Nasional",
+    "date": "Des 2025",
+    "images": [
+      "/competitions/capture-the-flag-compfest-17.webp"
+    ],
+    "desc": [
+      "Sertifikat peserta kompetisi Capture The Flag (CTF) COMPFEST 17 Universitas Indonesia."
+    ],
+    "tags": [
+      "Kompetisi"
+    ],
+    "highlights": [],
+    "link": "https://drive.google.com/file/d/1H_oRcDN2g_dqqXOOHzPiD2WXeFOYcyZk/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "National IT Competition Web Design - INVOFEST 2025",
+    "organizer": "HMPTI Universitas Harkat Negeri Tegal",
+    "category": "Web Development",
+    "achievement": "Peserta",
+    "level": "Nasional",
+    "date": "Nov 2025",
+    "images": [
+      "/competitions/national-it-competition-web-design-invofest-2025.webp"
+    ],
+    "desc": [
+      "Sertifikat peserta National IT Competition Web Design Kategori SMA/SMK/MA pada Informatics Vocational Festival 2025."
+    ],
+    "tags": [
+      "Web Development"
+    ],
+    "highlights": [
+      {
+        "k": "No. Sertifikat",
+        "t": "503.25/HMPTI.KMUHN/XI/2025"
+      }
+    ],
+    "link": "https://drive.google.com/file/d/1iXq9qWKq0cy1ZejaSGvylb60a_N3G4IA/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  },
+  {
+    "title": "Jatim Cybersecurity Competition 2025",
+    "organizer": "Diskominfo Provinsi Jawa Timur",
+    "category": "Cyber Security",
+    "achievement": "Peserta",
+    "level": "Provinsi",
+    "date": "Okt 2025",
+    "images": [
+      "/competitions/jatim-cybersecurity-competition-2025.webp"
+    ],
+    "desc": [
+      "Sertifikat resmi peserta Jatim Cybersecurity Competition (JCC) 2025 dengan tanda tangan elektronik BSrE-BSSN."
+    ],
+    "tags": [
+      "Cyber Security"
+    ],
+    "highlights": [
+      {
+        "k": "No. Sertifikat",
+        "t": "000.6.4.1/1126.144/114.5/2025"
+      }
+    ],
+    "link": "https://drive.google.com/file/d/1ml5DVWVJWeyr7U8kxbymVqUIO0XU5Xf3/view?usp=drivesdk",
+    "linkLabel": "Lihat di Google Drive"
+  }
+]

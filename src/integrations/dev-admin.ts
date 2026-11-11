@@ -180,9 +180,49 @@ export function devAdminPlugin(): AstroIntegration {
           next();
         });
 
+        server.middlewares.use('/api/dev/competitions', async (req, res, next) => {
+          const dataFile = path.resolve(process.cwd(), 'src/data/competitions.json');
+          if (req.method === 'GET') {
+            try {
+              const data = await fs.readFile(dataFile, 'utf-8');
+              res.setHeader('Content-Type', 'application/json');
+              res.end(data);
+            } catch (err: any) {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ error: err.message }));
+            }
+            return;
+          }
+
+          if (req.method === 'POST') {
+            let bodyStr = '';
+            req.on('data', (chunk) => {
+              bodyStr += chunk;
+            });
+            req.on('end', async () => {
+              try {
+                const parsed = JSON.parse(bodyStr);
+                if (!Array.isArray(parsed)) {
+                  res.statusCode = 400;
+                  res.end(JSON.stringify({ error: 'Payload must be an array of objects' }));
+                  return;
+                }
+                await fs.writeFile(dataFile, JSON.stringify(parsed, null, 2) + '\n', 'utf-8');
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ success: true, count: parsed.length }));
+              } catch (err: any) {
+                res.statusCode = 500;
+                res.end(JSON.stringify({ error: err.message }));
+              }
+            });
+            return;
+          }
+
+          next();
+        });
+
         server.middlewares.use('/api/dev/upload', async (req, res, next) => {
           if (req.method === 'POST') {
-            const uploadDir = path.resolve(process.cwd(), 'public/projects');
             const chunks: Buffer[] = [];
             req.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
             req.on('end', async () => {
@@ -196,6 +236,8 @@ export function devAdminPlugin(): AstroIntegration {
                   res.end(JSON.stringify({ error: 'filename and data (base64) are required' }));
                   return;
                 }
+                const subDir = json.folder === 'competitions' ? 'competitions' : 'projects';
+                const uploadDir = path.resolve(process.cwd(), `public/${subDir}`);
                 const base64Clean = rawData.replace(/^data:image\/[\w+.-]+;base64,/, '');
                 const fileBuffer = Buffer.from(base64Clean, 'base64');
                 const cleanSlug = rawName.replace(/\.[a-z0-9]+$/i, '').toLowerCase().replace(/[^a-z0-9_-]/g, '-');
@@ -210,7 +252,7 @@ export function devAdminPlugin(): AstroIntegration {
                   const execFileAsync = promisify(execFile);
                   await execFileAsync('magick', [
                     tmpInput,
-                    '-resize', '1200x900>',
+                    '-resize', '1280x960>',
                     '-quality', '88',
                     targetFile
                   ]);
@@ -221,7 +263,7 @@ export function devAdminPlugin(): AstroIntegration {
                 }
 
                 res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({ success: true, slug: cleanSlug, path: `/projects/${cleanSlug}.webp` }));
+                res.end(JSON.stringify({ success: true, slug: cleanSlug, path: `/${subDir}/${cleanSlug}.webp` }));
               } catch (err: any) {
                 res.statusCode = 500;
                 res.end(JSON.stringify({ error: err.message }));
@@ -337,7 +379,12 @@ export function devAdminPlugin(): AstroIntegration {
                   res.end(JSON.stringify({ error: 'filename and data (base64) are required' }));
                   return;
                 }
-                const folder = json.folder === 'education' ? 'education' : 'logos';
+                const folder =
+                  json.folder === 'education'
+                    ? 'education'
+                    : json.folder === 'competitions'
+                      ? 'competitions'
+                      : 'logos';
                 const logoDir = path.resolve(process.cwd(), `public/assets/${folder}`);
                 const base64Clean = rawData.replace(/^data:image\/[\w+.-]+;base64,/, '');
                 const fileBuffer = Buffer.from(base64Clean, 'base64');
