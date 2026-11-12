@@ -1,2 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+
+Sitemap: https://ezzar.my.id/sitemap-index.xml
+

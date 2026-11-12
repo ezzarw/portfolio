@@ -1,10 +1,10 @@
 {
   "name": "Aliezzar Wijaya",
   "brand": "ezzar",
-  "site": "https://example.com",
+  "site": "https://ezzar.my.id",
   "seo": {
-    "title": "Aliezzar Wijaya — Software Engineer & DevSecOps",
-    "description": "Portofolio Aliezzar Wijaya — Software Engineer, DevOps, dan DevSecOps pemula."
+    "title": "Aliezzar Wijaya — Software Engineer, DevOps & DevSecOps",
+    "description": "Portofolio resmi Aliezzar Wijaya — Software Engineer, DevOps, dan DevSecOps. Berpengalaman dalam arsitektur backend, containerization, dan kompetisi keamanan siber (CTF)."
   },
   "ogImage": "/assets/sample/og-image.png",
   "favicon": "/assets/favicon.webp",
