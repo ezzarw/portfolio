@@ -1,0 +1,98 @@
+[
+  {
+    "category": "Hardware / Laptop",
+    "icon": "laptop",
+    "items": [
+      {
+        "name": "Acer Nitro V15 (ANV15-51)",
+        "spec": "Intel Core i5-13420H (12 Threads) · 16GB DDR5 · RTX 2050 4GB · 512GB WD SN740 NVMe",
+        "desc": "Daily driver laptop untuk backend development, container orchestration, CTF & exploit labs, serta kompilasi cepat.",
+        "tags": ["Laptop", "i5-13420H", "RTX 2050", "Primary Rig"]
+      },
+      {
+        "name": "Built-in Display (eDP-1)",
+        "spec": "15.6\" FHD (1920x1080) IPS · 144Hz Refresh Rate",
+        "desc": "Layar bawaan 144Hz yang mulus, tajam, dan responsif buat multitasking window tiling dan sesi ngoding maraton.",
+        "tags": ["Display", "1080p", "144Hz", "IPS"]
+      },
+      {
+        "name": "Fantech Kanata WG9 (OM6229)",
+        "spec": "Silent Click · Wireless Dual Mode",
+        "desc": "Mouse wireless ergonomis yang senyap tanpa klik berisik, andalan saat fokus deep-work di malam hari.",
+        "tags": ["Mouse", "Wireless", "Silent Click"]
+      }
+    ]
+  },
+  {
+    "category": "Operating System & Desktop",
+    "icon": "terminal",
+    "items": [
+      {
+        "name": "Arch Linux (Linux Kernel 7.2)",
+        "spec": "Rolling Release · Pure Wayland Architecture",
+        "desc": "Btw I use Arch. Fondasi sistem utama tanpa bloatware, memberikan kontrol granular penuh atas kernel, memory, dan network stack.",
+        "tags": ["OS", "Arch Linux", "Wayland", "Rolling"]
+      },
+      {
+        "name": "Hyprland + SekaiPop Quickshell",
+        "spec": "Dynamic Tiling Window Manager · Custom Rice",
+        "desc": "Workflow tiling Wayland yang fluid dan ultra-cepat dengan animasi modern, multi-workspace efisien, dan estetika kustom.",
+        "tags": ["Hyprland", "Quickshell", "Tiling WM", "Rice"]
+      }
+    ]
+  },
+  {
+    "category": "Terminal & Shell",
+    "icon": "terminal",
+    "items": [
+      {
+        "name": "Kitty Terminal",
+        "spec": "GPU-Accelerated · JetBrainsMono Nerd Font · Blur Opacity",
+        "desc": "Terminal emulator super kencang berbasis GPU rendering dengan tampilan blur elegan yang selaras dengan tema desktop.",
+        "tags": ["Kitty", "GPU Terminal", "JetBrainsMono"]
+      },
+      {
+        "name": "Zsh + Tmux",
+        "spec": "Custom Prompt · Fuzzy Finder (fzf)",
+        "desc": "Kombinasi shell interaktif dan terminal multiplexer untuk navigasi sesi paralel, remote server, dan otomasi alur kerja.",
+        "tags": ["Zsh", "Tmux", "CLI"]
+      }
+    ]
+  },
+  {
+    "category": "Development & Tools",
+    "icon": "code",
+    "items": [
+      {
+        "name": "Neovim (LazyVim)",
+        "spec": "Modal Editing · Treesitter · LSP (Go, Rust, TS, Python)",
+        "desc": "Editor utama dengan ekosistem LazyVim yang ringan dan responsif instan di terminal, dikonfigurasi penuh dengan LSP & autocompletion.",
+        "tags": ["Editor", "Neovim", "LazyVim", "LSP"]
+      },
+      {
+        "name": "Podman & Distrobox",
+        "spec": "Rootless Containerization · Kali Linux Container Environment",
+        "desc": "Lingkungan kontainerisasi rootless untuk isolasi project, deployment lokal, serta container pentest Kali Linux yang aman.",
+        "tags": ["Containers", "Podman", "Distrobox", "DevOps"]
+      },
+      {
+        "name": "Lazygit & Git CLI",
+        "spec": "Terminal UI Git Client",
+        "desc": "Navigasi git branch, staging hunk, dan commit interaktif secepat kilat langsung dari terminal.",
+        "tags": ["Git", "Lazygit", "Version Control"]
+      }
+    ]
+  },
+  {
+    "category": "Audio & Focus",
+    "icon": "headphones",
+    "items": [
+      {
+        "name": "Soundcore R50i NC",
+        "spec": "Active Noise Cancelling (ANC) · 42dB Hybrid",
+        "desc": "TWS andalan peredam bising untuk memblokir distraksi sekitar waktu fokus memecahkan challenge dan merancang arsitektur.",
+        "tags": ["Audio", "ANC", "TWS", "Deep Work"]
+      }
+    ]
+  }
+]
