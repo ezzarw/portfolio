@@ -9,7 +9,7 @@ import Education from '../components/Education.astro';
 import Competitions from '../components/Competitions.astro';
 import Projects from '../components/Projects.astro';
 import Skills from '../components/Skills.astro';
-import Testimonials from '../components/Testimonials.astro';
+import Gear from '../components/Gear.astro';
 import Contact from '../components/Contact.astro';
 import profile from '../data/profile.json';
 ---
@@ -24,7 +24,7 @@ import profile from '../data/profile.json';
     <Projects />
     <Competitions />
     <Skills />
-    <Testimonials />
+    <Gear />
     <Contact />
   </main>
 </Base>
@@ -160,11 +160,4 @@ import profile from '../data/profile.json';
     addEventListener('resize', place);
     document.fonts?.ready.then(place);
   }
-
-  // Testimonials: read more
-  document.querySelectorAll('[data-toggle]').forEach((b) => b.addEventListener('click', () => {
-    const card = b.closest('.quote'), isOpen = card.classList.toggle('is-open');
-    b.textContent = isOpen ? 'Show less' : 'Read more';
-    b.setAttribute('aria-expanded', String(isOpen));
-  }));
 </script>

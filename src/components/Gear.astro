@@ -1,0 +1,166 @@
+---
+import Icon from './Icon.astro';
+import gearGroups from '../data/gear.json';
+
+const totalItems = gearGroups.reduce((acc, g) => acc + (g.items?.length || 0), 0);
+---
+
+<section id="gear" class="block">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="pill">Setup &amp; Environment</span>
+      <h2>Tech Gear &amp; Uses</h2>
+      <p class="mono">{totalItems} daily driver gear · Hardware, OS, and productivity stack</p>
+    </div>
+
+    <div class="rails gear-container">
+      <div class="gear-grid">
+        {gearGroups.map((group) => (
+          <div class="gear-card reveal">
+            <div class="gear-card__head">
+              <span class="gear-card__icon">
+                <Icon name={group.icon || 'laptop'} />
+              </span>
+              <h3>{group.category}</h3>
+            </div>
+
+            <div class="gear-card__list">
+              {group.items.map((item) => (
+                <article class="gear-item">
+                  <div class="gear-item__top">
+                    <h4>{item.name}</h4>
+                  </div>
+                  {item.spec && <p class="gear-item__spec mono">{item.spec}</p>}
+                  {item.desc && <p class="gear-item__desc">{item.desc}</p>}
+                  {item.tags?.length > 0 && (
+                    <div class="gear-item__tags">
+                      {item.tags.map((t) => (
+                        <span class="tag">{t}</span>
+                      ))}
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gear-container {
+    padding: 56px 40px;
+    background: #FAFBFC;
+  }
+
+  .gear-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: 28px;
+    align-items: start;
+  }
+
+  .gear-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
+    transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+
+  .gear-card:hover {
+    transform: translateY(-3px);
+    border-color: #9ED9E3;
+    box-shadow: 0 16px 36px rgba(15, 138, 157, 0.08);
+  }
+
+  .gear-card__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px;
+    background: #F8FAFC;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .gear-card__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--teal-bg);
+    color: var(--teal-d);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .gear-card__icon .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .gear-card__head h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .gear-card__list {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .gear-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .gear-item + .gear-item {
+    padding-top: 18px;
+    border-top: 1px dashed var(--line);
+  }
+
+  .gear-item__top h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+
+  .gear-item__spec {
+    font-size: 12.5px;
+    color: var(--teal-d);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .gear-item__desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--soft);
+  }
+
+  .gear-item__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .gear-container {
+      padding: 32px 16px;
+    }
+    .gear-card__list {
+      padding: 16px 18px;
+    }
+  }
+</style>
